@@ -1,13 +1,13 @@
-package com.ark.ark;
+package com.ark.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArkApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArkApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }
