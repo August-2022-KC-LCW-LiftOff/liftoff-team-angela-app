@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
+<head th:replace="fragments :: head">
     <meta charset="utf-8"/>
     <title></title>
 </head>
 <body>
 <h1>Hello, World!</h1>
+
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>
