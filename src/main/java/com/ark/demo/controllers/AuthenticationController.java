@@ -84,7 +84,6 @@ public class AuthenticationController {
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
-
         return "redirect:";
     }
     @GetMapping("/login")
@@ -118,7 +117,11 @@ public class AuthenticationController {
             return "userTemplates/login";
         }
         setUserInSession(request.getSession(),validUser);
-        model.addAttribute("user",getUserFromSession(request.getSession()));
-        return "index";
+        return "redirect:";
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:";
     }
 }
