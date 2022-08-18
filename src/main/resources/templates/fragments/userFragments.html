@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/siteFragments::head"></head>
+<body>
+<div th:fragment="loginForm">
+    <form method="post">
+        <div class="form-group">
+            <label>Username:
+                <input class="form-control" th:field="${userLoginFormDTO.username}"/>
+                <p th:class="error" th:errors="${userLoginFormDTO.username}"></p>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>Username:
+                <input class="form-control" th:field="${userLoginFormDTO.password}"/>
+                <p th:class="error" th:errors="${userLoginFormDTO.password}"></p>
+            </label>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Login">
+    </form>
+</div>
+<div th:fragment="registerForm" class="container">
+    <form method="post">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <hr>
+                    <h3>Create Login</h3>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <label>Create Username:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.username}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.username}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label>Create Password:
+                            <input class="form-control" type="password" th:field="${registrationFormDTO.password}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.password}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label>Re-enter Password:
+                            <input class="form-control" type="password" th:field="${registrationFormDTO.verifyPassword}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.verifyPassword}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr>
+                    <h3>Create User Details</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label>First Name:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.firstName}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.firstName}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label>Last Name:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.lastName}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.lastName}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <label>Address Line 1:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.addressLine1}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <label>Address Line 2:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.addressLine2}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label>City:
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.city}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.city}"/>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group inlineBlock">
+                        <label>State:
+                            <select class="form-control" th:field="${registrationFormDTO.state}">
+                                <option value="KS">Kansas</option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.state}"/>
+                    </div>
+                    <div class="form-group inlineBlock">
+                        <label>Zipcode:
+                            <input class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.zipcode}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <label>Phone Number:
+                            <input class="form-control" type="tel" th:field="${registrationFormDTO.phoneNumber}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.phoneNumber}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <label>Email Address:
+                            <input class="form-control" type="email" th:field="${registrationFormDTO.emailAddress}"/>
+                        </label>
+                        <p class="errors" th:errors="${registrationFormDTO.emailAddress}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" class="btn btn-primary" value="Register"/>
+    </form>
+</div>
+</body>
+</html>
