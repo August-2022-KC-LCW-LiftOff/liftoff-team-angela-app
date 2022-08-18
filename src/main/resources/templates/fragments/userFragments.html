@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
-<div th:fragment="loginForm">
+<div th:fragment="loginForm" class="container">
     <form method="post">
         <div class="form-group">
             <label>Username:
-                <input class="form-control" th:field="${userLoginFormDTO.username}"/>
-                <p th:class="error" th:errors="${userLoginFormDTO.username}"></p>
+                <input type="text" class="form-control" th:field="${loginFormDTO.username}"/>
+                <p th:class="error" th:errors="${loginFormDTO.username}"></p>
             </label>
         </div>
         <div class="form-group">
-            <label>Username:
-                <input class="form-control" th:field="${userLoginFormDTO.password}"/>
-                <p th:class="error" th:errors="${userLoginFormDTO.password}"></p>
+            <label>Password:
+                <input type="password" class="form-control" th:field="${loginFormDTO.password}"/>
+                <p th:class="error" th:errors="${loginFormDTO.password}"></p>
             </label>
         </div>
         <input type="submit" class="btn btn-primary" value="Login">
@@ -34,8 +34,12 @@
                         <label>Create Username:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.username}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.username}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="errors" th:errors="${registrationFormDTO.username}"/>
                 </td>
             </tr>
             <tr>
@@ -44,7 +48,6 @@
                         <label>Create Password:
                             <input class="form-control" type="password" th:field="${registrationFormDTO.password}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.password}"/>
                     </div>
                 </td>
                 <td>
@@ -52,8 +55,12 @@
                         <label>Re-enter Password:
                             <input class="form-control" type="password" th:field="${registrationFormDTO.verifyPassword}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.verifyPassword}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="errors" th:errors="${registrationFormDTO.password}"/>
                 </td>
             </tr>
             <tr>
@@ -68,7 +75,6 @@
                         <label>First Name:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.firstName}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.firstName}"/>
                     </div>
                 </td>
                 <td>
@@ -76,8 +82,15 @@
                         <label>Last Name:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.lastName}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.lastName}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="errors" th:errors="${registrationFormDTO.firstName}"/>
+                </td>
+                <td>
+                    <p class="errors" th:errors="${registrationFormDTO.lastName}"/>
                 </td>
             </tr>
             <tr>
@@ -86,8 +99,12 @@
                         <label>Address Line 1:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.addressLine1}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="errors" th:errors="${registrationFormDTO.addressLine1}"/>
                 </td>
             </tr>
             <tr>
@@ -96,7 +113,6 @@
                         <label>Address Line 2:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.addressLine2}"/>
                     </div>
                 </td>
             </tr>
@@ -106,7 +122,6 @@
                         <label>City:
                             <input class="form-control" type="text" th:field="${registrationFormDTO.city}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.city}"/>
                     </div>
                 </td>
                 <td>
@@ -116,14 +131,21 @@
                                 <option value="KS">Kansas</option>
                             </select>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.state}"/>
                     </div>
                     <div class="form-group inlineBlock">
                         <label>Zipcode:
                             <input class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.zipcode}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="errors" th:errors="${registrationFormDTO.city}"/>
+                </td>
+                <td>
+                    <p class="errors" th:errors="${registrationFormDTO.state}"/>
+                    <p class="errors" th:errors="${registrationFormDTO.zipcode}"/>
                 </td>
             </tr>
             <tr>
@@ -132,8 +154,12 @@
                         <label>Phone Number:
                             <input class="form-control" type="tel" th:field="${registrationFormDTO.phoneNumber}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.phoneNumber}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="errors" th:errors="${registrationFormDTO.phoneNumber}"/>
                 </td>
             </tr>
             <tr>
@@ -142,8 +168,12 @@
                         <label>Email Address:
                             <input class="form-control" type="email" th:field="${registrationFormDTO.emailAddress}"/>
                         </label>
-                        <p class="errors" th:errors="${registrationFormDTO.emailAddress}"/>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="errors" th:errors="${registrationFormDTO.emailAddress}"/>
                 </td>
             </tr>
             <tr>

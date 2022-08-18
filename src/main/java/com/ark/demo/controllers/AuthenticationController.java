@@ -2,9 +2,9 @@ package com.ark.demo.controllers;
 
 import com.ark.demo.models.User;
 import com.ark.demo.models.UserDetails;
-import com.ark.demo.models.customConstraints.ValidPassword;
 import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
+import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @Controller
 public class AuthenticationController {
@@ -84,5 +86,39 @@ public class AuthenticationController {
         setUserInSession(request.getSession(),newUser);
 
         return "redirect:";
+    }
+    @GetMapping("/login")
+    public String displayLoginForm(Model model){
+        model.addAttribute("title","Login");
+        model.addAttribute(new LoginFormDTO());
+        return "userTemplates/login";
+    }
+
+    @PostMapping("/login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO, Errors errors, HttpServletRequest request, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute("title","Login");
+            model.addAttribute(loginFormDTO);
+            return "userTemplates/login";
+        }
+
+        User validUser = userRepository.findByUsername(loginFormDTO.getUsername());
+        if(isNull(validUser)){
+            errors.rejectValue("username","username.doesnotexist","Incorrect Username or Password");
+            model.addAttribute("title","Login");
+            model.addAttribute(loginFormDTO);
+            return "userTemplates/login";
+        }
+
+        String password = loginFormDTO.getPassword();
+        if(!validUser.isMatchingPassword(password)){
+            errors.rejectValue("username","password.mismatch","Incorrect Username or Password");
+            model.addAttribute("title","Login");
+            model.addAttribute(loginFormDTO);
+            return "userTemplates/login";
+        }
+        setUserInSession(request.getSession(),validUser);
+        model.addAttribute("user",getUserFromSession(request.getSession()));
+        return "index";
     }
 }
