@@ -113,4 +113,5 @@ public class UserDetails  extends AbstractEntity{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 }

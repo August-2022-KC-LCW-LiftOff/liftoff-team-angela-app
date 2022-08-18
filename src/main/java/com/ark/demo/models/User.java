@@ -34,6 +34,10 @@ public class User extends AbstractEntity{
         return username;
     }
 
+    public void setPwHash(String password){
+        this.pwHash = encoder.encode(password);
+    }
+
     public UserDetails getUserDetails() {
         return userDetails;
     }
