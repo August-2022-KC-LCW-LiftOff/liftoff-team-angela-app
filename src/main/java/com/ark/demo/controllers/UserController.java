@@ -39,7 +39,7 @@ public class UserController {
     private UserDetailsRepository userDetailsRepository;
 
     @GetMapping
-    public String displayUserProfile(HttpServletRequest request, Model model) throws ParseException {
+    public String displayUserProfile(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
             return "redirect:../login";
