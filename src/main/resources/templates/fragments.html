@@ -35,17 +35,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white">
+                        <a th:href="@{/response/index}" class="nav-link text-white">
                             Responses
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white">
+                        <a th:href="@{/user}" class="nav-link text-white">
                             My Profile
                         </a>
                     </li>
-                    <li><button type="button" class="btn btn-light text-dark me-2">Login</button></li>
-                    <li><button type="button" class="btn btn-primary">Sign-up</button></li>
+                    <li>
+                        <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+                    </li>
                 </ul>
             </div>
         </div>
