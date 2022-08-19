@@ -188,12 +188,13 @@
 <!--View Profile-->
 <div th:fragment="viewProfile" class="container">
     <h1>View Profile</h1>
-    <div th:text="${user.userDetails.firstName+' '+user.userDetails.lastName}"></div>
-    <div th:text="${user.userDetails.addressLine1}"></div>
-    <div th:text="${user.userDetails.addressLine2}"></div>
-    <div th:text="${user.userDetails.city+', '+user.userDetails.state+'  '+user.userDetails.zipcode}"></div>
-    <div th:text="${user.userDetails.phoneNumber}"></div>
-    <div th:text="${user.userDetails.emailAddress}"></div>
+    <div th:text="${viewProfileDTO.userDetails.firstName+' '+viewProfileDTO.userDetails.lastName}"></div>
+    <div th:text="${viewProfileDTO.userDetails.addressLine1}"></div>
+    <div th:text="${viewProfileDTO.userDetails.addressLine2}"></div>
+    <div th:text="${viewProfileDTO.userDetails.city+', '+viewProfileDTO.userDetails.state+'  '+viewProfileDTO.userDetails.zipcode}"></div>
+    <div th:text="${viewProfileDTO.userDetails.phoneNumber}"></div>
+    <div th:text="${viewProfileDTO.userDetails.emailAddress}"></div>
+    <div th:text="'Member Since: '+${viewProfileDTO.dateCreated}"></div>
     <a th:href="@{user/editProfile}" class="btn btn-primary">Edit Profile</a>
     <a th:href="@{user/updatePassword}" class="btn btn-primary">Update Password</a>
     <br/><br/>
