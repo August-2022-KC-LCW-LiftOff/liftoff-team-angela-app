@@ -1,0 +1,9 @@
+.inlineBlock{
+    display: inline-block;
+}
+.errors{
+    color: red;
+    background: antiquewhite;
+    border-radius: 5px;
+    padding: 10px;
+}
