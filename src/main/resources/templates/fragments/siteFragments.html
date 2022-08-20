@@ -12,5 +12,57 @@
 </head>
 <body>
 
+<!--Sources bootstrap header from https://getbootstrap.com/docs/5.0/examples/headers/ -->
+<header>
+    <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <span class="display-3">ARK</span>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="#" class="nav-link text-secondary">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            Requests
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/response/index}" class="nav-link text-white">
+                            Responses
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/user}" class="nav-link text-white">
+                            My Profile
+                        </a>
+                    </li>
+                    <li th:unless="${user!=null}">
+                        <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
+                    </li>
+                    <li th:unless="${user==null}">
+                        <a th:href="@{/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
+                    </li>
+                    <li th:unless="${user!=null}">
+                        <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
 </body>
 </html>
