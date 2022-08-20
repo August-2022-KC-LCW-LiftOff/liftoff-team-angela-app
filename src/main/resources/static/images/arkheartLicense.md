@@ -5,9 +5,9 @@ The person who associated a work with this deed has dedicated the work to the pu
 You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission. See Other Information below.
 
 ## Other Information
-- In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
+- In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as [publicity or privacy](#other-rights) rights.
 - Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law.
-- When using or citing the work, you should not imply endorsement by the author or the affirmer.
+- When using or citing the work, you should not imply [endorsement](#endorsement) by the author or the affirmer.
 
 ### Other Rights
 The use of a work free of known copyright restrictions may be otherwise regulated or limited.  The work or its use may be subject to personal data protection laws, publicity, image, or privacy rights that allow a person to control how their voice, image or likeness is used, or other restrictions or limitations under applicable law.
