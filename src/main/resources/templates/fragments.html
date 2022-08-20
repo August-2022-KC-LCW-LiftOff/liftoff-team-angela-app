@@ -44,10 +44,13 @@
                             My Profile
                         </a>
                     </li>
-                    <li>
+                    <li th:unless="${user!=null}">
                         <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
                     </li>
-                    <li>
+                    <li th:unless="${user==null}">
+                        <a th:href="@{/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
+                    </li>
+                    <li th:unless="${user!=null}">
                         <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
                     </li>
                 </ul>
