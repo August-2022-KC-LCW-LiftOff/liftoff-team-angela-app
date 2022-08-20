@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
-<h1>Hello, World!</h1>
-<h3 th:text="${(user!=null)?user.username:'No User Found'}">No User</h3>
+<header th:replace="fragments/siteFragments :: header"></header>
+<footer th:replace="fragments/siteFragments :: footer"></footer>
 </body>
 </html>
