@@ -3,32 +3,36 @@ package com.ark.demo.Controllers;
 import com.ark.demo.models.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("response")
 public class ResponseController {
 //    @Autowired
 //    private ResponseRepository responseRepository;
-    public ArrayList<Response> response = new ArrayList<>();
+    private static List<String> response = new ArrayList<>();
 
+    @GetMapping("index")
+    public String index(){
+        return "response/index";
+    }
     @GetMapping("create")
-    public String displayResponseForm(Model model) {
-        model.addAttribute("title", "Response Form");
-        model.addAttribute(new Response());
+    public String displayResponseForm() {
         return "response/create";
     }
-    @PostMapping
-    public String processResponseForm (@ModelAttribute Response newResponse, Model model){
-        model.addAttribute("title", "Response Sent");
-//        response.add(newResponse);
-        return "response/viewResponse";
+
+    @PostMapping("create")
+    public String createResponse(@RequestParam String responseMessage){
+        response.add(responseMessage);
+    return "redirect:/response/viewResponse";
     }
+    @GetMapping("viewResponse")
+    public String displayResponseConformation(Model model) {
+        model.addAttribute("response", response);
+        return "response/viewResponse";
 
-
+    }
 }
