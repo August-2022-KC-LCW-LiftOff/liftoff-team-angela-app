@@ -16,4 +16,9 @@ public class HomeController {
         model.addAttribute("user",authenticationController.getUserFromSession(request.getSession()));
         return "index";
     }
+
+    @GetMapping("/tos")
+    public String displayTermsOfService(){
+        return "/policies/tos";
+    }
 }

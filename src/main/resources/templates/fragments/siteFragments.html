@@ -11,6 +11,61 @@
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
 <body>
+<header th:fragment="header">
+    <div class="px-3 py-2 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <span class="display-3">ARK</span>
+                </a>
 
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="#" class="nav-link text-secondary">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            Requests
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/response/index}" class="nav-link text-white">
+                            Responses
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/user}" class="nav-link text-white">
+                            My Profile
+                        </a>
+                    </li>
+                    <li th:unless="${user!=null}">
+                        <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
+                    </li>
+                    <li th:unless="${user==null}">
+                        <a th:href="@{/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
+                    </li>
+                    <li th:unless="${user!=null}">
+                        <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</header>
+<footer th:fragment="footer" class="bg-dark text-white py-3 my-4 fixed">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Safety</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2022 T-Minus</p>
+</footer>
 </body>
 </html>
