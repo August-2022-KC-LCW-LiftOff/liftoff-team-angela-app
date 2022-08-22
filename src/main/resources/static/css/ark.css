@@ -6,4 +6,17 @@
     background: antiquewhite;
     border-radius: 5px;
     padding: 10px;
+
+}
+
+.fixed{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.fixed{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class User extends AbstractEntity{
+    private Date dateCreated;
     @NotNull
     private String username;
 
@@ -25,9 +27,14 @@ public class User extends AbstractEntity{
     public User(String username, String password){
         this.username = username;
         this.pwHash = encoder.encode(password);
+        this.dateCreated = new Date();
     }
 
     public User(){
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
     public String getUsername() {
