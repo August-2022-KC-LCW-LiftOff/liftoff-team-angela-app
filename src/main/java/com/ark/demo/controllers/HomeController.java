@@ -17,9 +17,7 @@ public class HomeController {
     @GetMapping
     public String index(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../index";
-        }
+
         model.addAttribute("user",authenticationController.getUserFromSession(request.getSession()));
         return "index";
     }
