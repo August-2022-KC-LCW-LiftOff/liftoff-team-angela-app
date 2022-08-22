@@ -1,28 +1,20 @@
-package com.ark.demo.models;
+package com.ark.demo.models.dto;
 
+import com.ark.demo.models.User;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
-public class Response extends AbstractEntity {
-    @ManyToOne
+public class CreateResponseFormDTO {
     private User user;
 //    private Request userRequest;
 // getter and setter, add to constructor
-    @NotNull
+
+    @Size(min=1, max = 800, message = "must be at least 20 characters")
+    @NotNull(message = "must include message")
     private String message;
     private Boolean contactSharing;
 
-    public Response() {
-
-    }
-    public Response(User user, String message, Boolean contactSharing) {
-        this.user = user;
-        this.message = message;
-        this.contactSharing = contactSharing;
-    }
 
     public User getUser() {
         return user;
@@ -47,6 +39,5 @@ public class Response extends AbstractEntity {
     public void setContactSharing(Boolean contactSharing) {
         this.contactSharing = contactSharing;
     }
-
 
 }
