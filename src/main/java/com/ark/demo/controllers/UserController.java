@@ -7,6 +7,7 @@ import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.DeleteFormDTO;
 import com.ark.demo.models.dto.EditProfileFormDTO;
 import com.ark.demo.models.dto.UpdatePasswordFormDTO;
+import com.ark.demo.models.dto.ViewProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static java.util.Objects.isNull;
 
@@ -34,13 +39,16 @@ public class UserController {
     private UserDetailsRepository userDetailsRepository;
 
     @GetMapping
-    public String displayUserProfile(HttpServletRequest request, Model model){
+    public String displayUserProfile(HttpServletRequest request, Model model) throws ParseException {
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
             return "redirect:../login";
         }
+        ViewProfileDTO viewProfileDTO = new ViewProfileDTO();
+        viewProfileDTO.setUserDetails(user.getUserDetails());
+        viewProfileDTO.setDateCreated(formatDateAsString(user.getDateCreated()));
         model.addAttribute("title","View Profile");
-        model.addAttribute("user",user);
+        model.addAttribute(viewProfileDTO);
         return "userTemplates/viewProfile";
     }
     @GetMapping("/editProfile")
@@ -140,5 +148,10 @@ public class UserController {
             return "userTemplates/accountDeleted";
         }
         return "redirect:../user";
+    }
+    private String formatDateAsString(Date date){
+        String pattern = "MMMM dd, yyyy hh:mm a";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(date);
     }
 }

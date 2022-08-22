@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:fragment="head">
     <meta charset="UTF-8"/>
-    <title th:text="${title == null ? 'ARK':'ARK::'+title}"></title>
-    <link rel="icon" type="image/png" th:href="@{/images/arkheart.png}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" th:href="@{/css/ark.css}"/>
+    <title>ARK</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 
 <!--Sources bootstrap header from https://getbootstrap.com/docs/5.0/examples/headers/ -->
-<header th:fragment="header">
+<header>
     <div class="px-3 py-2 bg-dark text-white">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -62,13 +59,16 @@
     </div>
 
 </header>
-<footer th:fragment="footer" class="bg-dark text-white, py-3 my-4 fixed">
+
+<!--Sources bootstrap footer from https://getbootstrap.com/docs/5.1/examples/footers/ -->
+<footer class="bg-dark text-white, py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Safety</a></li>
     </ul>
     <p class="text-center text-muted">© 2022 T-Minus</p>
 </footer>
+
 
 </body>
 </html>
