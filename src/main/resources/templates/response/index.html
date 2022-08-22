@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+</head>
+<body>
+<div class="container">
+    <table th:each="response : ${responses}">
+        <tr>
+            <td> <a th:text="${response.title}"></a></td>
+        </tr>
+        <tr>  <td> <a th:text="${response.message}"></a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
