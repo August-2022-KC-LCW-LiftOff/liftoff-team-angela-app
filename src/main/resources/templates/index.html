@@ -6,12 +6,6 @@
 </head>
 <body>
 <h1>Hello, World!</h1>
-<div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-        <li><a th:href="@{'/response/create'}">response check</a></li>
-        <li><a th:href="@{'/response/index'}">Index</a></li>
-    </ul>
-</div>
-
+<h3 th:text="${(user!=null)?user.username:'No User Found'}">No User</h3>
 </body>
 </html>

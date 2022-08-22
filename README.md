@@ -11,3 +11,9 @@ ARK is a group project for our LaunchCode Liftoff!  The ARK application will all
 ## Dependencies
 - SpringBoot
 - Thymeleaf
+- JQuery
+- Bootstrap
+- MySQL
+- Spring Security
+- Guava
+- Passay
