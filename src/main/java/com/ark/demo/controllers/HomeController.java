@@ -16,8 +16,6 @@ public class HomeController {
     AuthenticationController authenticationController;
     @GetMapping
     public String index(HttpServletRequest request, Model model){
-        User user = authenticationController.getUserFromSession(request.getSession());
-
         model.addAttribute("user",authenticationController.getUserFromSession(request.getSession()));
         return "index";
     }
