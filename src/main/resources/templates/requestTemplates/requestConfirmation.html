@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container body-content">
+
+
+    <h2>Request Confirmation</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th >Title</th>
+            <th >Description</th>
+            <th >Date</th>
+        </tr>
+        </thead>
+        <tr>
+            <td th:text= "${request.title}"></td>
+            <td th:text= "${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+
+    </div>
+</body>
+</html>

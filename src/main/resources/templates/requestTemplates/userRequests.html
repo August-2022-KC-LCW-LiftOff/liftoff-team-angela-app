@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http;//www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+
+<body>
+    <h2>User Requests</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tr th:each="request : ${requests}">
+            <td th:text="${request.title}"></td>
+            <td th:text="${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+
+
+</body>
+</html>
