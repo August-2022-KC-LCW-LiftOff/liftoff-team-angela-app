@@ -22,6 +22,7 @@ public class User extends AbstractEntity{
     @Valid
     private UserDetails userDetails;
 
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User(String username, String password){
