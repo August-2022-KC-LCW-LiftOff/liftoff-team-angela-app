@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<header th:replace="fragments/siteFragments::head"></header>
+<head th:replace="fragments/siteFragments::head"></head>
 <body>
+<header th:replace="fragments/siteFragments::header"></header>
 
 <div class="container">
     <r>
@@ -19,13 +20,13 @@
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
 
     <div class="form-group" >
-        <label class="form-label">Share my contact information
+        <label class="form-label">Share my contact information automatically
             <input type="checkbox" th:field="${createResponseFormDTO.contactSharing}">
         </label>
     </div>
 
     <div class="form-outline">
-        <textarea class="form-control" th:field="${createResponseFormDTO.message}" rows="10" ></textarea>
+        <textarea class="form-control" th:field="${createResponseFormDTO.message}" rows="7" ></textarea>
     </div>
 
     <div class="form-group" style="margin-top: 10px">
@@ -35,5 +36,6 @@
 
 </form>
 </div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
 </body>
 </html>

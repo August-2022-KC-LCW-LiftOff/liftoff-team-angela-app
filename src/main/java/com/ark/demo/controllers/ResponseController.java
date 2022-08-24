@@ -30,7 +30,15 @@ public class ResponseController {
 
 
     @GetMapping("index")
-    public String index(){
+    public String index(HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if(isNull(user)){
+            return "redirect:../login";
+        }
+        model.addAttribute("title", "Messages");
+        model.addAttribute("responses", responseRepository.findByUserId(user.getId()));
+
+
         return "response/index";
     }
 
@@ -48,7 +56,7 @@ public class ResponseController {
     }
 
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer targetObject){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -60,19 +68,21 @@ public class ResponseController {
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
         responseRepository.save(response);
-        user.addResponse(response);
+//        user.addResponse(newResponse);
         userRepository.save(user);
     return "redirect:/response/viewResponse";
     }
 
     @GetMapping("viewResponse")
-    public String displayResponseConformation(Model model) {
-//        User user = authenticationController.getUserFromSession(request.getSession());
-//        if (isNull(user)) {
-//            return "redirect:../login";
-//        }
+    public String displayResponseConformation(HttpServletRequest request, Model model) {
+        User user = authenticationController.getUserFromSession(request.getSession());
 
-        return "response/viewResponse";
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
+
+        return "response/responseConfirmation";
 
     }
+
 }
