@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<header th:replace="fragments/siteFragments::head"></header>
+<body>
+<header th:replace="fragments/siteFragments::header"></header>
+<div style="padding-left: 5%; padding-top: 3%">
+<div>
+    <h3>Sent!</h3>
+    <p>Thank you for responding to a request</p>
+
+</div>
+
+
+
+<a th:href="${'\response\index'}">View all messages</a>
+</div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
+</body>
+</html>

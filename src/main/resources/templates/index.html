@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments/siteFragments::head"></head>
 <body>
-<h1>Hello, World!</h1>
-<h3 th:text="${(user!=null)?user.username:'No User Found'}">No User</h3>
+
+<header th:replace="fragments/siteFragments :: header"></header>
+<footer th:replace="fragments/siteFragments :: footer"></footer>
+
+<div th:replace="fragments/landingPageFragments :: landingPage"></div>
 </body>
 </html>
