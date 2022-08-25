@@ -8,10 +8,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class User extends AbstractEntity{
+    private Date dateCreated;
     @NotNull
     private String username;
 
@@ -30,6 +32,7 @@ public class User extends AbstractEntity{
     public User(String username, String password){
         this.username = username;
         this.pwHash = encoder.encode(password);
+        this.dateCreated = new Date();
     }
 
     public User(){
@@ -37,6 +40,10 @@ public class User extends AbstractEntity{
 
     public String getUsername() {
         return username;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
     public void setPwHash(String password){
