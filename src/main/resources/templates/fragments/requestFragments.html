@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:fragment="requestHead">
+    <meta charset="UTF-8"/>
+    <title th:text="${title == null ? 'ARK':'ARK::'+title}"></title>
+    <link rel="icon" type="image/png" th:href="@{/images/arkheart.png}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=getGeocodeFromAddress"></script>
+    <script th:src="@{/js/geocodeAddress.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/ark.css}"/>
+</head>
+</head>
+<body>
+<div  th:fragment="displayCreateRequestForm" class="container body-content">
+    <h2>Create Request</h2>
+    <div>
+        <form method="post">
+            <div class="form-group">
+                <label>Title:
+                    <input type="text" th:field="${createRequestFormDTO.title}" />
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.title}"></p>
+            </div>
+            <div class="form-group">
+                <label>Address Line 1:
+                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.addressLine1}" rows = "7" />
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.addressLine1}"></p>
+            </div>
+            <div class="form-group">
+                <label>Address Line 2:
+                    <input class="form-control"  onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.addressLine2}" rows = "7" />
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.addressLine2}"></p>
+            </div>
+            <div class="form-group">
+                <label>City:
+                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.city}" rows = "7" />
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.city}"></p>
+            </div>
+            <div class="form-group inlineBlock">
+                <label>State:
+                    <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${createRequestFormDTO.state}">
+                        <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Zip Code:
+                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.zipcode}" rows = "7" />
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.zipcode}"></p>
+            </div>
+            <div class="form-group">
+                <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
+            </div>
+
+            <div class="form-group">
+                <label>Description:
+                    <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "7" ></textarea>
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.description}"></p>
+            </div>
+            <div class="form-group">
+                <label>Public Event?
+                    <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"  value="true"/>
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.publicEvent}"></p>
+            </div>
+            <div class="form-group">
+                <label>Due Date:
+                    <input type="date" th:field="${createRequestFormDTO.dueDate}">
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
+            </div>
+            <div class="form-group">
+                <input type="hidden" th:field="${createRequestFormDTO.location}">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Submit" on/> <input class="btn btn-secondary" type="reset" value="Reset" />
+        </form>
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

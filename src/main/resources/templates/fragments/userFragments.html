@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="fragments/siteFragments::head"></head>
+<head th:fragment="userHead">
+    <meta charset="UTF-8"/>
+    <title th:text="${title == null ? 'ARK':'ARK::'+title}"></title>
+    <link rel="icon" type="image/png" th:href="@{/images/arkheart.png}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=getGeocodeFromAddress"></script>
+    <script th:src="@{/js/geocodeAddress.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/ark.css}"/>
+</head>
 <body>
 <!--Registration Form-->
 <div th:fragment="registerForm" class="container">
@@ -79,7 +92,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 1:
-                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
                         </label>
                     </div>
                 </td>
@@ -93,7 +106,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 2:
-                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
                         </label>
                     </div>
                 </td>
@@ -102,23 +115,28 @@
                 <td>
                     <div class="form-group">
                         <label>City:
-                            <input class="form-control" type="text" th:field="${registrationFormDTO.city}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${registrationFormDTO.city}"/>
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="form-group inlineBlock">
                         <label>State:
-                            <select class="form-control" th:field="${registrationFormDTO.state}">
-                                <option value="KS">Kansas</option>
+                            <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${registrationFormDTO.state}">
+                                <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
                             </select>
                         </label>
                     </div>
                     <div class="form-group inlineBlock">
                         <label>Zipcode:
-                            <input class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
                         </label>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
                 </td>
             </tr>
             <tr>
@@ -162,6 +180,9 @@
                 </td>
             </tr>
         </table>
+        <div class="form-group">
+            <input type="hidden" th:field="${registrationFormDTO.location}">
+        </div>
         <input type="submit" class="btn btn-primary" value="Register"/>
     </form>
 </div>
@@ -237,7 +258,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 1:
-                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine1}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine1}"/>
                         </label>
                     </div>
                 </td>
@@ -251,7 +272,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 2:
-                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine2}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine2}"/>
                         </label>
                     </div>
                 </td>
@@ -260,23 +281,28 @@
                 <td>
                     <div class="form-group">
                         <label>City:
-                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.city}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.city}"/>
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="form-group inlineBlock">
                         <label>State:
-                            <select class="form-control" th:field="${editProfileFormDTO.userDetails.state}">
-                                <option value="KS">Kansas</option>
+                            <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${editProfileFormDTO.userDetails.state}">
+                                <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
                             </select>
                         </label>
                     </div>
                     <div class="form-group inlineBlock">
                         <label>Zipcode:
-                            <input class="form-control" type="number" th:field="${editProfileFormDTO.userDetails.zipcode}"/>
+                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="number" th:field="${editProfileFormDTO.userDetails.zipcode}"/>
                         </label>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
                 </td>
             </tr>
             <tr>
