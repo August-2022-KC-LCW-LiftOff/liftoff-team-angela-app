@@ -19,7 +19,7 @@
 <div  th:fragment="displayCreateRequestForm" class="container body-content">
     <h2>Create Request</h2>
     <div>
-        <form method="post">
+        <form method="post" onsubmit="submitForm(event);">
             <div class="form-group">
                 <label>Title:
                     <input type="text" th:field="${createRequestFormDTO.title}" />
@@ -28,39 +28,35 @@
             </div>
             <div class="form-group">
                 <label>Address Line 1:
-                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.addressLine1}" rows = "7" />
+                    <input class="form-control" th:field="${createRequestFormDTO.addressLine1}" rows = "7" />
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.addressLine1}"></p>
             </div>
             <div class="form-group">
                 <label>Address Line 2:
-                    <input class="form-control"  onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.addressLine2}" rows = "7" />
+                    <input class="form-control"  th:field="${createRequestFormDTO.addressLine2}" rows = "7" />
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.addressLine2}"></p>
             </div>
             <div class="form-group">
                 <label>City:
-                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.city}" rows = "7" />
+                    <input class="form-control" th:field="${createRequestFormDTO.city}" rows = "7" />
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.city}"></p>
             </div>
             <div class="form-group inlineBlock">
                 <label>State:
-                    <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${createRequestFormDTO.state}">
+                    <select class="form-control" th:field="${createRequestFormDTO.state}">
                         <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
                     </select>
                 </label>
             </div>
             <div class="form-group">
                 <label>Zip Code:
-                    <input class="form-control" onchange="toggleSubmitAddressButton(true)"  th:field="${createRequestFormDTO.zipcode}" rows = "7" />
+                    <input class="form-control" th:field="${createRequestFormDTO.zipcode}" rows = "7" />
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.zipcode}"></p>
             </div>
-            <div class="form-group">
-                <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
-            </div>
-
             <div class="form-group">
                 <label>Description:
                     <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "7" ></textarea>

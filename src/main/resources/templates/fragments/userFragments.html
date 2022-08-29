@@ -17,7 +17,7 @@
 <body>
 <!--Registration Form-->
 <div th:fragment="registerForm" class="container">
-    <form method="post">
+    <form method="post" onsubmit="submitForm(event);">
         <table>
             <tr>
                 <td colspan="2">
@@ -92,7 +92,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 1:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine1}"/>
                         </label>
                     </div>
                 </td>
@@ -106,7 +106,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 2:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
+                            <input class="form-control" type="text" th:field="${registrationFormDTO.addressLine2}"/>
                         </label>
                     </div>
                 </td>
@@ -122,21 +122,16 @@
                 <td>
                     <div class="form-group inlineBlock">
                         <label>State:
-                            <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${registrationFormDTO.state}">
+                            <select class="form-control" th:field="${registrationFormDTO.state}">
                                 <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
                             </select>
                         </label>
                     </div>
                     <div class="form-group inlineBlock">
                         <label>Zipcode:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
+                            <input class="form-control" type="number" th:field="${registrationFormDTO.zipcode}"/>
                         </label>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
                 </td>
             </tr>
             <tr>
@@ -224,7 +219,7 @@
 
 <!--Edit Profile Form-->
 <div th:fragment="editProfileForm" class="container">
-    <form method="post">
+    <form method="post" onsubmit="submitForm(event);">
         <table>
             <tr>
                 <td colspan="2">
@@ -258,7 +253,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 1:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine1}"/>
+                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine1}"/>
                         </label>
                     </div>
                 </td>
@@ -272,7 +267,7 @@
                 <td colspan="2">
                     <div class="form-group">
                         <label>Address Line 2:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine2}"/>
+                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.addressLine2}"/>
                         </label>
                     </div>
                 </td>
@@ -281,28 +276,23 @@
                 <td>
                     <div class="form-group">
                         <label>City:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.city}"/>
+                            <input class="form-control" type="text" th:field="${editProfileFormDTO.userDetails.city}"/>
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="form-group inlineBlock">
                         <label>State:
-                            <select onchange="toggleSubmitAddressButton(true)" class="form-control" th:field="${editProfileFormDTO.userDetails.state}">
+                            <select class="form-control" th:field="${editProfileFormDTO.userDetails.state}">
                                 <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
                             </select>
                         </label>
                     </div>
                     <div class="form-group inlineBlock">
                         <label>Zipcode:
-                            <input onchange="toggleSubmitAddressButton(true)" class="form-control" type="number" th:field="${editProfileFormDTO.userDetails.zipcode}"/>
+                            <input class="form-control" type="number" th:field="${editProfileFormDTO.userDetails.zipcode}"/>
                         </label>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button type="button" id="submitAddressButton" class="btn-primary">Submit Address</button>
                 </td>
             </tr>
             <tr>
@@ -345,6 +335,9 @@
                     <hr>
                 </td>
             </tr>
+            <div class="form-group">
+                <input type="hidden" th:field="${editProfileFormDTO.location}">
+            </div>
         </table>
         <input type="submit" class="btn btn-primary" value="Update Profile"/>
     </form>
