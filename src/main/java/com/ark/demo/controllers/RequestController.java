@@ -44,6 +44,7 @@ public class RequestController {
         }
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
+        model.addAttribute("states",authenticationController.createStatesMap());
         return "requestTemplates/createRequest";
     }
 
@@ -60,15 +61,12 @@ public class RequestController {
             return "redirect:../login";
         }
 
-        Request newRequest = new Request(createRequestFormDTO.getTitle(), createRequestFormDTO.getDescription(), user, createRequestFormDTO.getDueDate());
-
-        if(createRequestFormDTO.getPublicEvent()){
-            newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
-        }
+        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation());
+        newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
+        newRequest.setUser(user);
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
-//** removed the forward slash
         return "redirect:request/requestConfirmation";
     }
 
@@ -99,7 +97,10 @@ public class RequestController {
 //        needs folder orientation
     }
 
-
+    @GetMapping("viewRequest/{requestId}")
+    public String viewRequest(){
+        return "requestTemplates/viewRequest";
+    }
 
 
 

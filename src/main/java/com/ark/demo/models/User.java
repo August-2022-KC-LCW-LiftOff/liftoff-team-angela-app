@@ -27,12 +27,14 @@ public class User extends AbstractEntity{
     @OneToMany(mappedBy = "user")
     private List<Request> requests;
 
+    private String location;
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User(String username, String password){
+    public User(String username, String password, String location){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.dateCreated = new Date();
+        this.location = location;
     }
 
     public User(){
@@ -68,5 +70,13 @@ public class User extends AbstractEntity{
 
     public void addRequest(Request request) {
         this.requests.add(request);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
