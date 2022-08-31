@@ -1,5 +1,7 @@
 package com.ark.demo.controllers;
 
+import com.ark.demo.data.RequestRepository;
+import com.ark.demo.models.Request;
 import com.ark.demo.models.Response;
 import com.ark.demo.models.User;
 import com.ark.demo.models.data.ResponseRepository;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -27,6 +30,8 @@ public class ResponseController {
     private UserRepository userRepository;
     @Autowired
     AuthenticationController authenticationController;
+    @Autowired
+    RequestRepository requestRepository;
 
 
     @GetMapping("index")
@@ -43,20 +48,25 @@ public class ResponseController {
     }
 
     @GetMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request,Model model) {
+    public String displayCreateResponseForm( HttpServletRequest request,Model model) {
+
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
+
         model.addAttribute("title", "Respond to Request");
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
+
+
+
         model.addAttribute(createResponseFormDTO);
         return "response/create";
     }
 
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer targetObject){
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -70,10 +80,10 @@ public class ResponseController {
         responseRepository.save(response);
 //        user.addResponse(newResponse);
         userRepository.save(user);
-    return "redirect:/response/viewResponse";
+    return "redirect:/response/responseConfirmation";
     }
 
-    @GetMapping("viewResponse")
+    @GetMapping("responseConfirmation")
     public String displayResponseConformation(HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
