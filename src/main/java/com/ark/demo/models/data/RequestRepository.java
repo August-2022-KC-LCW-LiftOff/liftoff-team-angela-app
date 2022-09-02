@@ -1,4 +1,4 @@
-package com.ark.demo.data;
+package com.ark.demo.models.data;
 
 import com.ark.demo.models.Request;
 import org.springframework.data.jpa.repository.Modifying;

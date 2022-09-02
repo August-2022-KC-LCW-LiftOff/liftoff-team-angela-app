@@ -2,7 +2,9 @@ package com.ark.demo.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Request extends AbstractEntity {
@@ -10,12 +12,17 @@ public class Request extends AbstractEntity {
     private String title;
 
     private String description;
-//    public enum requestType {wants, needs, problems};
 
-//    public enum priority {low, medium, high};
     private Date dateRequested;
     private Date dueDate;
     private Boolean publicEvent;
+
+    //    public enum requestType {wants, needs, problems};
+
+//    public enum priority {low, medium, high};
+
+    @OneToMany(mappedBy = "request")
+    public List<Thread> responseThreads;
 
     @ManyToOne
     private User user;
@@ -29,6 +36,7 @@ public class Request extends AbstractEntity {
         this.description = description;
         this.dueDate = dueDate;
         this.user = user;
+//        this.responseThread = responseThread;
         this.dateRequested = new Date();
         this.publicEvent = false;
 
@@ -77,5 +85,13 @@ public class Request extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Thread> getResponseThreads() {
+        return responseThreads;
+    }
+
+    public void  addThread(Thread thread){
+        responseThreads.add(thread);
     }
 }
