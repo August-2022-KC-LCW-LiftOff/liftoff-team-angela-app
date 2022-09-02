@@ -6,6 +6,7 @@ import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
+import com.ark.demo.models.enums.USStates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import static java.util.Objects.isNull;
 
@@ -30,6 +33,8 @@ public class AuthenticationController {
     UserDetailsRepository userDetailsRepository;
 
     private static final String userSessionKey = "user";
+
+    private final TreeMap<String,String> states = createStatesMap();
 
     public User getUserFromSession(HttpSession session){
         Integer userID = (Integer) session.getAttribute(userSessionKey);
@@ -55,6 +60,8 @@ public class AuthenticationController {
         }
         model.addAttribute(new RegistrationFormDTO());
         model.addAttribute("title","Register");
+
+        model.addAttribute("states",states);
         return "userTemplates/register";
     }
     @PostMapping("/register")
@@ -62,6 +69,7 @@ public class AuthenticationController {
         if(errors.hasErrors()){
             model.addAttribute("title","Register");
             model.addAttribute(registrationFormDTO);
+            model.addAttribute("states",states);
             return "userTemplates/register";
         }
 
@@ -70,6 +78,7 @@ public class AuthenticationController {
             errors.rejectValue("username","username.alreadyexists","A user with that username already exists");
             model.addAttribute("title","Register");
             model.addAttribute(registrationFormDTO);
+            model.addAttribute("states",states);
             return "userTemplates/register";
         }
 
@@ -79,10 +88,11 @@ public class AuthenticationController {
             errors.rejectValue("password","password.mismatch","Passwords do not match");
             model.addAttribute("title","Register");
             model.addAttribute(registrationFormDTO);
+            model.addAttribute("states",states);
             return "userTemplates/register";
         }
 
-        User newUser = new User(registrationFormDTO.getUsername(),registrationFormDTO.getPassword());
+        User newUser = new User(registrationFormDTO.getUsername(),registrationFormDTO.getPassword(), registrationFormDTO.getLocation());
         UserDetails newUserDetails = new UserDetails(registrationFormDTO.getFirstName(),registrationFormDTO.getLastName(),registrationFormDTO.getAddressLine1(),registrationFormDTO.getAddressLine2(), registrationFormDTO.getCity(),registrationFormDTO.getState(),registrationFormDTO.getZipcode(), registrationFormDTO.getEmailAddress(),registrationFormDTO.getPhoneNumber());
         newUser.setUserDetails(newUserDetails);
         userDetailsRepository.save(newUserDetails);
@@ -128,5 +138,11 @@ public class AuthenticationController {
         request.getSession().invalidate();
         return "redirect:";
     }
-
+    public TreeMap<String, String> createStatesMap(){
+        TreeMap<String, String> states = new TreeMap<>();
+        for (USStates state : USStates.values()){
+            states.put(state.toString(), state.getDisplayName());
+        }
+        return states;
+    }
 }

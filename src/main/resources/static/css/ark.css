@@ -10,12 +10,30 @@
 }
 
 .fixed{
-    position: fixed;
     bottom: 0;
     width: 100%;
 }
-.fixed{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+#map {
+  height: 100% !important;
+  background: blue;
+  border-radius: 10px;
+}
+#mapFrame{
+    width: 900px;
+    height: 400px;
+    margin: auto;
+    border: 2px ridge white;
+    border-radius: 10px;
+}
+thead{
+    font-weight: bold;
+}
+.hidden{
+    display: none;
+}
+#addressSubmitted{
+    display: block;
+}
+.giveMeSpace > *{
+    margin: 5px;
 }

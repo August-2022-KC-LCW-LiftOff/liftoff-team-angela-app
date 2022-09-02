@@ -2,7 +2,10 @@ package com.ark.demo.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -24,12 +27,14 @@ public class User extends AbstractEntity{
     @OneToMany(mappedBy = "user")
     private List<Request> requests;
 
+    private String location;
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @ManyToOne(mappedBy = "threadUsers")
     private List<Thread> userThreads;
 
     public User(String username, String password){
+    public User(String username, String password, String location){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.dateCreated = new Date();
@@ -80,5 +85,13 @@ public class User extends AbstractEntity{
 
     public void addUserThread(Thread thread) {
         this.userThreads.add(thread);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

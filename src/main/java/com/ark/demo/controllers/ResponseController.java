@@ -1,6 +1,8 @@
 package com.ark.demo.controllers;
 
 import com.ark.demo.models.Request;
+import com.ark.demo.data.RequestRepository;
+import com.ark.demo.models.Request;
 import com.ark.demo.models.Response;
 import com.ark.demo.models.User;
 import com.ark.demo.models.Thread;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -43,7 +46,6 @@ public class ResponseController {
 
 
 
-
     @GetMapping("index")
     public String index(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
@@ -64,7 +66,6 @@ public class ResponseController {
             return "redirect:../login";
         }
         model.addAttribute("title", "Respond to Request");
-        model.addAttribute("request", requestRepository.findById(requestId).get());
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
         model.addAttribute(createResponseFormDTO);
@@ -78,35 +79,15 @@ public class ResponseController {
             model.addAttribute(createResponseFormDTO);
             return "response/create";
         }
-
-
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
-
-//        removed id
-//        Thread thread = new Thread();
-//        check imports to ensure the model has been added
-        Request threadRequest = requestRepository.findById(requestId).get();
-        Thread thread = new Thread(threadRequest, createResponseFormDTO.getUser());
-        threadRequest.addThread(thread);
-        createResponseFormDTO.getUser().addUserThread(thread);
-
-
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
-        thread.addThreadResponse(response);
-
         responseRepository.save(response);
 //        user.addResponse(newResponse);
         userRepository.save(user);
-
-
-
-
-
     return "redirect:/response/viewResponse";
-
     }
 
     @GetMapping("viewResponse")
@@ -118,8 +99,7 @@ public class ResponseController {
         }
 
         return "response/responseConfirmation";
+
     }
-
-
 
 }

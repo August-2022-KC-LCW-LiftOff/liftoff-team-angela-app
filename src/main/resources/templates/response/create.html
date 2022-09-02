@@ -4,27 +4,17 @@
 <body>
 <header th:replace="fragments/siteFragments::header"></header>
 
-<div class="container">
-    <r>
-        <a th:for="response"></a>
-    </r>
-</div>
+
 
 
 <div class="container" style="margin: 75px">
-   <div>
-    <h1>title of listing goes here</h1>
-    <p> response details</p>
-   </div>
+//request title
+    //request description
 <form method="post" style="margin-top: 15px">
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
     <input type="hidden" th:field="${request.id}" value="${request.id}">
 
-    <div class="form-group" >
-        <label class="form-label">Share my contact information automatically
-            <input type="checkbox" th:field="${createResponseFormDTO.contactSharing}">
-        </label>
-    </div>
+
 
     <div class="form-outline">
         <textarea class="form-control" th:field="${createResponseFormDTO.message}" rows="7" ></textarea>
