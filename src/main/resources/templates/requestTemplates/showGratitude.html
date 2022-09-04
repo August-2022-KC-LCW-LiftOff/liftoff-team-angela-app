@@ -3,7 +3,8 @@
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
 <header th:replace="fragments/siteFragments::header"></header>
-<div th:replace="fragments/requestFragments::userRequests"></div>
+<h1>Send Gratitude</h1>
+<h3 th:text="${request.title}"></h3>
 <footer th:replace="fragments/siteFragments::footer"></footer>
 </body>
 </html>

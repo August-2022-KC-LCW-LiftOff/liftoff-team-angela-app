@@ -30,7 +30,7 @@ public class MapController {
     @GetMapping()
     public String displayMap(HttpServletRequest request, Model model, @PathParam("sortBy") String sortBy){
         User user = authenticationController.getUserFromSession(request.getSession());
-        List<Request> requests = requestRepository.findAllPublicEvents();
+        List<Request> requests = requestRepository.findAllActivePublicEvents();
         if(!isNull(sortBy)){
             switch (sortBy){
                 case "title":
