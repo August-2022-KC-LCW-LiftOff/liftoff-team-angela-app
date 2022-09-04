@@ -34,17 +34,17 @@ public class RequestController {
     @Autowired
     AuthenticationController authenticationController;
 
-   @Autowired
-   RequestRepository requestRepository;
+    @Autowired
+    RequestRepository requestRepository;
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
-            return "redirect:../login";
+            return "redirect:/login";
         }
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
@@ -55,14 +55,14 @@ public class RequestController {
 //    @PostMapping("confirmation")
     @PostMapping()
     public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if(isNull(user)){
+            return "redirect:/login";
+        }
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Request");
             model.addAttribute(createRequestFormDTO);
             return "requestTemplates/createRequest";
-        }
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
         }
 
         Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation());
@@ -81,7 +81,7 @@ public class RequestController {
         if(isNull(user)){
             return "redirect:../login";
         }
-
+        model.addAttribute(user);
         model.addAttribute("title", "User Requests");
         model.addAttribute("requests", requestRepository.findByUserId(user.getId()));
         model.addAttribute(new CloseRequestFormDTO());
@@ -93,6 +93,7 @@ public class RequestController {
         if(isNull(user)){
             return "redirect:../login";
         }
+        model.addAttribute(user);
         model.addAttribute("title", "User Requests");
         model.addAttribute("requests", requestRepository.findByUserId(user.getId()));
         return "requestTemplates/userRequests";
@@ -116,7 +117,7 @@ public class RequestController {
     public String processEditRequestForm(@ModelAttribute @Valid EditRequestFormDTO editRequestFormDTO, @ModelAttribute CloseRequestFormDTO closeRequestFormDTO, Errors errors, HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
-            return "redirect:../login";
+            return "redirect:../../login";
         }
         if(errors.hasErrors()){
             model.addAttribute("title","Edit Request");
@@ -149,7 +150,7 @@ public class RequestController {
     public String viewRequest(@PathVariable("requestId") Integer requestId,HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
-            return "redirect:../login";
+            return "redirect:../../login";
         }
         Request viewRequest = requestRepository.findById(requestId).get();
         model.addAttribute("request",viewRequest);
@@ -239,8 +240,6 @@ public class RequestController {
         }
         return o;
     }
-
-
 }
 
 
