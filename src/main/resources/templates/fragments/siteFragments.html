@@ -11,7 +11,7 @@
 </head>
 <body>
 
-
+<!--Site Header-->
 <header th:fragment="header">
     <div class="px-3 py-2 bg-dark text-white">
         <div class="container">
@@ -62,6 +62,7 @@
 
 </header>
 
+<!--Site Footer-->
 <footer th:fragment="footer" class="bg-dark text-white, py-3 my-4 fixed">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
@@ -69,6 +70,32 @@
     </ul>
     <p class="text-center text-muted">© 2022 T-Minus</p>
 </footer>
+
+<!--Error Page-->
+<div th:fragment="error" class="container text-center">
+    <h1>Page Not Found</h1>
+    <p>This page will automatically redirect to the home page in <span class="seconds">30</span> seconds.</p>
+    <p>- or -</p>
+    <p>Click the button below to go there now.</p>
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+    <script>
+        window.onload=()=>{
+            countDown();
+        };
+        function countDown(){
+            let secondsElement = document.querySelector(".seconds");
+            if(parseFloat(secondsElement.innerHTML) > 0){
+                setTimeout(function(){
+                    secondsElement.innerHTML = parseFloat(secondsElement.innerHTML)-1;
+                    countDown();
+                },1000);
+                return;
+            }
+            window.location.replace("//localhost:8080");
+            return;
+        }
+    </script>
+</div>
 
 </body>
 </html>
