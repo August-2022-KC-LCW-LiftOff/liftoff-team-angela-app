@@ -4,10 +4,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class User extends AbstractEntity{
@@ -22,23 +24,28 @@ public class User extends AbstractEntity{
     @Valid
     private UserDetails userDetails;
 
+    @OneToMany(mappedBy = "user")
+    private List<Request> requests;
+
+    private String location;
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User(String username, String password){
+    public User(String username, String password, String location){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.dateCreated = new Date();
+        this.location = location;
     }
 
     public User(){
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
     public String getUsername() {
         return username;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
     public void setPwHash(String password){
@@ -55,5 +62,21 @@ public class User extends AbstractEntity{
 
     public boolean isMatchingPassword(String password){
         return encoder.matches(password,pwHash);
+    }
+
+    public List<Request> getRequests() {
+        return requests;
+    }
+
+    public void addRequest(Request request) {
+        this.requests.add(request);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

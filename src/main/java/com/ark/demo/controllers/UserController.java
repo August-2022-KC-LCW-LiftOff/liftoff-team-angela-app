@@ -59,6 +59,7 @@ public class UserController {
         EditProfileFormDTO editProfileFormDTO = new EditProfileFormDTO();
         editProfileFormDTO.setUserDetails(user.getUserDetails());
         model.addAttribute(editProfileFormDTO);
+        model.addAttribute("states",authenticationController.createStatesMap());
         return "userTemplates/editProfile";
     }
 
@@ -84,6 +85,8 @@ public class UserController {
         userDetails.setZipcode(editProfileFormDTO.getUserDetails().getZipcode());
         userDetails.setPhoneNumber(editProfileFormDTO.getUserDetails().getPhoneNumber());
         userDetails.setEmailAddress(editProfileFormDTO.getUserDetails().getEmailAddress());
+        user.setLocation(editProfileFormDTO.getLocation());
+        userRepository.save(user);
         userDetailsRepository.save(userDetails);
         return "redirect:../user";
     }

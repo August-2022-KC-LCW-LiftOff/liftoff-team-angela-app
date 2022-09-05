@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments/siteFragments::head"></head>
+<body>
+<header th:replace="fragments/siteFragments::header"></header>
+<form id="closeRequestForm" method="post" th:action="@{/request/closeRequest}">
+    <div th:replace="fragments/requestFragments::confirmCloseForm"></div>
+    <div th:replace="fragments/requestFragments::closeRequest"></div>
+    <input id="submitButton" type="submit" class="btn btn-primary d-none" value="Close"/>
+</form>
+<footer th:replace="fragments/siteFragments::footer"></footer>
+<script>
+    document.querySelector(".confirmClose").classList.toggle("d-none");
+</script>
+</body>
+</html>

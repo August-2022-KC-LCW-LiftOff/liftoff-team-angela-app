@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/siteFragments::head"></head>
+<body>
+<header th:replace="fragments/siteFragments::header"></header>
+
+
+
+
+<div class="container" style="margin: 75px">
+//request title
+    //request description
+<form method="post" style="margin-top: 15px">
+    <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
+
+
+
+    <div class="form-outline">
+        <textarea class="form-control" th:field="${createResponseFormDTO.message}" rows="7" ></textarea>
+    </div>
+
+    <div class="form-group" style="margin-top: 10px">
+        <input type="submit" value="Respond" class="btn btn-success">
+    </div>
+
+
+</form>
+</div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
+</body>
+</html>

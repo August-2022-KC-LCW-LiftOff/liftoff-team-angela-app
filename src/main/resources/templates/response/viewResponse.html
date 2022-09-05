@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<header th:replace="fragments/siteFragments::head"></header>
+<body>
+<h1>Response Confirmation</h1>
+<p>Thank you for your response. It was successfully submitted.</p>
+
+<!--<p th:text="${response}"></p>-->
+
+<a th:href="${'\response\index'}">View all messages</a>
+</body>
+</html>

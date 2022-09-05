@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:fragment="mapHead">
+    <meta charset="UTF-8"/>
+    <title th:text="${title == null ? 'ARK':'ARK::'+title}"></title>
+    <link rel="icon" type="image/png" th:href="@{/images/arkheart.png}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script type="module" th:src="@{/js/maps.js}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=initMap"></script>
+
+    <link rel="stylesheet" th:href="@{/css/ark.css}"/>
+</head>
+<body>
+
+
+
+<div class="container d-flex flex-column align-items-center" th:fragment="showMap">
+    <script>
+        let requestLocations = [[${locations}]];
+        let userLocation = [[${userLocation}]];
+    </script>
+    <div id="mapFrame">
+        <div id="map"></div>
+    </div>
+    <p><b>***NOTE:</b> <em>This map does not display <b>actual locations</b>.  The markers on this map have been adjusted for safety.</em></p>
+    <div class="d-flex flex-column justify-content-start giveMeSpace">
+        <a class="btn btn-primary" type="button" id="centerButton" >Re-Center Map</a>
+        <form method="get" class="d-flex flex-row">
+            <select name="sortBy">
+                <option value="title">Title</option>
+                <option value="due_date">Due Date</option>
+                <option value="zipcode">Zip Code</option>
+                <input type="submit" value="Sort" class="btn btn-primary"/>
+            </select>
+        </form>
+    </div>
+</div>
+<div class="container d-flex justify-content-center" th:fragment="showRequestsTable">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Due Date</td>
+                <td>Description</td>
+                <td>Zip Code</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="content" th:each="request:${requests}">
+                <td class="title" th:text="${request.title}"></td>
+                <td label="Due Date: " th:text="${#dates.format(request.dueDate, 'MMMM dd, yyyy')}"></td>
+                <td class = "exclude" th:text="${request.description}"></td>
+                <td label="Location: " th:text="${request.zipcode}"></td>
+                <td><a th:href="@{request/viewRequest/}+${request.id}" class="btn btn-primary">View</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="fragments/siteFragments::head"></head>
+<head th:replace="fragments/userFragments::userHead"></head>
 <body>
+<header th:replace="fragments/siteFragments :: header"></header>
 <div th:replace="fragments/userFragments::registerForm"></div>
+<footer th:replace="fragments/siteFragments :: footer"></footer>
 </body>
 </html>
