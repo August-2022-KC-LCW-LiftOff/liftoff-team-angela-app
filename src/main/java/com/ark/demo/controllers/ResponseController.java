@@ -48,7 +48,7 @@ public class ResponseController {
     }
 
     @GetMapping("create")
-    public String displayCreateResponseForm( HttpServletRequest request,Model model) {
+    public String displayCreateResponseForm( HttpServletRequest request, Model model) {
 
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
@@ -62,6 +62,7 @@ public class ResponseController {
 
 
         model.addAttribute(createResponseFormDTO);
+
         return "response/create";
     }
 
