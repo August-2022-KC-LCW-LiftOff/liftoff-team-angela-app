@@ -1,52 +1,39 @@
-package com.ark.demo.models;
+package com.ark.demo.models.dto;
 
 import com.ark.demo.models.enums.RequestStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Entity
-public class Request extends AbstractEntity {
-
+public class EditRequestFormDTO {
+    private Integer id;
+    private RequestStatus status;
+    @NotBlank(message = "Title is required")
+    @Size(min = 3, max = 50, message = "Title must be between 3 and 50 characters")
     private String title;
-
-    private String description;
-
-    private String location;
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String state;
     private String zipcode;
-//    public enum requestType {wants, needs, problems};
-
-//    public enum priority {low, medium, high};
+    private String description;
+    private String location;
     private Date dateRequested;
+    @Future(message = "Date must be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
+
     private Boolean publicEvent;
 
-    private RequestStatus status;
-    @ManyToOne
-    private User user;
-
-
-    public Request() {
+    public Integer getId() {
+        return id;
     }
 
-    public Request(String title, String description, String addressLine1, String addressLine2, String city, String state, String zipcode, Date dueDate, Boolean publicEvent, String location) {
-        this.title = title;
-        this.description = description;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.dueDate = dueDate;
-        this.publicEvent = publicEvent;
-        this.dateRequested = new Date();
-        this.location = location;
-        this.status = RequestStatus.ACTIVE;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,6 +52,14 @@ public class Request extends AbstractEntity {
         this.description = description;
     }
 
+    public Date getDateRequested() {
+        return dateRequested;
+    }
+
+    public void setDateRequested(Date dateRequested) {
+        this.dateRequested = dateRequested;
+    }
+
     public Date getDueDate() {
         return dueDate;
     }
@@ -79,26 +74,6 @@ public class Request extends AbstractEntity {
 
     public void setPublicEvent(Boolean publicEvent) {
         this.publicEvent = publicEvent;
-    }
-
-    public Date getDateRequested() {
-        return dateRequested;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String requestLocation) {
-        this.location = requestLocation;
     }
 
     public String getAddressLine1() {
@@ -141,6 +116,14 @@ public class Request extends AbstractEntity {
         this.zipcode = zipcode;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public RequestStatus getStatus() {
         return status;
     }
@@ -148,5 +131,4 @@ public class Request extends AbstractEntity {
     public void setStatus(RequestStatus status) {
         this.status = status;
     }
-
 }
