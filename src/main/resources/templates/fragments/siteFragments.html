@@ -11,22 +11,29 @@
 </head>
 <body>
 
-<!--Site Header-->
-<header th:fragment="header">
-    <div class="px-3 py-2 bg-dark text-white">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <span class="display-3">ARK</span>
-                </a>
 
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                        <a th:href="@{/}" class="nav-link text-secondary">
+<!--Site Header-->
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg px-3 py-2 bg-dark text-white">
+
+
+        <div class="container">
+            <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <span class="display-3">ARK</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-secondary">
+
                             Home
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link text-white">
                             Dashboard
                         </a>
@@ -36,12 +43,12 @@
                             Requests
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a th:href="@{/response/index}" class="nav-link text-white">
                             Responses
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a th:href="@{/user}" class="nav-link text-white">
                             My Profile
                         </a>
@@ -58,8 +65,7 @@
                 </ul>
             </div>
         </div>
-    </div>
-
+    </nav>
 </header>
 
 <!--Site Footer-->
