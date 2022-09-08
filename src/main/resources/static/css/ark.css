@@ -37,3 +37,6 @@ thead{
 .giveMeSpace > *{
     margin: 5px;
 }
+.seconds{
+    color: blue;
+}

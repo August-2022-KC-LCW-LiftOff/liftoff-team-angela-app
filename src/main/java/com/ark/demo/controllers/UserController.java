@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -40,11 +41,12 @@ public class UserController {
     public String displayUserProfile(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
-            return "redirect:../login";
+            return "redirect:/login";
         }
         ViewProfileDTO viewProfileDTO = new ViewProfileDTO();
         viewProfileDTO.setUserDetails(user.getUserDetails());
         viewProfileDTO.setDateCreated(formatDateAsString(user.getDateCreated()));
+        model.addAttribute(user);
         model.addAttribute("title","View Profile");
         model.addAttribute(viewProfileDTO);
         return "userTemplates/viewProfile";
@@ -143,6 +145,10 @@ public class UserController {
 
     @PostMapping("/deleteProfile")
     public String processDeleteProfileForm(@ModelAttribute @Valid DeleteFormDTO deleteFormDTO, HttpServletRequest request){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if(isNull(user)){
+            return "redirect:../login";
+        }
         if(deleteFormDTO.getConfirm().toLowerCase().equals("yes")){
             userDetailsRepository.delete(deleteFormDTO.getUserDetails());
             userRepository.delete(deleteFormDTO.getUser());
