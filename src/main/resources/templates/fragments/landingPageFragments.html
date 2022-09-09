@@ -3,15 +3,15 @@
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
 <div th:fragment="landingPage">
-    <div class="mx-auto" style="width: 100%;">
-        <img th:src="@{/images/blueLandingImage.png}" class="img-fluid" alt="Acts of Empathy, Solidarity, and Kindness">
-    </div>
 
-    <div class="container">
-        <div class="p-4 text-center">
-            <a th:href="@{/register}" style="text-decoration: none"><h3>Click Here to Join ARK</h3></a>
+
+        <div class="landingPage">
+            <img class="landing-page-image" th:src="@{/images/blueLandingPage_contrastResize.png}"  alt="Acts of Empathy, Solidarity, and Kindness">
+            <div class="landing-page-button">
+                <a th:href="@{register}"><button type="button" class="btn btn-lg btn-primary" alt="Join Ark">Join Ark</button></a>
+            </div>
         </div>
-    </div>
 
+</div>
 </body>
 </html>
