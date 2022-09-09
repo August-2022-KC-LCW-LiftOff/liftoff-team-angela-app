@@ -1,49 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http;//www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-
-<div class="container body-content">
-    <h2>Create Request</h2>
-    <div>
-        <form  method="post">
-            <label>Title:
-                <input type="text" th:field="${createRequestFormDTO.title}" />
-            </label>
-
-            <label>Description:
-                <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "7" ></textarea>
-            </label>
-
-            <div>
-<!--                <p>Request Type: <input type="radio" th:field="*{requestType.wants}" /></p>-->
-<!--                <p>Request Type: <input type="radio" th:field="*{requestType.needs}" /></p>-->
-<!--                <p>Request Type: <input type="radio" th:field="*{requestType.problems}" /></p>-->
-            </div>
-
-            <div>
-                <label>Public Event?</label>
-                <label>Yes:
-                    <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"  value="true"/>
-                </label>
-            </div>
-
-            <div>
-                <p> <input type="date" th:field="${createRequestFormDTO.dueDate}"> </p>
-            </div>
-
-            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-        </form>
-
-    </div>
-
-</div>
-<div>
-    <footer th:replace="fragments/siteFragments::footer"></footer>
-</div>
+<head th:replace="fragments/requestFragments::requestHead"></head>
+<body>
+<header th:replace="fragments/siteFragments::header"></header>
+<div th:replace="fragments/requestFragments::displayCreateRequestForm"></div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
 </body>
 </html>

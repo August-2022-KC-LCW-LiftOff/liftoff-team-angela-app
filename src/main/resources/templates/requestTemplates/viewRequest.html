@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="/fragments/siteFragments :: head"></head>
+<header th:replace="/fragments/siteFragments :: header"></header>
+<body>
+
+
+
+<div class="container body-content">
+
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th >Title</th>
+            <th >Description</th>
+            <th >Date</th>
+        </tr>
+        </thead>
+        <tr>
+            <td th:text= "${request.title}"></td>
+            <td th:text= "${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+    <form method="post" th:action="@{/response/create}">
+        <input type="hidden" th:name="requestId" th:value="${request.id}">
+        <input type="submit"  class="btn btn-primary" value="Respond">
+    </form>
+
+</div>
+<footer th:replace="/fragments/siteFragments :: footer"></footer>
+</body>
+
+
+</html>

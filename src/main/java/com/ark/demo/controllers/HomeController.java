@@ -19,6 +19,4 @@ public class HomeController {
         model.addAttribute("user",authenticationController.getUserFromSession(request.getSession()));
         return "index";
     }
-
-
 }

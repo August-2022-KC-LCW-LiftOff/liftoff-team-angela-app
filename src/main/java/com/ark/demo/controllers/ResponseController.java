@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -40,6 +41,8 @@ public class ResponseController {
 
     @Autowired
     AuthenticationController authenticationController;
+    @Autowired
+    RequestRepository requestRepository;
 
 
 
@@ -63,16 +66,21 @@ public class ResponseController {
         if (isNull(user)) {
             return "redirect:../login";
         }
+
         model.addAttribute("title", "Respond to Request");
         model.addAttribute("request", requestRepository.findById(requestId).get());
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
+
+
+
         model.addAttribute(createResponseFormDTO);
+
         return "response/create";
     }
 
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -100,16 +108,10 @@ public class ResponseController {
         responseRepository.save(response);
 //        user.addResponse(newResponse);
         userRepository.save(user);
-
-
-
-
-
-    return "redirect:/response/viewResponse";
-
+    return "redirect:/response/responseConfirmation";
     }
 
-    @GetMapping("viewResponse")
+    @GetMapping("responseConfirmation")
     public String displayResponseConformation(HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 

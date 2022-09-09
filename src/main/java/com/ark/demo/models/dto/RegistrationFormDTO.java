@@ -58,11 +58,15 @@ public class RegistrationFormDTO {
 
     @NotNull
     @NotBlank
-    @Pattern(regexp = "[a-z0-9]+@[a-z]+\\.[a-z]{2,3}",message = "Invalid Email.")
+    @Pattern(regexp = "[a-z0-9\\.]+@[a-z]+\\.[a-z]{2,3}",message = "Invalid Email.")
     private String emailAddress;
 
     @Pattern(regexp = "[0-9]{3}+\\-[0-9]{3}+\\-[0-9]{4}",message = "Invalid phone number. Use format 800-123-4567")
     private String phoneNumber;
+
+    @NotNull(message = "You have not submitted your address.")
+    @NotBlank(message = "You have not submitted your address.")
+    private String location;
 
     public String getUsername() {
         return username;
@@ -158,5 +162,13 @@ public class RegistrationFormDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

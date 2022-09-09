@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="fragments/siteFragments::head"></head>
+<head th:replace="fragments/mapFragments::mapHead"></head>
 <body>
 <header th:replace="fragments/siteFragments :: header"></header>
-
-<div th:replace="fragments/landingPageFragments :: landingPage"></div>
+<div th:replace="fragments/mapFragments::showMap"></div>
+<div th:replace="fragments/mapFragments::showRequestsTable"></div>
 <footer th:replace="fragments/siteFragments :: footer"></footer>
 </body>
-<footer th:replace="fragments/siteFragments :: footer"></footer>
 </html>

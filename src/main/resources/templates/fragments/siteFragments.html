@@ -1,48 +1,56 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:fragment="head">
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title th:text="${title == null ? 'ARK':'ARK::'+title}"></title>
     <link rel="icon" type="image/png" th:href="@{/images/arkheart.png}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
 <body>
 
 
-<header th:fragment="header">
-    <div class="px-3 py-2 bg-dark text-white">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <span class="display-3">ARK</span>
-                </a>
+<!--Site Header-->
 
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg px-3 py-2 bg-dark text-white">
+
+
+        <div class="container">
+            <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <span class="display-3">ARK</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
                         <a href="#" class="nav-link text-secondary">
+
                             Home
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link text-white">
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white">
+                        <a th:href="@{/request/userRequests}" class="nav-link text-white">
                             Requests
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a th:href="@{/response/index}" class="nav-link text-white">
                             Responses
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a th:href="@{/user}" class="nav-link text-white">
                             My Profile
                         </a>
@@ -59,17 +67,77 @@
                 </ul>
             </div>
         </div>
-    </div>
-
+    </nav>
 </header>
 
-<footer th:fragment="footer" class="bg-dark text-white, py-3 my-4 fixed">
+
+<!--<footer th:fragment="footer" class="bg-dark text-white">
+    <div class="container">
+        <div class="row">
+            <ul> nav justify-content-center"
+                <li><a href="#"> class="nav-link px-2 text-muted"About Us</a></li>
+                <li><a href="#"> class="nav-link px-2 text-muted"Safety</a></li>
+            </ul>
+        </div>
+    </div>
+    <p class="text-center text-muted">© 2022 T-Minus</p>
+</footer>-->
+
+<!--<footer th:fragment="footer" class="bg-dark text-white , py-3 my-4 fixed">
+
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    <ul class="nav justify-content-center">
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Safety</a></li>
     </ul>
     <p class="text-center text-muted">© 2022 T-Minus</p>
+</footer>-->
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <p><a href="#" class="text-white" style="text-decoration: none;">About Us</a></p>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <p><a href="#" class="text-white" style="text-decoration: none;">Safety</a></p>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="text-center">
+                    <p>© 2022 T-Minus</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </footer>
+
+<!--Error Page-->
+<div th:fragment="error" class="container text-center">
+    <h1>Page Not Found</h1>
+    <p>This page will automatically redirect to the home page in <span class="seconds">30</span> seconds.</p>
+    <p>- or -</p>
+    <p>Click the button below to go there now.</p>
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+    <script>
+        window.onload=()=>{
+            countDown();
+        };
+        function countDown(){
+            let secondsElement = document.querySelector(".seconds");
+            if(parseFloat(secondsElement.innerHTML) > 0){
+                setTimeout(function(){
+                    secondsElement.innerHTML = parseFloat(secondsElement.innerHTML)-1;
+                    countDown();
+                },1000);
+                return;
+            }
+            window.location.replace("//localhost:8080");
+            return;
+        }
+    </script>
+</div>
 
 </body>
 </html>

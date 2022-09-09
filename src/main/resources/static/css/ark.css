@@ -10,12 +10,71 @@
 }
 
 .fixed{
-    position: fixed;
     bottom: 0;
     width: 100%;
 }
-.fixed{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+#map {
+  height: 100% !important;
+  background: blue;
+  border-radius: 10px;
 }
+#mapFrame{
+    width: 900px;
+    height: 400px;
+    margin: auto;
+    border: 2px ridge white;
+    border-radius: 10px;
+}
+thead{
+    font-weight: bold;
+}
+.hidden{
+    display: none;
+}
+#addressSubmitted{
+    display: block;
+}
+.giveMeSpace > *{
+    margin: 5px;
+}
+
+
+.landingPage{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+}
+
+.landing-page-image{
+    position: absolute;
+    width: 100%;
+    height: auto;
+
+
+}
+
+.landing-page-button{
+    position: absolute;
+
+    bottom: 60px;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.seconds{
+    color: blue;
+}
+

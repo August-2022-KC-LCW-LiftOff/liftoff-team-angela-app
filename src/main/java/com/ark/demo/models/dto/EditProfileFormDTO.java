@@ -12,7 +12,17 @@ public class EditProfileFormDTO {
         return userDetails;
     }
 
+    private String location;
+
     public void setUserDetails(UserDetails userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
