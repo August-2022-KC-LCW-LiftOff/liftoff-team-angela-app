@@ -1,12 +1,13 @@
 package com.ark.demo.models;
 
-import javax.persistence.ManyToMany;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Thread extends AbstractEntity {
 
 
@@ -14,10 +15,10 @@ public class Thread extends AbstractEntity {
     @OneToOne
     private Request request;
 
-    @OneToOne(mappedBy = "userThreads")
+    @ManyToOne
     private User threadUser;
 
-    @OneToMany(mappedBy = "responseThread")
+    @OneToMany(mappedBy = "thread")
     private List<Response> threadResponses = new ArrayList<>();
 
 

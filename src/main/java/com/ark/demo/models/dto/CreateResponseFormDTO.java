@@ -1,5 +1,6 @@
 package com.ark.demo.models.dto;
 
+import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ public class CreateResponseFormDTO {
     private String message;
     private Boolean contactSharing;
 
+    private Thread thread;
 
     public User getUser() {
         return user;
@@ -40,4 +42,11 @@ public class CreateResponseFormDTO {
         this.contactSharing = contactSharing;
     }
 
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
 }

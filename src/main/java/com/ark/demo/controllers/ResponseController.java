@@ -41,8 +41,7 @@ public class ResponseController {
 
     @Autowired
     AuthenticationController authenticationController;
-    @Autowired
-    RequestRepository requestRepository;
+
 
 
 
@@ -96,7 +95,7 @@ public class ResponseController {
 //        removed id
 //        Thread thread = new Thread();
 //        check imports to ensure the model has been added
-        Request threadRequest = requestRepository.findById(requestId).get();
+        Request threadRequest = requestRepository.findById(createResponseFormDTO.getThread().getId()).get();
         Thread thread = new Thread(threadRequest, createResponseFormDTO.getUser());
         threadRequest.addThread(thread);
         createResponseFormDTO.getUser().addUserThread(thread);

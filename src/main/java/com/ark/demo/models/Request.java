@@ -1,8 +1,12 @@
 package com.ark.demo.models;
 
+import com.ark.demo.models.enums.RequestStatus;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Request extends AbstractEntity {

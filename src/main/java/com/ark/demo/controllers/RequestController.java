@@ -1,15 +1,14 @@
 package com.ark.demo.controllers;
 
-import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.User;
+import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ThreadRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
 import com.ark.demo.models.dto.EditRequestFormDTO;
 import com.ark.demo.models.enums.RequestStatus;
-import com.ark.demo.models.enums.USStates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.TreeMap;
 
 import static java.util.Objects.isNull;
 
@@ -43,7 +39,7 @@ public class RequestController {
     @Autowired
     ThreadRepository threadRepository;
 
-    @GetMapping
+
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
         User user = authenticationController.getUserFromSession(request.getSession());
@@ -71,9 +67,9 @@ public class RequestController {
         Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation());
         newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
         newRequest.setUser(user);
-        Request newRequest = new Request(createRequestFormDTO.getTitle(), createRequestFormDTO.getDescription(), user, createRequestFormDTO.getDueDate());
 
-        Thread  newThread =  new Thread();
+
+
 
 
 
@@ -81,9 +77,7 @@ public class RequestController {
             newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
         }
 
-//        its not correct :(
-        newThread.addThreadUser(user);
-        threadRepository.save(user);
+
 
 
 
