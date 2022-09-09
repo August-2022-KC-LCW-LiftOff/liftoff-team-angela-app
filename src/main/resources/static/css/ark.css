@@ -38,6 +38,7 @@ thead{
     margin: 5px;
 }
 
+
 .landingPage{
     position: relative;
     height: 100vh;
@@ -71,4 +72,9 @@ thead{
 
 
 
+
+
+.seconds{
+    color: blue;
+}
 
