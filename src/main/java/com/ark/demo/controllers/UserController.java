@@ -8,6 +8,7 @@ import com.ark.demo.models.dto.DeleteFormDTO;
 import com.ark.demo.models.dto.EditProfileFormDTO;
 import com.ark.demo.models.dto.UpdatePasswordFormDTO;
 import com.ark.demo.models.dto.ViewProfileDTO;
+import com.ark.demo.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -36,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserDetailsRepository userDetailsRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public String displayUserProfile(HttpServletRequest request, Model model){
@@ -66,7 +72,7 @@ public class UserController {
     }
 
     @PostMapping("/editProfile")
-    public String processUpdatePasswordForm(@ModelAttribute @Valid EditProfileFormDTO editProfileFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processUpdatePasswordForm(@ModelAttribute @Valid EditProfileFormDTO editProfileFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
         if(errors.hasErrors()){
             model.addAttribute("title","Edit Profile");
             model.addAttribute(editProfileFormDTO);
@@ -86,6 +92,11 @@ public class UserController {
         userDetails.setState(editProfileFormDTO.getUserDetails().getState());
         userDetails.setZipcode(editProfileFormDTO.getUserDetails().getZipcode());
         userDetails.setPhoneNumber(editProfileFormDTO.getUserDetails().getPhoneNumber());
+        if(!userDetails.getEmailAddress().equals(editProfileFormDTO.getUserDetails().getEmailAddress())){
+            userDetails.setUid(editProfileFormDTO.getUserDetails().getEmailAddress());
+            userDetails.setEmailVerified(false);
+            emailService.sendRegistrationEmail(editProfileFormDTO.getUserDetails().getEmailAddress(), userDetails.getUid());
+        }
         userDetails.setEmailAddress(editProfileFormDTO.getUserDetails().getEmailAddress());
         user.setLocation(editProfileFormDTO.getLocation());
         userRepository.save(user);
@@ -161,4 +172,5 @@ public class UserController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(date);
     }
+
 }

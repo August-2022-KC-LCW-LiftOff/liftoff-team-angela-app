@@ -7,6 +7,7 @@ import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
 import com.ark.demo.models.enums.USStates;
+import com.ark.demo.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -31,6 +34,9 @@ public class AuthenticationController {
 
     @Autowired
     UserDetailsRepository userDetailsRepository;
+
+    @Autowired
+    EmailService emailService;
 
     private static final String userSessionKey = "user";
 
@@ -65,7 +71,7 @@ public class AuthenticationController {
         return "userTemplates/register";
     }
     @PostMapping("/register")
-    public String processRegistrationForm(@ModelAttribute @Valid RegistrationFormDTO registrationFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processRegistrationForm(@ModelAttribute @Valid RegistrationFormDTO registrationFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
         if(errors.hasErrors()){
             model.addAttribute("title","Register");
             model.addAttribute(registrationFormDTO);
@@ -95,9 +101,12 @@ public class AuthenticationController {
         User newUser = new User(registrationFormDTO.getUsername(),registrationFormDTO.getPassword(), registrationFormDTO.getLocation());
         UserDetails newUserDetails = new UserDetails(registrationFormDTO.getFirstName(),registrationFormDTO.getLastName(),registrationFormDTO.getAddressLine1(),registrationFormDTO.getAddressLine2(), registrationFormDTO.getCity(),registrationFormDTO.getState(),registrationFormDTO.getZipcode(), registrationFormDTO.getEmailAddress(),registrationFormDTO.getPhoneNumber());
         newUser.setUserDetails(newUserDetails);
+        newUserDetails.setUid(registrationFormDTO.getEmailAddress());
+        newUserDetails.setEmailVerified(false);
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
+        emailService.sendRegistrationEmail(newUserDetails.getEmailAddress(), newUserDetails.getUid());
         return "redirect:";
     }
     @GetMapping("/login")
