@@ -1,33 +1,29 @@
 package com.ark.demo.models;
 
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Thread extends AbstractEntity {
+@Entity
+public class Thread extends AbstractEntity{
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "request_id")
     private Request request;
 
-    @OneToOne(mappedBy = "userThreads")
-    private User threadUser;
-
-    @OneToMany(mappedBy = "responseThread")
-    private List<Response> threadResponses = new ArrayList<>();
-
+    @OneToMany(mappedBy = "thread")
+   private List<Response> responses = new ArrayList<>();
 
     public Thread() {
     }
 
-
-    public Thread(Request request, User threadUser) {
+    public Thread(User user, Request request) {
+        this.user = user;
         this.request = request;
-        this.threadUser = threadUser;
     }
 
     public Request getRequest() {
@@ -38,19 +34,20 @@ public class Thread extends AbstractEntity {
         this.request = request;
     }
 
-    public User getThreadUser() {
-        return threadUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setThreadUser(User threadUser) {
-        this.threadUser = threadUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public List<Response> getThreadResponses() {
-        return threadResponses;
+
+    public List<Response> getResponses() {
+        return responses;
     }
 
-    public void addThreadResponse(Response response){
-        this.threadResponses.add(response);
+    public void addResponse(Response response){
+        responses.add(response);
     }
 }
