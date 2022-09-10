@@ -1,28 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http;//www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments/requestFragments::requestHead"></head>
 <head th:replace="fragments/siteFragments::head"></head>
+<header th:replace="fragments/siteFragments::header"></header>
 
-
-<body>
-    <h2>User Requests</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Date</th>
-        </tr>
-        </thead>
-        <tr th:each="request : ${requests}">
-            <td th:text="${request.title}"></td>
-            <td th:text="${request.description}"></td>
-            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
-        </tr>
-    </table>
-
-
-    <div>
-        <footer th:replace="fragments/siteFragments::footer"></footer>
-    </div>
+<div th:replace="fragments/requestFragments::allUserRequests"></div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
 </body>
+
 </html>
