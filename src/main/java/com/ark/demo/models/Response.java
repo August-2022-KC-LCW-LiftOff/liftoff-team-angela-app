@@ -19,10 +19,21 @@ public class Response extends AbstractEntity {
     @NotNull
     private String message;
 
+    @ManyToOne
+    @JoinColumn(name = "thread_id")
+    private Thread thread;
+
     private Boolean contactSharing;
 
-    @ManyToOne
-    public Thread responseThread;
+    private Date responseDate;
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
 
 
     public Response() {
