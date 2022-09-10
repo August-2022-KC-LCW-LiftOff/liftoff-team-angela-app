@@ -33,7 +33,8 @@ public class User extends AbstractEntity{
     @ManyToOne(mappedBy = "threadUsers")
     private List<Thread> userThreads;
 
-    public User(String username, String password){
+    public User(String username, String password){}
+
     public User(String username, String password, String location){
         this.username = username;
         this.pwHash = encoder.encode(password);
