@@ -1,23 +1,19 @@
 package com.ark.demo.controllers;
 
-import com.ark.demo.data.RequestRepository;
+import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.User;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
+import com.ark.demo.models.enums.RequestType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -27,11 +23,12 @@ public class RequestController {
     @Autowired
     AuthenticationController authenticationController;
 
-   @Autowired
-   RequestRepository requestRepository;
+    @Autowired
+    RequestRepository requestRepository;
 
     @Autowired
     UserRepository userRepository;
+
 
     @GetMapping
     public String requestForm(Model model, HttpServletRequest request) {
@@ -42,11 +39,12 @@ public class RequestController {
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
+        model.addAttribute("types", RequestType.values());
+
         return "requestTemplates/createRequest";
     }
 
-//    @PostMapping("confirmation")
-    @PostMapping()
+    @PostMapping
     public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) {
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Request");
@@ -58,7 +56,7 @@ public class RequestController {
             return "redirect:../login";
         }
 
-        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation());
+        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation(), createRequestFormDTO.getType(),createRequestFormDTO.getLevel());
         newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
         newRequest.setUser(user);
         requestRepository.save(newRequest);
@@ -78,7 +76,6 @@ public class RequestController {
         model.addAttribute("title", "Request Confirmation");
         model.addAttribute("requests", requestRepository.findByUserId(user.getId()));
         return "requestTemplates/requestConfirmation";
-//        needs folder orientation
     }
 
     @GetMapping("requestConfirmation")
@@ -91,7 +88,6 @@ public class RequestController {
         model.addAttribute("title", "Request Confirmation");
         model.addAttribute("request", requestRepository.findLastRequestByUserId(user.getId()));
         return "requestTemplates/requestConfirmation";
-//        needs folder orientation
     }
 
     @GetMapping("viewRequest/{requestId}")
