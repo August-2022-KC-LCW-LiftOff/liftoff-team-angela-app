@@ -1,8 +1,15 @@
 package com.ark.demo.models;
 
+import com.ark.demo.models.enums.PriorityLevel;
+import com.ark.demo.models.enums.RequestType;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Request extends AbstractEntity {
@@ -17,21 +24,24 @@ public class Request extends AbstractEntity {
     private String city;
     private String state;
     private String zipcode;
-//    public enum requestType {wants, needs, problems};
 
-//    public enum priority {low, medium, high};
+
     private Date dateRequested;
     private Date dueDate;
     private Boolean publicEvent;
+    private RequestType type;
+    private PriorityLevel level;
 
     @ManyToOne
     private User user;
 
+    @OneToMany(mappedBy = "request")
+    private List<Thread> threads = new ArrayList<>();
 
     public Request() {
     }
 
-    public Request(String title, String description, String addressLine1, String addressLine2, String city, String state, String zipcode, Date dueDate, Boolean publicEvent, String location) {
+    public Request(String title, String description, String addressLine1, String addressLine2, String city, String state, String zipcode, Date dueDate, Boolean publicEvent, String location, RequestType type, PriorityLevel level) {
         this.title = title;
         this.description = description;
         this.addressLine1 = addressLine1;
@@ -43,7 +53,11 @@ public class Request extends AbstractEntity {
         this.publicEvent = publicEvent;
         this.dateRequested = new Date();
         this.location = location;
+        this.type = type;
+        this.level = level;
+
     }
+
 
     public String getTitle() {
         return title;
@@ -135,5 +149,29 @@ public class Request extends AbstractEntity {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public List<Thread> getThreads() {
+        return threads;
+    }
+
+    public void addThread(Thread thread){
+        threads.add(thread);
+    }
+
+    public RequestType getType() {
+        return type;
+    }
+
+    public void setType(RequestType type) {
+        this.type = type;
+    }
+
+    public PriorityLevel getLevel() {
+        return level;
+    }
+
+    public void setLevel(PriorityLevel level) {
+        this.level = level;
     }
 }
