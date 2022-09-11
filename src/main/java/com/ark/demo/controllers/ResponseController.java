@@ -90,7 +90,7 @@ public class ResponseController {
         requestRepository.save(incomingRequest);
         User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
 
-        threadUser.addThread(newThread);
+        threadUser.addUserThread(newThread);
         userRepository.save(threadUser);
         response.setThread(newThread);
         responseRepository.save(response);
