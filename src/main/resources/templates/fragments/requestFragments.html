@@ -63,28 +63,28 @@
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.description}"></p>
             </div>
-            <div class="form-group">
-                <label>Request Type:
-                    <select th:field="${request.type}">
-                        <option th:each="type : ${types}"
-                                th:value="${type}"
-                                th:text="${type.displayName}"
-                        ></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
-            </div>
-            <div class="form-group">
-                <label>Priority Level:
-                    <select th:field="${request.level}">
-                        <option th:each="level : ${levels}"
-                                th:value="${level}"
-                                th:text="${level.displayName}"
-                        ></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label>Request Type:-->
+<!--                    <select th:field="${request.type}">-->
+<!--                        <option th:each="type : ${types}"-->
+<!--                                th:value="${type}"-->
+<!--                                th:text="${type.displayName}"-->
+<!--                        ></option>-->
+<!--                    </select>-->
+<!--                </label>-->
+<!--                <p class="errors" th:errors="${createRequestFormDTO.type}"></p>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label>Priority Level:-->
+<!--                    <select th:field="${request.level}">-->
+<!--                        <option th:each="level : ${levels}"-->
+<!--                                th:value="${level}"-->
+<!--                                th:text="${level.displayName}"-->
+<!--                        ></option>-->
+<!--                    </select>-->
+<!--                </label>-->
+<!--                <p class="errors" th:errors="${createRequestFormDTO.level}"></p>-->
+<!--            </div>-->
             <div class="form-group">
                 <label>Public Event?
                     <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"  value="true"/>
