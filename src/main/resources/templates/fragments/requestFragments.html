@@ -72,7 +72,18 @@
                         ></option>
                     </select>
                 </label>
-                <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
+                <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
+            </div>
+            <div class="form-group">
+                <label>Priority Level:
+                    <select th:field="${request.level}">
+                        <option th:each="level : ${levels}"
+                                th:value="${level}"
+                                th:text="${level.displayName}"
+                        ></option>
+                    </select>
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
             </div>
             <div class="form-group">
                 <label>Public Event?
