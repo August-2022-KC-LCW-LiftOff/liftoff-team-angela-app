@@ -1,6 +1,6 @@
 package com.ark.demo.controllers;
 
-import com.ark.demo.data.RequestRepository;
+import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.Location;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.User;

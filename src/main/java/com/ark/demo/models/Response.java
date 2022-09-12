@@ -2,7 +2,9 @@ package com.ark.demo.models;
 
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -13,12 +15,17 @@ public class Response extends AbstractEntity {
 
     @ManyToOne
     private User user;
-//    private Request userRequest;
-// getter and setter, add to constructor
+
+
     @NotNull
     private String message;
 
     private Boolean contactSharing;
+
+    @ManyToOne
+    @JoinColumn(name = "threadResponse")
+    private Thread thread;
+
 
     public Response() {
 
@@ -58,5 +65,11 @@ public class Response extends AbstractEntity {
         this.contactSharing = contactSharing;
     }
 
+    public Thread getThread() {
+        return thread;
+    }
 
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
 }
