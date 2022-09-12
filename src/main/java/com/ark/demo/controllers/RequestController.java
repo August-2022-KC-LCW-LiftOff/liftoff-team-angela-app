@@ -9,12 +9,15 @@ import com.ark.demo.models.dto.CreateRequestFormDTO;
 import com.ark.demo.models.dto.EditRequestFormDTO;
 import com.ark.demo.models.enums.RequestStatus;
 import com.ark.demo.models.enums.USStates;
+import com.ark.demo.services.EmailService;
+import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -40,6 +43,9 @@ public class RequestController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    EmailService emailService;
+
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
         User user = authenticationController.getUserFromSession(request.getSession());
@@ -54,7 +60,7 @@ public class RequestController {
 
 //    @PostMapping("confirmation")
     @PostMapping()
-    public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) {
+    public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
             return "redirect:/login";
@@ -71,6 +77,18 @@ public class RequestController {
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
+        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+                newRequest.getTitle(),
+                newRequest.getPublicEvent(),
+                newRequest.getStatus(),
+                newRequest.getDueDate(),
+                newRequest.getAddressLine1(),
+                newRequest.getAddressLine2(),
+                newRequest.getCity(),
+                newRequest.getState(),
+                newRequest.getZipcode(),
+                newRequest.getDescription());
+        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"New Request Created");
         return "redirect:request/requestConfirmation";
     }
 
@@ -114,7 +132,7 @@ public class RequestController {
         return "requestTemplates/editRequest";
     }
     @PostMapping("edit/process")
-    public String processEditRequestForm(@ModelAttribute @Valid EditRequestFormDTO editRequestFormDTO, @ModelAttribute CloseRequestFormDTO closeRequestFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processEditRequestForm(@ModelAttribute @Valid EditRequestFormDTO editRequestFormDTO, @ModelAttribute CloseRequestFormDTO closeRequestFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
         if(isNull(user)){
             return "redirect:../../login";
@@ -132,6 +150,18 @@ public class RequestController {
             model.addAttribute("request",editRequest);
             return "requestTemplates/showGratitude";
         }
+        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+                editRequest.getTitle(),
+                editRequest.getPublicEvent(),
+                editRequest.getStatus(),
+                editRequest.getDueDate(),
+                editRequest.getAddressLine1(),
+                editRequest.getAddressLine2(),
+                editRequest.getCity(),
+                editRequest.getState(),
+                editRequest.getZipcode(),
+                editRequest.getDescription());
+        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"Request Updated");
         return "redirect:/request/userRequests";
     }
     @GetMapping("requestConfirmation")
