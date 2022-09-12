@@ -16,7 +16,9 @@ public class Thread extends AbstractEntity {
     private Request request;
 
     @ManyToOne
-    private User threadUser;
+    private User user;
+
+
 
     @OneToMany(mappedBy = "thread")
     private List<Response> threadResponses = new ArrayList<>();
@@ -26,9 +28,9 @@ public class Thread extends AbstractEntity {
     }
 
 
-    public Thread(Request request, User threadUser) {
+    public Thread(Request request, User user) {
         this.request = request;
-        this.threadUser = threadUser;
+        this.user = user;
     }
 
     public Request getRequest() {
@@ -39,12 +41,12 @@ public class Thread extends AbstractEntity {
         this.request = request;
     }
 
-    public User getThreadUser() {
-        return threadUser;
+    public User getUser(User user) {
+        return user;
     }
 
-    public void setThreadUser(User threadUser) {
-        this.threadUser = threadUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Response> getThreadResponses() {
@@ -54,4 +56,6 @@ public class Thread extends AbstractEntity {
     public void addThreadResponse(Response response){
         this.threadResponses.add(response);
     }
+
+
 }
