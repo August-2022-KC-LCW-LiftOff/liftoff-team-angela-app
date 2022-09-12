@@ -4,7 +4,9 @@ import com.ark.demo.models.enums.RequestStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Request extends AbstractEntity {
@@ -25,6 +27,13 @@ public class Request extends AbstractEntity {
     private Date dateRequested;
     private Date dueDate;
     private Boolean publicEvent;
+
+    //    public enum requestType {wants, needs, problems};
+
+//    public enum priority {low, medium, high};
+
+    @OneToMany(mappedBy = "request")
+    public List<Thread> responseThreads;
 
     private RequestStatus status;
     @ManyToOne
@@ -48,6 +57,7 @@ public class Request extends AbstractEntity {
         this.location = location;
         this.status = RequestStatus.ACTIVE;
     }
+
 
     public String getTitle() {
         return title;
@@ -149,4 +159,12 @@ public class Request extends AbstractEntity {
         this.status = status;
     }
 
+
+    public List<Thread> getResponseThreads() {
+        return responseThreads;
+    }
+
+    public void  addThread(Thread thread){
+        responseThreads.add(thread);
+    }
 }

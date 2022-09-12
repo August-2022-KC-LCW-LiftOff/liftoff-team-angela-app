@@ -25,7 +25,7 @@
         </tr>
     </table>
     <form method="post" th:action="@{/response/create}">
-        <input type="hidden" th:name="requestId" th:value="${request.id}">
+        <input type="hidden" th:field="${request.id}" name="maryPoppins">
         <input type="submit"  class="btn btn-primary" value="Respond">
     </form>
 

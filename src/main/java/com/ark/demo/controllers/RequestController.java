@@ -1,8 +1,9 @@
 package com.ark.demo.controllers;
 
-import com.ark.demo.data.RequestRepository;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.User;
+import com.ark.demo.models.data.RequestRepository;
+import com.ark.demo.models.data.ThreadRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
@@ -21,13 +22,10 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.TreeMap;
 
 import static java.util.Objects.isNull;
 
@@ -46,6 +44,10 @@ public class RequestController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    ThreadRepository threadRepository;
+
+
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
         User user = authenticationController.getUserFromSession(request.getSession());
@@ -58,7 +60,6 @@ public class RequestController {
         return "requestTemplates/createRequest";
     }
 
-//    @PostMapping("confirmation")
     @PostMapping()
     public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
