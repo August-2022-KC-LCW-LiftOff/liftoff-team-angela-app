@@ -59,15 +59,16 @@ public class ResponseController {
         return "response/index";
     }
 
-    @GetMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request, Model model, @PathParam("requestId") Integer requestId ) {
+    @PostMapping("create")
+    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
 
         model.addAttribute("title", "Respond to Request");
-        model.addAttribute("request", requestRepository.findById(requestId).get());
+        Request requestDetails = requestRepository.findById(id).get();
+        model.addAttribute("request", requestDetails);
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
 
@@ -78,7 +79,7 @@ public class ResponseController {
         return "response/create";
     }
 
-    @PostMapping("create")
+    @PostMapping("submit")
     public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
@@ -97,15 +98,16 @@ public class ResponseController {
 //        check imports to ensure the model has been added
         Request threadRequest = requestRepository.findById(createResponseFormDTO.getThread().getId()).get();
         Thread thread = new Thread(threadRequest, createResponseFormDTO.getUser());
+
         threadRequest.addThread(thread);
         createResponseFormDTO.getUser().addUserThread(thread);
 
 
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
         thread.addThreadResponse(response);
-
+        threadRepository.save(thread);
         responseRepository.save(response);
-//        user.addResponse(newResponse);
+
         userRepository.save(user);
     return "redirect:/response/responseConfirmation";
     }

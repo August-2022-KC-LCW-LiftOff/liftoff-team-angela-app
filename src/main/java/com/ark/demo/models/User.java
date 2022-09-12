@@ -95,4 +95,6 @@ public class User extends AbstractEntity{
     public void setLocation(String location) {
         this.location = location;
     }
+
+
 }
