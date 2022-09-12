@@ -10,6 +10,8 @@ import java.util.Date;
 
 @Entity
 public class Response extends AbstractEntity {
+    private Date responseDate;
+
 
     @ManyToOne
     private User user;
@@ -18,26 +20,13 @@ public class Response extends AbstractEntity {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "thread_id")
+    @JoinColumn(name = "threadResponse")
     private Thread thread;
-
-    private Boolean contactSharing;
-
-    private Date responseDate;
-
-    public Thread getThread() {
-        return thread;
-    }
-
-    public void setThread(Thread thread) {
-        this.thread = thread;
-    }
 
 
     public Response() {
 
     }
-
     public Response(User user, String message, Boolean contactSharing) {
         this.responseDate = new Date();
         this.user = user;
@@ -73,4 +62,11 @@ public class Response extends AbstractEntity {
         this.contactSharing = contactSharing;
     }
 
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
 }

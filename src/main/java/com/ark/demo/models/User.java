@@ -30,15 +30,15 @@ public class User extends AbstractEntity{
     private String location;
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "threadUser")
     private List<Thread> userThreads;
 
-    public User(String username, String password){}
 
     public User(String username, String password, String location){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.dateCreated = new Date();
+        this.location = location;
     }
 
     public User(){
@@ -76,6 +76,13 @@ public class User extends AbstractEntity{
         this.requests.add(request);
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public void setRequests(List<Request> requests) {
         this.requests = requests;
     }
@@ -95,4 +102,10 @@ public class User extends AbstractEntity{
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
 }

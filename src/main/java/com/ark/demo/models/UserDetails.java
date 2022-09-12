@@ -1,8 +1,12 @@
 package com.ark.demo.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import static java.util.Objects.isNull;
 
 @Entity
 public class UserDetails  extends AbstractEntity{
@@ -24,6 +28,12 @@ public class UserDetails  extends AbstractEntity{
     @NotNull
     private String phoneNumber;
 
+    private Boolean emailVerified;
+
+    private String uid;
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @OneToOne(mappedBy = "userDetails")
     private User user;
 
@@ -37,11 +47,16 @@ public class UserDetails  extends AbstractEntity{
         this.zipcode = zipcode;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
+        this.emailVerified = false;
+        this.uid = encoder.encode("ARK"+this.getEmailAddress());
     }
 
     public UserDetails() {
     }
 
+    public boolean isMatchingUid(String uid){
+        return encoder.matches(uid,this.uid);
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -114,4 +129,23 @@ public class UserDetails  extends AbstractEntity{
         this.phoneNumber = phoneNumber;
     }
 
+    public Boolean getEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(Boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String emailAddress) {
+        if(isNull(emailAddress)){
+            this.uid = null;
+        } else {
+            this.uid = encoder.encode("ARK"+emailAddress);
+        }
+    }
 }

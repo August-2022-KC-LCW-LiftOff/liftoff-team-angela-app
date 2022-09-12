@@ -3,6 +3,8 @@ package com.ark.demo.models;
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestType;
 
+import com.ark.demo.models.enums.RequestStatus;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -32,6 +34,7 @@ public class Request extends AbstractEntity {
     private RequestType type;
     private PriorityLevel level;
 
+    private RequestStatus status;
     @ManyToOne
     private User user;
 
@@ -56,6 +59,7 @@ public class Request extends AbstractEntity {
         this.type = type;
         this.level = level;
 
+        this.status = RequestStatus.ACTIVE;
     }
 
 
@@ -153,6 +157,18 @@ public class Request extends AbstractEntity {
 
     public List<Thread> getThreads() {
         return threads;
+
+    public RequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
+    }
+
+
+    public List<Thread> getResponseThreads() {
+        return responseThreads;
     }
 
     public void addThread(Thread thread){

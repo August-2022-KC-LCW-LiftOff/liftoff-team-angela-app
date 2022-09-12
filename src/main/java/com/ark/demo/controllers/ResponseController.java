@@ -2,8 +2,8 @@ package com.ark.demo.controllers;
 
 import com.ark.demo.models.Request;
 import com.ark.demo.models.Response;
-import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
+import com.ark.demo.models.Thread;
 import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ResponseRepository;
 import com.ark.demo.models.data.ThreadRepository;
@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -53,14 +56,16 @@ public class ResponseController {
         return "response/index";
     }
 
-    @GetMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request, Model model, @PathParam("requestId") Integer requestId ) {
+    @PostMapping("create")
+    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
+
         model.addAttribute("title", "Respond to Request");
-        model.addAttribute("request", requestRepository.findById(requestId));
+        Request requestDetails = requestRepository.findById(id).get();
+        model.addAttribute("request", requestDetails);
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
         model.addAttribute(createResponseFormDTO);
@@ -94,10 +99,12 @@ public class ResponseController {
         userRepository.save(threadUser);
         response.setThread(newThread);
         responseRepository.save(response);
-    return "redirect:/response/viewResponse";
+
+        userRepository.save(user);
+    return "redirect:/response/responseConfirmation";
     }
 
-    @GetMapping("viewResponse")
+    @GetMapping("responseConfirmation")
     public String displayResponseConformation(HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
@@ -106,7 +113,8 @@ public class ResponseController {
         }
 
         return "response/responseConfirmation";
-
     }
+
+
 
 }

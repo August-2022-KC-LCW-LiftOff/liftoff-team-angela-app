@@ -1,8 +1,5 @@
 package com.ark.demo.models.dto;
 
-import com.ark.demo.models.Location;
-import com.ark.demo.models.enums.PriorityLevel;
-import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.enums.RequestStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,7 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class CreateRequestFormDTO {
+public class EditRequestFormDTO {
+    private Integer id;
     private RequestStatus status;
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 50, message = "Title must be between 3 and 50 characters")
@@ -30,10 +28,13 @@ public class CreateRequestFormDTO {
 
     private Boolean publicEvent;
 
-    private RequestType type;
-    private PriorityLevel level;
+    public Integer getId() {
+        return id;
+    }
 
-
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -55,6 +56,9 @@ public class CreateRequestFormDTO {
         return dateRequested;
     }
 
+    public void setDateRequested(Date dateRequested) {
+        this.dateRequested = dateRequested;
+    }
 
     public Date getDueDate() {
         return dueDate;
@@ -126,21 +130,5 @@ public class CreateRequestFormDTO {
 
     public void setStatus(RequestStatus status) {
         this.status = status;
-    }
-
-    public RequestType getType() {
-        return type;
-    }
-
-    public void setType(RequestType type) {
-        this.type = type;
-    }
-
-    public PriorityLevel getLevel() {
-        return level;
-    }
-
-    public void setLevel(PriorityLevel level) {
-        this.level = level;
     }
 }

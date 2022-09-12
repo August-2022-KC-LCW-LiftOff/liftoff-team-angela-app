@@ -1,13 +1,13 @@
 package com.ark.demo.models.data;
 
 import com.ark.demo.models.Request;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,9 +20,9 @@ public interface RequestRepository extends CrudRepository<Request, Integer> {
    Request findLastRequestByUserId(Integer userId);
 
    @Transactional
-   @Query(value = "SELECT * FROM request WHERE public_event = true ORDER BY due_date ASC",nativeQuery = true)
-   List<Request> findAllPublicEvents();
+   @Query(value = "SELECT * FROM request WHERE public_event = true AND status = 0 ORDER BY due_date ASC",nativeQuery = true)
+   List<Request> findAllActivePublicEvents();
 
-
+   Optional<Request> findById(Integer requestId);
 
 }
