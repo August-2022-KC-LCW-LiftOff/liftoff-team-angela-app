@@ -57,22 +57,6 @@ public class ResponseController {
     }
 
     @PostMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if (isNull(user)) {
-            return "redirect:../login";
-        }
-
-        model.addAttribute("title", "Respond to Request");
-        Request requestDetails = requestRepository.findById(id).get();
-        model.addAttribute("request", requestDetails);
-        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
-        createResponseFormDTO.setUser(user);
-        model.addAttribute(createResponseFormDTO);
-        return "response/create";
-    }
-
-    @PostMapping("create")
     public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");

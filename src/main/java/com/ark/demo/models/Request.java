@@ -157,18 +157,13 @@ public class Request extends AbstractEntity {
 
     public List<Thread> getThreads() {
         return threads;
-
+    }
     public RequestStatus getStatus() {
         return status;
     }
 
     public void setStatus(RequestStatus status) {
         this.status = status;
-    }
-
-
-    public List<Thread> getResponseThreads() {
-        return responseThreads;
     }
 
     public void addThread(Thread thread){
