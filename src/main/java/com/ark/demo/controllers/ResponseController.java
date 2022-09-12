@@ -1,10 +1,12 @@
 package com.ark.demo.controllers;
 
-import com.ark.demo.data.RequestRepository;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.Response;
 import com.ark.demo.models.User;
+import com.ark.demo.models.Thread;
+import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ResponseRepository;
+import com.ark.demo.models.data.ThreadRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CreateResponseFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,10 +31,16 @@ public class ResponseController {
     private ResponseRepository responseRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    AuthenticationController authenticationController;
+
     @Autowired
     RequestRepository requestRepository;
+
+    @Autowired
+    ThreadRepository threadRepository;
+
+    @Autowired
+    AuthenticationController authenticationController;
+
 
 
     @GetMapping("index")
@@ -47,27 +56,8 @@ public class ResponseController {
         return "response/index";
     }
 
-    @GetMapping("create")
-    public String displayCreateResponseForm( HttpServletRequest request, Model model) {
-
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if (isNull(user)) {
-            return "redirect:../login";
-        }
-
-        model.addAttribute("title", "Respond to Request");
-        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
-        createResponseFormDTO.setUser(user);
-
-
-
-        model.addAttribute(createResponseFormDTO);
-
-        return "response/create";
-    }
-
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -78,8 +68,22 @@ public class ResponseController {
             return "redirect:../login";
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
+
+        Request incomingRequest = requestRepository.findById(requestId).get();
+        Thread newThread = new Thread(user, incomingRequest);
+
+        newThread.addResponse(response);
+
+        threadRepository.save(newThread);
+        incomingRequest.addThread(newThread);
+        requestRepository.save(incomingRequest);
+        User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
+
+        threadUser.addUserThread(newThread);
+        userRepository.save(threadUser);
+        response.setThread(newThread);
         responseRepository.save(response);
-//        user.addResponse(newResponse);
+
         userRepository.save(user);
     return "redirect:/response/responseConfirmation";
     }
@@ -93,7 +97,8 @@ public class ResponseController {
         }
 
         return "response/responseConfirmation";
-
     }
+
+
 
 }

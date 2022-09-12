@@ -28,8 +28,11 @@ public class User extends AbstractEntity{
     private List<Request> requests;
 
     private String location;
-
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    @OneToMany(mappedBy = "user")
+    private List<Thread> userThreads;
+
 
     public User(String username, String password, String location){
         this.username = username;
@@ -80,4 +83,18 @@ public class User extends AbstractEntity{
     public void setLocation(String location) {
         this.location = location;
     }
+    public void setRequests(List<Request> requests) {
+        this.requests = requests;
+    }
+
+    public List<Thread> getUserThreads() {
+        return userThreads;
+    }
+
+    public void addUserThread(Thread thread) {
+        this.userThreads.add(thread);
+    }
+
+
+
 }
