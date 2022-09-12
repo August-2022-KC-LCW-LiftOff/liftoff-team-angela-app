@@ -21,6 +21,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-crypto'
 	implementation 'com.google.guava:guava:31.1-jre'
 	implementation 'org.passay:passay:1.6.1'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
