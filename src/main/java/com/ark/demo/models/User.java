@@ -31,7 +31,7 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @OneToMany(mappedBy = "threadUser")
+    @OneToMany(mappedBy = "user")
     private List<Thread> userThreads;
 
 
