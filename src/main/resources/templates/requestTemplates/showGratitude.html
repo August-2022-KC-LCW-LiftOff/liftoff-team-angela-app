@@ -7,14 +7,14 @@
 <h3 th:text="${request.title}"></h3>
 <form th:action="@{/users/save}" th:object="${user}" method="post">
     <p>
-        <label>Recipients:
+        <!--<label>Recipients:
             <input type="checkbox" name="recipients"
                    th:each="recipient : ${request.thread}"
                    th:text="${thread.user}"
                    th:value="${threadUser.name}"
                    th:field="*{recipients}"
             />
-        </label>
+        </label>-->
 
     <div class="gratitudeSelector">
         <input type="radio" checked="checked" name="thankyou" id="thankyou1" value="thankyou1"/>
