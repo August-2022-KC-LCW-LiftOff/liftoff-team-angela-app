@@ -8,9 +8,12 @@
 
 
 <div class="container" style="margin: 75px">
-//request title
-    //request description
-<form method="post" style="margin-top: 15px">
+
+    <h2 th:text="${request.title}"></h2>
+    <p th:text="${request.description}"></p>
+
+
+<form th:action="@{/response/viewResponse}" method="post" style="margin-top: 15px">
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
     <input type="hidden" th:field="${request.id}" value="${request.id}">
 
