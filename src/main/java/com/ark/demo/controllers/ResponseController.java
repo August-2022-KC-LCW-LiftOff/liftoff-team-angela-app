@@ -53,34 +53,86 @@ public class ResponseController {
         return "response/index";
     }
 
-    @GetMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request, Model model, @PathParam("requestId") Integer requestId ) {
+    @PostMapping("create")
+    public String displayCreateResponseForm(HttpServletRequest request, Model model, @RequestParam("requestId") Integer requestId ) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
         model.addAttribute("title", "Respond to Request");
-        model.addAttribute("request", requestRepository.findById(requestId));
+        model.addAttribute("request", requestRepository.findById(requestId).get());
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
         model.addAttribute(createResponseFormDTO);
         return "response/create";
     }
 
-    @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
+//    @PostMapping("submit")
+//    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer id){
+//        if (errors.hasErrors()){
+//            model.addAttribute("title", "Respond to Request");
+//            model.addAttribute(createResponseFormDTO);
+//            return "response/create";
+//        }
+//        User user = authenticationController.getUserFromSession(request.getSession());
+//        if (isNull(user)) {
+//            return "redirect:../login";
+//        }
+//        Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
+//
+//        Request incomingRequest = requestRepository.findById(id).get();
+//        Thread newThread = new Thread(user, incomingRequest);
+//
+//        newThread.addResponse(response);
+//
+//        threadRepository.save(newThread);
+//        incomingRequest.addThread(newThread);
+//        requestRepository.save(incomingRequest);
+//        User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
+//
+//        threadUser.addUserThread(newThread);
+//        userRepository.save(threadUser);
+//        response.setThread(newThread);
+//        responseRepository.save(response);
+//    return "redirect:/response/viewResponse";
+//    }
+
+
+    @PostMapping("threadResponse")
+    public String displayThreadResponseForm(HttpServletRequest request, Model model, @RequestParam Integer id){
+        User user = authenticationController.getUserFromSession(request.getSession());
+
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
+
+        model.addAttribute("title", "Respond to Request");
+        model.addAttribute("thread", threadRepository.findById(id).get());
+        model.addAttribute(new CreateResponseFormDTO());
+
+        return "response/threadResponse";
+    }
+
+    @PostMapping("threadResponse/submit")
+    public String processThreadResponseForm(){
+        return "response/threadResponse";
+    }
+
+
+    @PostMapping("viewResponse")
+    public String displayResponseConformation(@ModelAttribute CreateResponseFormDTO createResponseFormDTO, HttpServletRequest request, Model model, Errors errors, @RequestParam Integer id) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
             return "response/create";
         }
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if (isNull(user)) {
-            return "redirect:../login";
-        }
-        Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
 
-        Request incomingRequest = requestRepository.findById(requestId).get();
+        Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
+        Request incomingRequest = requestRepository.findById(id).get();
         Thread newThread = new Thread(user, incomingRequest);
 
         newThread.addResponse(response);
@@ -94,17 +146,7 @@ public class ResponseController {
         userRepository.save(threadUser);
         response.setThread(newThread);
         responseRepository.save(response);
-    return "redirect:/response/viewResponse";
-    }
-
-    @GetMapping("viewResponse")
-    public String displayResponseConformation(HttpServletRequest request, Model model) {
-        User user = authenticationController.getUserFromSession(request.getSession());
-
-        if (isNull(user)) {
-            return "redirect:../login";
-        }
-
+        model.addAttribute("threadId", newThread.getId());
         return "response/responseConfirmation";
 
     }
