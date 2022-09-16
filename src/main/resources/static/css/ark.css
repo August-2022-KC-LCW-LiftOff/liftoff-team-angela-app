@@ -64,17 +64,51 @@ thead{
 
 }
 
-
-
-
-
-
-
-
-
-
-
 .seconds{
     color: blue;
 }
+
+/*gratitude images  css*/
+
+
+.gratitudeSelector input {
+    margin: 50px;
+    padding:0px;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
+.thankYouCard, .gratitudeSelector input:active + .thankYouCard{opacity: .9;}
+.thankYouCard, .gratitudeSelector input:checked + .thankYouCard{
+    filter: grayscale(0);
+    -webkit-filter:none;
+         -moz-filter:none;
+              filter:none;
+}
+
+.thankYouCard{
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:inline-block;
+    height: 192px;
+    width: 288px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+
+    -webkit-filter: brightness(1) grayscale(0) opacity(.7);
+       -moz-filter: brightness(1) grayscale(0) opacity(.7);
+            filter: brightness(1) grayscale(0) opacity(.7);
+}
+
+.thankYouCard:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
+
+
 
