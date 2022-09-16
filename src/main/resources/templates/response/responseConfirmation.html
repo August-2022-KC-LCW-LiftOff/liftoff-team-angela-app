@@ -11,6 +11,10 @@
 </div>
 
 
+    <form method="post" th:action="@{response/index}">
+        <input type="submit">View all messages>
+        <input type="hidden" th:field="${threadId}">
+    </form>
 
 <a th:href="${'\response\index'}">View all messages</a>
 </div>
