@@ -39,7 +39,8 @@ public class RequestController {
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
-        model.addAttribute("types", RequestType.values());
+        model.addAttribute("types", authenticationController.createTypesMap());
+        model.addAttribute("levels", authenticationController.createLevelsMap());
 
         return "requestTemplates/createRequest";
     }
