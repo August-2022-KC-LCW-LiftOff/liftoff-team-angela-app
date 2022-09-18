@@ -4,17 +4,33 @@
 <body>
 <header th:replace="fragments/siteFragments::header"></header>
 <h1>Send Gratitude</h1>
+<h3 th:text="${threadUsers}"></h3>
 <h3 th:text="${request.title}"></h3>
-<form th:action="@{/users/save}" th:object="${user}" method="post">
-    <p>
-        <!--<label>Recipients:
-            <input type="checkbox" name="recipients"
-                   th:each="recipient : ${request.thread}"
-                   th:text="${thread.user}"
-                   th:value="${threadUser.name}"
-                   th:field="*{recipients}"
-            />
-        </label>-->
+
+<table class="table table-striped">
+    <tr>
+        <th>User Id</th>
+    </tr>
+    <tbody>
+    <tr th:each="recipient : ${threadUsers}">
+
+        <td th:text="${recipient.id}"></td>
+        <td th:text="${recipient.userDetails.firstName}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/request/edit/save}" th:object="${user}" method="post">
+    <ul>
+        <li th:each="recipient : ${threadUsers}">
+            <div class="ui checkbox">
+                <input type="checkbox" name="recipients" th:value="${recipient.id}">
+                <label th:text="${recipient.userDetails.firstName}"></label>
+            </div>
+        </li>
+    </ul>
+
 
     <div class="gratitudeSelector">
         <input type="radio" checked="checked" name="thankyou" id="thankyou1" value="thankyou1"/>

@@ -11,7 +11,6 @@ import java.util.List;
 public class Thread extends AbstractEntity {
 
 
-
     @OneToOne
     private Request request;
 
@@ -19,10 +18,11 @@ public class Thread extends AbstractEntity {
     private User user;
 
 
-
     @OneToMany(mappedBy = "thread")
     private List<Response> threadResponses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "thread")
+    private List<User> threadUsers = new ArrayList<>();
 
     public Thread() {
     }
@@ -41,7 +41,7 @@ public class Thread extends AbstractEntity {
         this.request = request;
     }
 
-    public User getUser(User user) {
+    public User getUser() {
         return user;
     }
 
@@ -49,13 +49,23 @@ public class Thread extends AbstractEntity {
         this.user = user;
     }
 
+    public List<User> getThreadUsers(){
+        return threadUsers;
+    }
+
+    public void addThreadUsers(User user){
+        this.threadUsers.add(user);
+    }
+
     public List<Response> getThreadResponses() {
         return threadResponses;
     }
 
-    public void addThreadResponse(Response response){
+    public void addThreadResponse(Response response) {
         this.threadResponses.add(response);
     }
+
+
 
 
 }

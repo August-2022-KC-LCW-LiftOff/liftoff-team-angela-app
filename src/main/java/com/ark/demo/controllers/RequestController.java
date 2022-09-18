@@ -1,6 +1,7 @@
 package com.ark.demo.controllers;
 
 import com.ark.demo.models.Request;
+import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
 import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ThreadRepository;
@@ -20,6 +21,8 @@ import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import static java.util.Objects.isNull;
@@ -38,6 +41,7 @@ public class RequestController {
 
     @Autowired
     ThreadRepository threadRepository;
+
 
 
     @GetMapping()
@@ -140,14 +144,41 @@ public class RequestController {
             model.addAttribute("statuses",createStatuses());
             return "requestTemplates/editRequest";
         }
-        Request editRequest = requestRepository.findById(editRequestFormDTO.getId()).get();
+        Integer editRequestId = editRequestFormDTO.getId();
+        Request editRequest = requestRepository.findById(editRequestId).get();
+
+
         requestRepository.save((Request) updateObjectFromDTO(editRequest,editRequestFormDTO));
+
         if(closeRequestFormDTO.getCloseType().equals("resolved")){
             model.addAttribute("request",editRequest);
+            List<Thread> threads = threadRepository.findAllByRequestId(editRequestId);
+            List<User> usersFromThreads = new ArrayList<>();
+            for(Thread thread : threads){
+                usersFromThreads.add(thread.getUser());
+            }
+            //send threadUsers to template
+            model.addAttribute("threadUsers", usersFromThreads);
+
+
             return "requestTemplates/showGratitude";
         }
         return "redirect:/request/userRequests";
     }
+
+    @PostMapping("edit/save")
+    public String sendGratitude(@RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection){
+        for(String id : recipientIds){
+            Integer idInt = Integer.parseInt(id);
+            User recipientUser = userRepository.findById(idInt).get();
+
+            recipientUser.getUserDetails().addGratitudeCard("/images/thankYouCards/" + cardSelection +  "Preview.jpg");
+            userRepository.save(recipientUser);
+        }
+        return "redirect:/";
+    }
+
+
     @GetMapping("requestConfirmation")
     public String displayRequestConfirmation(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
