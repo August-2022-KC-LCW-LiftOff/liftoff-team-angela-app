@@ -107,7 +107,7 @@ public class AuthenticationController {
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
-        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
+//        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
         return "redirect:";
     }
     @GetMapping("/login")

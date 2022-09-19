@@ -51,10 +51,6 @@ public class RequestController {
 
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:/login";
-        }
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
@@ -66,9 +62,6 @@ public class RequestController {
     @PostMapping()
     public String requestSubmit(@ModelAttribute @Valid CreateRequestFormDTO createRequestFormDTO, Model model, Errors errors, HttpServletRequest request) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:/login";
-        }
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Request");
             model.addAttribute(createRequestFormDTO);
@@ -81,18 +74,18 @@ public class RequestController {
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
-        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
-                newRequest.getTitle(),
-                newRequest.getPublicEvent(),
-                newRequest.getStatus(),
-                newRequest.getDueDate(),
-                newRequest.getAddressLine1(),
-                newRequest.getAddressLine2(),
-                newRequest.getCity(),
-                newRequest.getState(),
-                newRequest.getZipcode(),
-                newRequest.getDescription());
-        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"New Request Created");
+//        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+//                newRequest.getTitle(),
+//                newRequest.getPublicEvent(),
+//                newRequest.getStatus(),
+//                newRequest.getDueDate(),
+//                newRequest.getAddressLine1(),
+//                newRequest.getAddressLine2(),
+//                newRequest.getCity(),
+//                newRequest.getState(),
+//                newRequest.getZipcode(),
+//                newRequest.getDescription());
+//        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"New Request Created");
         return "redirect:request/requestConfirmation";
     }
 
@@ -100,9 +93,6 @@ public class RequestController {
     @GetMapping("userRequests")
     public String allUserRequests(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute(user);
         model.addAttribute("title", "User Requests");
         model.addAttribute("requests", requestRepository.findByUserId(user.getId()));
@@ -112,20 +102,13 @@ public class RequestController {
     @PostMapping("userRequests")
     public String showRequestsByUser(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute(user);
         model.addAttribute("title", "User Requests");
         model.addAttribute("requests", requestRepository.findByUserId(user.getId()));
         return "requestTemplates/userRequests";
     }
     @PostMapping("edit")
-    public String editRequest(@RequestParam("requestId") Integer requestId, HttpServletRequest request, Model model) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
+    public String editRequest(@RequestParam("requestId") Integer requestId, Model model) throws InvocationTargetException, IllegalAccessException {
         Request updateRequest = requestRepository.findById(requestId).get();
         model.addAttribute(sendObjectToDTO(updateRequest,  new EditRequestFormDTO()));
         model.addAttribute("states",authenticationController.createStatesMap());
@@ -138,9 +121,6 @@ public class RequestController {
     @PostMapping("edit/process")
     public String processEditRequestForm(@ModelAttribute @Valid EditRequestFormDTO editRequestFormDTO, @ModelAttribute CloseRequestFormDTO closeRequestFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../../login";
-        }
         if(errors.hasErrors()){
             model.addAttribute("title","Edit Request");
             model.addAttribute(editRequestFormDTO);
@@ -154,27 +134,23 @@ public class RequestController {
             model.addAttribute("request",editRequest);
             return "requestTemplates/showGratitude";
         }
-        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
-                editRequest.getTitle(),
-                editRequest.getPublicEvent(),
-                editRequest.getStatus(),
-                editRequest.getDueDate(),
-                editRequest.getAddressLine1(),
-                editRequest.getAddressLine2(),
-                editRequest.getCity(),
-                editRequest.getState(),
-                editRequest.getZipcode(),
-                editRequest.getDescription());
-        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"Request Updated");
+//        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+//                editRequest.getTitle(),
+//                editRequest.getPublicEvent(),
+//                editRequest.getStatus(),
+//                editRequest.getDueDate(),
+//                editRequest.getAddressLine1(),
+//                editRequest.getAddressLine2(),
+//                editRequest.getCity(),
+//                editRequest.getState(),
+//                editRequest.getZipcode(),
+//                editRequest.getDescription());
+//        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"Request Updated");
         return "redirect:/request/userRequests";
     }
     @GetMapping("requestConfirmation")
     public String displayRequestConfirmation(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
-
         model.addAttribute("title", "Request Confirmation");
         model.addAttribute("request", requestRepository.findLastRequestByUserId(user.getId()));
         return "requestTemplates/requestConfirmation";
@@ -182,20 +158,12 @@ public class RequestController {
 
     @GetMapping("viewRequest/{requestId}")
     public String viewRequest(@PathVariable("requestId") Integer requestId,HttpServletRequest request, Model model){
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../../login";
-        }
         Request viewRequest = requestRepository.findById(requestId).get();
         model.addAttribute("request",viewRequest);
         return "requestTemplates/viewRequest";
     }
     @PostMapping("close")
     public String closeRequest(@RequestParam Integer requestId,HttpServletRequest request,Model model){
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Close Request");
         CloseRequestFormDTO closeRequestFormDTO = new CloseRequestFormDTO();
         closeRequestFormDTO.setRequestId(requestId);
@@ -204,10 +172,6 @@ public class RequestController {
     }
     @PostMapping("closeRequest")
     public String closeRequestFinal(@RequestParam Integer requestId, @RequestParam String closeType,HttpServletRequest request){
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         if(closeType.equals("cancel")){
             return "redirect:/request/userRequests";
         }

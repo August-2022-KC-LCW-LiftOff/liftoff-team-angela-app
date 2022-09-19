@@ -20,7 +20,9 @@ public class HomeController {
         return "index";
     }
     @GetMapping("dashboard")
-    public String displayDashboard(Model model){
+    public String displayDashboard(HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         return "dashboard";
     }
 }

@@ -2,9 +2,12 @@ package com.ark.demo.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -27,6 +30,9 @@ public class UserDetails  extends AbstractEntity{
     private String emailAddress;
     @NotNull
     private String phoneNumber;
+
+    @ElementCollection(targetClass = String.class)
+    private List<String> gratitudeCards;
 
     private Boolean emailVerified;
 
@@ -147,5 +153,12 @@ public class UserDetails  extends AbstractEntity{
         } else {
             this.uid = encoder.encode("ARK"+emailAddress);
         }
+    }
+
+    public List<String> getGratitudeCards() {
+        return gratitudeCards;
+    }
+    public void addGratitudeCard(String pathToCard){
+        this.gratitudeCards.add(pathToCard);
     }
 }

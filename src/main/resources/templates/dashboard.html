@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments/siteFragments::head"></head>
 <body>
-Dashboard
+<header th:replace="fragments/siteFragments :: header"></header>
+<div class="container dashboardOuter">
+
+    <h2 th:text="${user.userDetails.firstName+' '+user.userDetails.lastName}"></h2>
+                <!--            <tr>-->
+                <!--                <td class="dashboardFrame">-->
+                <!--                    <ul>-->
+                <!--                        <li th:each="card:${user.userDetails.gratitudeCards}" th:text="<img src='+${card}+'"></li>-->
+                <!--                    </ul>-->
+                <!--                </td>-->
+                <!--            </tr>-->
+    <div class="dashboardPanels">
+        <div th:if="${!user.userDetails.gratitudeCards.empty}" class="dashboardFrame">
+            <h3>My Thank You Cards</h3>
+            <div th:each="card:${user.userDetails.gratitudeCards}">
+                <img th:src="@{${card}}"/>
+            </div>
+        </div>
+        <div class="dashboardFrame">
+            <h3>My Requests</h3>
+            <p th:if="${user.requests.empty}">You do not have any requests.</p>
+            <div th:each="request:${user.requests}">
+                <a th:href="'/request/viewRequest/'+${request.id}"><span th:text="${request.title}"></span></a>
+            </div>
+        </div>
+        <div class="dashboardFrame">
+            <h3>My Conversations</h3>
+            <p th:if="${user.userThreads.empty}">You do not have any conversations.</p>
+            <div th:each="thread:${user.userThreads}">
+                <a th:href="'/request/viewRequest/'+${thread.request.id}" th:text="${thread.request.title}"></a>
+            </div>
+        </div>
+    </div>
+    <div class="dashboardPanels snuggleWithMe">
+        <div>
+            <a class="btn btn-primary" th:href="@{/request}">Create Request</a></td>
+            <a class="btn btn-primary" th:href="@{/map}">View Map</a></td>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="fragments/siteFragments :: footer"></footer>
 </body>
 </html>

@@ -47,9 +47,6 @@ public class UserController {
     @GetMapping
     public String displayUserProfile(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:/login";
-        }
         ViewProfileDTO viewProfileDTO = new ViewProfileDTO();
         viewProfileDTO.setUserDetails(user.getUserDetails());
         viewProfileDTO.setDateCreated(formatDateAsString(user.getDateCreated()));
@@ -61,9 +58,6 @@ public class UserController {
     @GetMapping("/editProfile")
     public String displayEditProfileForm(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Edit Profile");
         EditProfileFormDTO editProfileFormDTO = new EditProfileFormDTO();
         editProfileFormDTO.setUserDetails(user.getUserDetails());
@@ -80,9 +74,6 @@ public class UserController {
             return "userTemplates/editProfile";
         }
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
 
         UserDetails userDetails = user.getUserDetails();
         userDetails.setFirstName(editProfileFormDTO.getUserDetails().getFirstName());
@@ -108,12 +99,9 @@ public class UserController {
     @GetMapping("/updatePassword")
     public String displayUpdatePasswordForm(HttpServletRequest request,Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Update Password");
         UpdatePasswordFormDTO updatePasswordFormDTO = new UpdatePasswordFormDTO();
-        updatePasswordFormDTO.setUser(authenticationController.getUserFromSession(request.getSession()));
+        updatePasswordFormDTO.setUser(user);
         model.addAttribute(updatePasswordFormDTO);
         return "userTemplates/updatePassword";
     }
@@ -126,9 +114,6 @@ public class UserController {
             return "userTemplates/updatePassword";
         }
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         if(!updatePasswordFormDTO.getPassword().equals(updatePasswordFormDTO.getVerifyPassword())){
             errors.rejectValue("password","password.mismatch","Passwords do not match");
             model.addAttribute("title","Update Password");
@@ -144,9 +129,6 @@ public class UserController {
     @GetMapping("/deleteProfile")
     public String displayDeleteProfileForm(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Delete Account");
         DeleteFormDTO deleteFormDTO = new DeleteFormDTO();
         deleteFormDTO.setUser(user);
@@ -157,10 +139,6 @@ public class UserController {
 
     @PostMapping("/deleteProfile")
     public String processDeleteProfileForm(@ModelAttribute @Valid DeleteFormDTO deleteFormDTO, HttpServletRequest request){
-        User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         if(deleteFormDTO.getConfirm().toLowerCase().equals("yes")){
             userDetailsRepository.delete(deleteFormDTO.getUserDetails());
             userRepository.delete(deleteFormDTO.getUser());
