@@ -145,6 +145,9 @@ public class RequestController {
             model.addAttribute("request",editRequest);
             List<Thread> threads = threadRepository.findAllByRequestId(editRequestId);
             List<User> usersFromThreads = new ArrayList<>();
+            if(threads.isEmpty()){
+                return "redirect:/";
+            }
             for(Thread thread : threads){
                 usersFromThreads.add(thread.getUser());
             }
@@ -171,6 +174,7 @@ public class RequestController {
 
     @PostMapping("edit/save")
     public String sendGratitude(@RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection, Model model){
+
         for(String id : recipientIds){
             Integer idInt = Integer.parseInt(id);
             User recipientUser = userRepository.findById(idInt).get();

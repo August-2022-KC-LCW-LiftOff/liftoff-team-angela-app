@@ -54,6 +54,10 @@ thead{
 .seconds{
     color: blue;
 }
+.dashboardFrame img{
+    margin: 2px;
+    align-self: center;
+}
 .dashboardFrame{
   background: linear-gradient(rgba(255,0,0,0.05),rgba(255,128,0,0.05),rgba(255,255,0,0.05),rgba(0,255,0,0.05),rgba(0,0,255,0.05),rgba(75,0,130,0.05),rgba(155,38,182,0.05));
   border: 2px ridge rgba(0,255,0,0.10);
