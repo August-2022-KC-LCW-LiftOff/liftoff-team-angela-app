@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -31,10 +32,10 @@ public class UserDetails  extends AbstractEntity{
     @NotNull
     private String phoneNumber;
 
+    private Boolean emailVerified;
+
     @ElementCollection(targetClass = String.class)
     private List<String> gratitudeCards;
-
-    private Boolean emailVerified;
 
     private String uid;
 
@@ -147,18 +148,19 @@ public class UserDetails  extends AbstractEntity{
         return uid;
     }
 
+    public List<String> getGratitudeCards() {
+        return gratitudeCards;
+    }
+
+    public void addGratitudeCard(String pathToCard){
+        this.gratitudeCards.add(pathToCard);
+    }
+
     public void setUid(String emailAddress) {
         if(isNull(emailAddress)){
             this.uid = null;
         } else {
             this.uid = encoder.encode("ARK"+emailAddress);
         }
-    }
-
-    public List<String> getGratitudeCards() {
-        return gratitudeCards;
-    }
-    public void addGratitudeCard(String pathToCard){
-        this.gratitudeCards.add(pathToCard);
     }
 }
