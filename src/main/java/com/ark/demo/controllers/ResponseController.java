@@ -35,11 +35,14 @@ public class ResponseController {
     @Autowired
     RequestRepository requestRepository;
 
+
     @Autowired
     ThreadRepository threadRepository;
 
     @Autowired
     AuthenticationController authenticationController;
+
+
 
 
 
@@ -50,14 +53,34 @@ public class ResponseController {
             return "redirect:../login";
         }
         model.addAttribute("title", "Messages");
-        model.addAttribute("responses", responseRepository.findByUserId(user.getId()));
+        model.addAttribute("threadResponses", responseRepository.findByUserId(user.getId()));
 
 
         return "response/index";
     }
 
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
+    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
+
+        model.addAttribute("title", "Respond to Request");
+        Request requestDetails = requestRepository.findById(id).get();
+        model.addAttribute("request", requestDetails);
+        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
+        createResponseFormDTO.setUser(user);
+
+
+
+        model.addAttribute(createResponseFormDTO);
+
+        return "response/create";
+    }
+
+    @PostMapping("submit")
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id){
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -69,20 +92,23 @@ public class ResponseController {
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
 
-        Request incomingRequest = requestRepository.findById(requestId).get();
-        Thread newThread = new Thread(user, incomingRequest);
+        Thread thread = new Thread();
+        Request threadRequest = requestRepository.findById(id).get();
+        thread.setRequest(threadRequest);
+        thread.addThreadResponse(response);
+        thread.setUser(user);
 
-        newThread.addResponse(response);
 
-        threadRepository.save(newThread);
-        incomingRequest.addThread(newThread);
-        requestRepository.save(incomingRequest);
-        User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
 
-        threadUser.addUserThread(newThread);
-        userRepository.save(threadUser);
-        response.setThread(newThread);
+//        removed id
+//        Thread thread = new Thread();
+//        check imports to ensure the model has been added
         responseRepository.save(response);
+        threadRepository.save(thread);
+        response.setThread(thread);
+
+
+
 
         userRepository.save(user);
     return "redirect:/response/responseConfirmation";

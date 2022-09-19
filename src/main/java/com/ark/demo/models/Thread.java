@@ -1,6 +1,9 @@
 package com.ark.demo.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class Thread extends AbstractEntity{
     public Thread(User user, Request request) {
         this.user = user;
         this.request = request;
+        this.user = user;
     }
 
     public Request getRequest() {
