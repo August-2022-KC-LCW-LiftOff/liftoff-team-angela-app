@@ -31,6 +31,34 @@
     </div>
 
 
+    <div  th:fragment="wholeThread" class="container" style="margin: 75px">
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th >Title</th>
+                <th >Description</th>
+            </tr>
+            </thead>
+            <tr>
+                <td th:text= "${request.title}"></td>
+                <td th:text= "${request.description}"></td>
+            </tr>
+            <tr th:each="thread:${threads}">
+                <td label="Response Message: " th:text="${response.message}"></td>
+                <td label="Response Time: " th:text="${response.responseDate}"></td>
+            </tr>
+        </table>
+        <form method="post" th:action="@{/response/create}">
+            <input type="hidden" th:field="${thread.id}" value="${thread.id}">
+            <input type="hidden" th:name="requestId" th:value="${request.id}">
+            <input type="submit"  class="btn btn-primary" value="Respond">
+        </form>
+
+    </div>
+
+
+
 
 
 

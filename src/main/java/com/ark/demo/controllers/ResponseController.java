@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+import java.util.List;
+
 import static java.util.Objects.isNull;
 
 @Controller
@@ -113,10 +115,27 @@ public class ResponseController {
         return "response/threadResponse";
     }
 
+
+
+
     @PostMapping("threadResponse/submit")
-    public String processThreadResponseForm(){
+    public String processThreadResponseForm(@ModelAttribute CreateResponseFormDTO createResponseFormDTO, HttpServletRequest request, Model model, Errors errors, @RequestParam Integer id){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
+        if (errors.hasErrors()){
+            model.addAttribute("title", "Respond to Request");
+            model.addAttribute(createResponseFormDTO);
+            return "response/create";
+        }
+        Thread updatingThread = threadRepository.findById(id).get();
+        model.addAttribute("threads", updatingThread.getResponses());
+
         return "response/threadResponse";
     }
+
+
 
 
     @PostMapping("viewResponse")
