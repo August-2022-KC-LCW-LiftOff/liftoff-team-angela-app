@@ -3,8 +3,10 @@ package com.ark.demo.controllers;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
+import com.ark.demo.models.UserDetails;
 import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ThreadRepository;
+import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
@@ -42,7 +44,8 @@ public class RequestController {
     @Autowired
     ThreadRepository threadRepository;
 
-
+    @Autowired
+    UserDetailsRepository userDetailsRepository;
 
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
@@ -167,15 +170,17 @@ public class RequestController {
     }
 
     @PostMapping("edit/save")
-    public String sendGratitude(@RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection){
+    public String sendGratitude(@RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection, Model model){
         for(String id : recipientIds){
             Integer idInt = Integer.parseInt(id);
             User recipientUser = userRepository.findById(idInt).get();
 
             recipientUser.getUserDetails().addGratitudeCard("/images/thankYouCards/" + cardSelection +  "Preview.jpg");
             userRepository.save(recipientUser);
+
         }
         return "redirect:/";
+
     }
 
 
