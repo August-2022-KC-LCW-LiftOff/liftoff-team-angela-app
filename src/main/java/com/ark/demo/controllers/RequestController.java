@@ -1,5 +1,6 @@
 package com.ark.demo.controllers;
 
+import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.User;
 import com.ark.demo.models.data.RequestRepository;
@@ -7,6 +8,7 @@ import com.ark.demo.models.data.ThreadRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
+import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.dto.EditRequestFormDTO;
 import com.ark.demo.models.enums.RequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,8 @@ public class RequestController {
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
+        model.addAttribute("types", RequestType.values());
+
         return "requestTemplates/createRequest";
     }
 
@@ -64,27 +68,12 @@ public class RequestController {
             return "requestTemplates/createRequest";
         }
 
-        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation());
+        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation(), createRequestFormDTO.getType(),createRequestFormDTO.getLevel());
         newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
         newRequest.setUser(user);
-
-
-
-
-
-
-        if(createRequestFormDTO.getPublicEvent()){
-            newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
-        }
-
-
-
-
-
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
-//** removed the forward slash
         return "redirect:request/requestConfirmation";
     }
 

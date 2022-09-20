@@ -266,6 +266,81 @@
             <input class="btn btn-primary" type="submit" value="Submit" on/> <input class="btn btn-secondary" type="reset" value="Reset" />
         </form>
     </div>
+
+</div>
+
+
+<div th:fragment="displayRequestConfirmation" class="container body-content" >
+    <h2>Request Confirmation</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th >Title</th>
+            <th >Description</th>
+            <th >Date</th>
+        </tr>
+        </thead>
+        <tr>
+            <td th:text= "${request.title}"></td>
+            <td th:text= "${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+</div>
+
+<!--what is the difference between these two-->
+
+<div  fragment="viewRequest" class="container body-content">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th >Title</th>
+            <th >Description</th>
+            <th >Date</th>
+        </tr>
+        </thead>
+        <tr>
+            <td th:text= "${request.title}"></td>
+            <td th:text= "${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+    <form method="post" th:action="@{/response/create}">
+        <input type="hidden" th:name="requestId" th:value="${request.id}">
+        <input type="submit"  class="btn btn-primary" value="Respond">
+    </form>
+</div>
+
+
+    <div th:fragment="allUserRequests" class="container body-content">
+    <h2>User Requests</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tr th:each="request : ${requests}">
+            <td th:text="${request.title}"></td>
+            <td th:text="${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 </div>
 </body>
 </html>
