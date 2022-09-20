@@ -290,7 +290,7 @@
 
 <!--what is the difference between these two-->
 
-<div  fragment="viewRequest" class="container body-content">
+<div th:fragment="viewRequest" class="container body-content">
 
     <table class="table table-striped">
         <thead>
@@ -307,7 +307,7 @@
         </tr>
     </table>
     <form method="post" th:action="@{/response/create}">
-        <input type="hidden" th:name="requestId" th:value="${request.id}">
+        <input type="hidden" th:name="id" th:value="${request.id}">
         <input type="submit"  class="btn btn-primary" value="Respond">
     </form>
 </div>

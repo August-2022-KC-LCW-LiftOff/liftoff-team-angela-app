@@ -8,6 +8,7 @@ import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
 import com.ark.demo.models.enums.USStates;
 import com.ark.demo.services.EmailService;
+import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -106,7 +107,7 @@ public class AuthenticationController {
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
-        emailService.sendRegistrationEmail(newUserDetails.getEmailAddress(), newUserDetails.getUid());
+//        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
         return "redirect:";
     }
     @GetMapping("/login")
