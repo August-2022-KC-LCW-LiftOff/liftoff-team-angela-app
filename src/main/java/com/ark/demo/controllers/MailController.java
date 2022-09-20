@@ -6,9 +6,7 @@ import com.ark.demo.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriUtils;
 
 import javax.websocket.server.PathParam;
 
@@ -22,7 +20,6 @@ public class MailController {
 
     @GetMapping()
     public String verifyEmail(@PathParam("uid") String uid){
-//        uid = UriUtils.decode(uid,"UTF-8");
         UserDetails userDetails = userDetailsRepository.findByUid(uid);
         userDetails.setEmailVerified(true);
         userDetails.setUid(null);
