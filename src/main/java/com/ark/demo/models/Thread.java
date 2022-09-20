@@ -1,36 +1,30 @@
 package com.ark.demo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Thread extends AbstractEntity {
-
-
-
-    @OneToOne
-    private Request request;
+public class Thread extends AbstractEntity{
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "request_id")
+    private Request request;
 
 
     @OneToMany(mappedBy = "thread")
-    private List<Response> threadResponses = new ArrayList<>();
-
+   private List<Response> responses = new ArrayList<>();
 
     public Thread() {
     }
 
-
-    public Thread(Request request, User user) {
-        this.request = request;
+    public Thread(User user, Request request) {
         this.user = user;
+        this.request = request;
     }
 
     public Request getRequest() {
@@ -41,7 +35,7 @@ public class Thread extends AbstractEntity {
         this.request = request;
     }
 
-    public User getUser(User user) {
+    public User getUser() {
         return user;
     }
 
@@ -49,12 +43,13 @@ public class Thread extends AbstractEntity {
         this.user = user;
     }
 
-    public List<Response> getThreadResponses() {
-        return threadResponses;
+
+    public List<Response> getResponses() {
+        return responses;
     }
 
-    public void addThreadResponse(Response response){
-        this.threadResponses.add(response);
+    public void addResponse(Response response){
+        responses.add(response);
     }
 
 

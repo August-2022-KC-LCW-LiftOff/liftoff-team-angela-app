@@ -4,7 +4,7 @@ package com.ark.demo.models;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -16,11 +16,8 @@ public class Response extends AbstractEntity {
     @ManyToOne
     private User user;
 
-
     @NotNull
     private String message;
-
-    private Boolean contactSharing;
 
     @ManyToOne
     @JoinColumn(name = "threadResponse")
@@ -34,7 +31,6 @@ public class Response extends AbstractEntity {
         this.responseDate = new Date();
         this.user = user;
         this.message = message;
-        this.contactSharing = contactSharing;
     }
 
     public Date getResponseDate() {
@@ -55,14 +51,6 @@ public class Response extends AbstractEntity {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Boolean getContactSharing() {
-        return contactSharing;
-    }
-
-    public void setContactSharing(Boolean contactSharing) {
-        this.contactSharing = contactSharing;
     }
 
     public Thread getThread() {

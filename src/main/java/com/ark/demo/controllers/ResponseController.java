@@ -35,14 +35,11 @@ public class ResponseController {
     @Autowired
     RequestRepository requestRepository;
 
-
     @Autowired
     ThreadRepository threadRepository;
 
     @Autowired
     AuthenticationController authenticationController;
-
-
 
 
 
@@ -83,37 +80,28 @@ public class ResponseController {
 
     @PostMapping("submit")
     public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id){
+
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
             return "response/create";
         }
-
-
         User user = authenticationController.getUserFromSession(request.getSession());
         if (isNull(user)) {
             return "redirect:../login";
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
-
-        Thread thread = new Thread();
+        Thread newThread = new Thread(user, incomingRequest);
         Request threadRequest = requestRepository.findById(id).get();
-        thread.setRequest(threadRequest);
-        thread.addThreadResponse(response);
-        thread.setUser(user);
-
-
-
-//        removed id
-//        Thread thread = new Thread();
-//        check imports to ensure the model has been added
+        newThread.addResponse(response);
+        newThread.setRequest(threadRequest);
+        newThread.setUser(user);
+        threadRepository.save(newThread);
+        response.setThread(newThread);
+        User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
+        threadUser.addUserThread(newThread);
+        userRepository.save(threadUser);
         responseRepository.save(response);
-        threadRepository.save(thread);
-        response.setThread(thread);
-
-
-
-
         userRepository.save(user);
     return "redirect:/response/responseConfirmation";
     }
