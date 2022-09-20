@@ -50,14 +50,37 @@ public class ResponseController {
             return "redirect:../login";
         }
         model.addAttribute("title", "Messages");
-        model.addAttribute("responses", responseRepository.findByUserId(user.getId()));
+        model.addAttribute("threadResponses", responseRepository.findByUserId(user.getId()));
 
 
         return "response/index";
     }
 
+
+
     @PostMapping("create")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam Integer requestId){
+    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        if (isNull(user)) {
+            return "redirect:../login";
+        }
+
+        model.addAttribute("title", "Respond to Request");
+        Request requestDetails = requestRepository.findById(id).get();
+        model.addAttribute("request", requestDetails);
+        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
+        createResponseFormDTO.setUser(user);
+
+
+
+        model.addAttribute(createResponseFormDTO);
+
+        return "response/create";
+    }
+
+    @PostMapping("submit")
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id){
+
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
@@ -68,22 +91,17 @@ public class ResponseController {
             return "redirect:../login";
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
-
-        Request incomingRequest = requestRepository.findById(requestId).get();
         Thread newThread = new Thread(user, incomingRequest);
-
+        Request threadRequest = requestRepository.findById(id).get();
         newThread.addResponse(response);
-
+        newThread.setRequest(threadRequest);
+        newThread.setUser(user);
         threadRepository.save(newThread);
-        incomingRequest.addThread(newThread);
-        requestRepository.save(incomingRequest);
+        response.setThread(newThread);
         User threadUser = userRepository.findById(createResponseFormDTO.getUser().getId()).get();
-
         threadUser.addUserThread(newThread);
         userRepository.save(threadUser);
-        response.setThread(newThread);
         responseRepository.save(response);
-
         userRepository.save(user);
     return "redirect:/response/responseConfirmation";
     }
