@@ -18,6 +18,7 @@ public class Thread extends AbstractEntity{
     @JoinColumn(name = "request_id")
     private Request request;
 
+
     @OneToMany(mappedBy = "thread")
     private List<Response> responses = new ArrayList<>();
     @OneToMany(mappedBy = "thread")
@@ -62,4 +63,6 @@ public class Thread extends AbstractEntity{
     public void addResponse(Response response){
         responses.add(response);
     }
+
+
 }

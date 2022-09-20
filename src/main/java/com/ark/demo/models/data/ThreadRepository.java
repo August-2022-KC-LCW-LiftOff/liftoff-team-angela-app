@@ -10,9 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ThreadRepository extends CrudRepository<Thread, Integer> {
-
     List<Thread> findAllByRequestId(Integer requestId);
-
-
-
 }
