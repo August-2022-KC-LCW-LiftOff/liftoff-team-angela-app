@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org/">
 
 <head th:replace="fragments/requestFragments::requestHead"></head>
+<head th:replace="fragments/siteFragments::head"></head>
 <header th:replace="fragments/siteFragments::header"></header>
-
-<div th:replace="fragments/requestFragments::displayRequestConfirmation"></div>
-<!--<footer th:replace="fragments/siteFragments::footer"></footer>-->
+<div th:replace="fragments/requestFragments::requestConfirmation"></div>
+<footer th:replace="fragments/siteFragments::footer"></footer>
 </body>
 
 </html>

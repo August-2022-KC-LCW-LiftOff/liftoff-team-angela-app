@@ -20,7 +20,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","");
+    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -42,6 +42,9 @@ public class AuthenticationFilter implements HandlerInterceptor {
             path = path.substring(0,path.indexOf(";"));
         }
         for(String safepath:whitelist){
+            if(path.contains("/images/")){
+                return true;
+            }
             if(path.equals(safepath)){
                 return true;
             }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http;//www.thymeleaf.org">
+<head th:replace="fragments/siteFragments::head"></head>
+<body>
+<header th:replace="fragments/siteFragments::header"></header>
+<h1>Send Gratitude</h1>
+<h3 th:text="${threadUsers}"></h3>
+<h3 th:text="${request.title}"></h3>
+
+<table class="table table-striped">
+    <tr>
+        <th>User Id</th>
+    </tr>
+    <tbody>
+    <tr th:each="recipient : ${threadUsers}">
+
+        <td th:text="${recipient.id}"></td>
+        <td th:text="${recipient.userDetails.firstName}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/request/edit/save}" th:object="${user}" method="post">
+    <ul>
+        <li th:each="recipient : ${threadUsers}">
+            <div class="ui checkbox">
+                <input type="checkbox" name="recipients" th:value="${recipient.id}">
+                <label th:text="${recipient.userDetails.firstName}"></label>
+            </div>
+        </li>
+    </ul>
+
+
+    <div class="gratitudeSelector">
+        <input type="radio" checked="checked" name="thankyou" id="thankyou1" value="thankyou1"/>
+        <label style="background-image: url(/images/thankYouCards/thankyou1Preview.jpg);" class="thankYouCard 1" for="thankyou1"></label>
+        <input type="radio" name="thankyou" id="thankyou2" value="thankyou2"/>
+        <label style="background-image: url(/images/thankYouCards/thankyou2Preview.jpg);" class="thankYouCard 2" for="thankyou2"></label>
+        <input type="radio" name="thankyou" id="thankyou3" value="thankyou3"/>
+        <label style="background-image: url(/images/thankYouCards/thankyou3Preview.jpg);" class="thankYouCard 3" for="thankyou3"></label>
+        <input type="radio" name="thankyou" id="thankyou4" value="thankyou4"/>
+        <label style="background-image: url(/images/thankYouCards/thankyou4Preview.jpg);" class="thankYouCard 4" for="thankyou4"></label>
+        <input type="submit" class="btn btn-lg btn-primary" value="Send Gratitude">
+    </div>
+</form>
+<footer th:replace="fragments/siteFragments::footer"></footer>
+</body>
+</html>

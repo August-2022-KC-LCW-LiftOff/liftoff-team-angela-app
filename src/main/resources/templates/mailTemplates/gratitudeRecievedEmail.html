@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http;//www.thymeleaf.org">
+<head>
+    <style>
+        td {text-align:center;}
+        .button{
+          width: 150px;
+          height:75px;
+          background:rgb(0,1,213);
+          }
+         a{
+           color: rgb(255,255,255);
+           font-size:36px;
+           text-decoration: none;
+         }
+         em{
+           font-size: 10px;
+         }
+    </style>
+</head>
+<body style="text-align:center;">
+<div>
+    <table>
+        <tr>
+            <td style="background:black;color:white;" colspan=3>
+                ARK
+            </td>
+        <tr>
+        <tr>
+            <td colspan=3>
+                <h1>You're AWESOME!</h1>
+                <h3>A user has sent you gratitude!</h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=3>
+                <h3>Click the button below to login and view the gratitude.</h3>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="button">
+                <a href="http://localhost:8080/login">Login</a>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan=3>
+                <em>You are receiving this email because a user has sent you gratitude.</em>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

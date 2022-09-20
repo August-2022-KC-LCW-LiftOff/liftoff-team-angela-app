@@ -13,12 +13,11 @@
 
 </div>
 <div class="container">
-    <table th:each="response : ${responses}" class="table table-bordered">
+
+    <table th:each="response : ${threadResponses}" class="table table-bordered">
 
 
-        <tr>  <td class="table-info"> <a>Request Details Here</a>
-        </td>
-        </tr>
+
         <tr>  <td> <a th:text="${response.message}"></a>
 
             </td>

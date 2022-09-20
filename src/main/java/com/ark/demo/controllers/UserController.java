@@ -8,6 +8,8 @@ import com.ark.demo.models.dto.DeleteFormDTO;
 import com.ark.demo.models.dto.EditProfileFormDTO;
 import com.ark.demo.models.dto.UpdatePasswordFormDTO;
 import com.ark.demo.models.dto.ViewProfileDTO;
+import com.ark.demo.services.EmailService;
+import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -36,15 +41,16 @@ public class UserController {
     @Autowired
     private UserDetailsRepository userDetailsRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @GetMapping
     public String displayUserProfile(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         ViewProfileDTO viewProfileDTO = new ViewProfileDTO();
         viewProfileDTO.setUserDetails(user.getUserDetails());
         viewProfileDTO.setDateCreated(formatDateAsString(user.getDateCreated()));
+        model.addAttribute(user);
         model.addAttribute("title","View Profile");
         model.addAttribute(viewProfileDTO);
         return "userTemplates/viewProfile";
@@ -52,9 +58,6 @@ public class UserController {
     @GetMapping("/editProfile")
     public String displayEditProfileForm(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Edit Profile");
         EditProfileFormDTO editProfileFormDTO = new EditProfileFormDTO();
         editProfileFormDTO.setUserDetails(user.getUserDetails());
@@ -64,16 +67,13 @@ public class UserController {
     }
 
     @PostMapping("/editProfile")
-    public String processUpdatePasswordForm(@ModelAttribute @Valid EditProfileFormDTO editProfileFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processUpdatePasswordForm(@ModelAttribute @Valid EditProfileFormDTO editProfileFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
         if(errors.hasErrors()){
             model.addAttribute("title","Edit Profile");
             model.addAttribute(editProfileFormDTO);
             return "userTemplates/editProfile";
         }
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
 
         UserDetails userDetails = user.getUserDetails();
         userDetails.setFirstName(editProfileFormDTO.getUserDetails().getFirstName());
@@ -84,6 +84,11 @@ public class UserController {
         userDetails.setState(editProfileFormDTO.getUserDetails().getState());
         userDetails.setZipcode(editProfileFormDTO.getUserDetails().getZipcode());
         userDetails.setPhoneNumber(editProfileFormDTO.getUserDetails().getPhoneNumber());
+        if(!userDetails.getEmailAddress().equals(editProfileFormDTO.getUserDetails().getEmailAddress())){
+            userDetails.setUid(editProfileFormDTO.getUserDetails().getEmailAddress());
+            userDetails.setEmailVerified(false);
+            emailService.sendMail(editProfileFormDTO.getUserDetails().getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/updatedEmailAddressEmail.html"),userDetails.getUid()),"E-mail Address Updated");
+        }
         userDetails.setEmailAddress(editProfileFormDTO.getUserDetails().getEmailAddress());
         user.setLocation(editProfileFormDTO.getLocation());
         userRepository.save(user);
@@ -94,12 +99,9 @@ public class UserController {
     @GetMapping("/updatePassword")
     public String displayUpdatePasswordForm(HttpServletRequest request,Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Update Password");
         UpdatePasswordFormDTO updatePasswordFormDTO = new UpdatePasswordFormDTO();
-        updatePasswordFormDTO.setUser(authenticationController.getUserFromSession(request.getSession()));
+        updatePasswordFormDTO.setUser(user);
         model.addAttribute(updatePasswordFormDTO);
         return "userTemplates/updatePassword";
     }
@@ -112,9 +114,6 @@ public class UserController {
             return "userTemplates/updatePassword";
         }
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         if(!updatePasswordFormDTO.getPassword().equals(updatePasswordFormDTO.getVerifyPassword())){
             errors.rejectValue("password","password.mismatch","Passwords do not match");
             model.addAttribute("title","Update Password");
@@ -130,9 +129,6 @@ public class UserController {
     @GetMapping("/deleteProfile")
     public String displayDeleteProfileForm(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
-        if(isNull(user)){
-            return "redirect:../login";
-        }
         model.addAttribute("title","Delete Account");
         DeleteFormDTO deleteFormDTO = new DeleteFormDTO();
         deleteFormDTO.setUser(user);
@@ -155,4 +151,5 @@ public class UserController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(date);
     }
+
 }

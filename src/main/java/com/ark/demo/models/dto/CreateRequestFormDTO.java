@@ -3,6 +3,7 @@ package com.ark.demo.models.dto;
 import com.ark.demo.models.Location;
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestType;
+import com.ark.demo.models.enums.RequestStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -11,22 +12,18 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class CreateRequestFormDTO {
-
+    private RequestStatus status;
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 50, message = "Title must be between 3 and 50 characters")
     private String title;
-
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String state;
     private String zipcode;
     private String description;
-
     private String location;
     private Date dateRequested;
-
-//    @NotBlank(message = "Due date is required")
     @Future(message = "Date must be in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
@@ -121,6 +118,14 @@ public class CreateRequestFormDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public RequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
     }
 
     public RequestType getType() {

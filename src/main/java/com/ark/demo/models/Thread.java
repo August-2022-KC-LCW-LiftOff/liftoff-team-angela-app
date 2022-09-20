@@ -7,6 +7,9 @@ import java.util.List;
 @Entity
 public class Thread extends AbstractEntity{
 
+
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -15,15 +18,18 @@ public class Thread extends AbstractEntity{
     @JoinColumn(name = "request_id")
     private Request request;
 
-    @OneToMany(mappedBy = "thread")
-   private List<Response> responses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "thread")
+    private List<Response> responses = new ArrayList<>();
+    @OneToMany(mappedBy = "thread")
+    private List<User> threadUsers = new ArrayList<>();
     public Thread() {
     }
 
     public Thread(User user, Request request) {
         this.user = user;
         this.request = request;
+        this.user = user;
     }
 
     public Request getRequest() {
@@ -42,6 +48,13 @@ public class Thread extends AbstractEntity{
         this.user = user;
     }
 
+    public List<User> getThreadUsers(){
+        return threadUsers;
+    }
+
+    public void addThreadUsers(User user){
+        this.threadUsers.add(user);
+    }
 
     public List<Response> getResponses() {
         return responses;
@@ -50,4 +63,6 @@ public class Thread extends AbstractEntity{
     public void addResponse(Response response){
         responses.add(response);
     }
+
+
 }

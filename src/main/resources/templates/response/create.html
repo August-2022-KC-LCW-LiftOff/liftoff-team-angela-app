@@ -9,13 +9,23 @@
 
 <div class="container" style="margin: 75px">
 
-    <h2 th:text="${request.title}"></h2>
-    <p th:text="${request.description}"></p>
-
-
-<form th:action="@{/response/viewResponse}" method="post" style="margin-top: 15px">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th >Title</th>
+            <th >Description</th>
+            <th >Date</th>
+        </tr>
+        </thead>
+        <tr>
+            <td th:text= "${request.title}"></td>
+            <td th:text= "${request.description}"></td>
+            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+        </tr>
+    </table>
+<form method="post" style="margin-top: 15px" th:action="@{/response/submit}">
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
-    <input type="hidden" th:field="${request.id}" value="${request.id}">
+    <input type="hidden" th:field="${request.id}">
 
 
 
@@ -23,7 +33,7 @@
         <textarea class="form-control" th:field="${createResponseFormDTO.message}" rows="7" ></textarea>
     </div>
 
-    <div class="form-group" style="margin-top: 10px">
+    <div class="form-group" style="margin-top: 10px" >
         <input type="submit" value="Respond" class="btn btn-success">
     </div>
 

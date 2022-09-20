@@ -6,9 +6,7 @@
     background: antiquewhite;
     border-radius: 5px;
     padding: 10px;
-
 }
-
 .fixed{
     bottom: 0;
     width: 100%;
@@ -36,4 +34,112 @@ thead{
 }
 .giveMeSpace > *{
     margin: 5px;
+}
+.landingPage{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.landing-page-image{
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+.landing-page-button{
+    position: absolute;
+    bottom: 60px;
+}
+.seconds{
+    color: blue;
+}
+.dashboardFrame img{
+    margin: 2px;
+    align-self: center;
+}
+.dashboardFrame{
+  background: linear-gradient(rgba(255,0,0,0.05),rgba(255,128,0,0.05),rgba(255,255,0,0.05),rgba(0,255,0,0.05),rgba(0,0,255,0.05),rgba(75,0,130,0.05),rgba(155,38,182,0.05));
+  border: 2px ridge rgba(0,255,0,0.10);
+  padding: 10px;
+  width: 40%;
+  height: 300px;
+  overflow: auto;
+  border-radius: 7.5px;
+}
+.dashboardOuter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dashboardPanels{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/*gratitude images  css*/
+
+
+.gratitudeSelector input {
+    margin: 50px;
+    padding:0px;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
+.thankYouCard, .gratitudeSelector input:active + .thankYouCard{opacity: .9;}
+.thankYouCard, .gratitudeSelector input:checked + .thankYouCard{
+    filter: grayscale(0);
+    -webkit-filter:none;
+         -moz-filter:none;
+              filter:none;
+}
+
+.thankYouCard{
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:inline-block;
+    height: 192px;
+    width: 288px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+
+    -webkit-filter: brightness(1) grayscale(0) opacity(.7);
+       -moz-filter: brightness(1) grayscale(0) opacity(.7);
+            filter: brightness(1) grayscale(0) opacity(.7);
+}
+
+.thankYouCard:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0);
+}
+
+
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,255,0.5);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue;
+}
+.snuggleWithMe{
+  justify-content: space-around;
 }
