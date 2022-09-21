@@ -25,9 +25,6 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
-
-import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping("/user")
