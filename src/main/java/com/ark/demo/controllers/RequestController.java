@@ -3,17 +3,15 @@ package com.ark.demo.controllers;
 import com.ark.demo.models.Request;
 import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
-import com.ark.demo.models.UserDetails;
 import com.ark.demo.models.data.RequestRepository;
 import com.ark.demo.models.data.ThreadRepository;
 import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
-import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.dto.EditRequestFormDTO;
 import com.ark.demo.models.enums.RequestStatus;
-import com.ark.demo.models.enums.USStates;
+import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
@@ -32,8 +29,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-
-import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping("request")
@@ -82,18 +77,18 @@ public class RequestController {
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
-//        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
-//                newRequest.getTitle(),
-//                newRequest.getPublicEvent(),
-//                newRequest.getStatus(),
-//                newRequest.getDueDate(),
-//                newRequest.getAddressLine1(),
-//                newRequest.getAddressLine2(),
-//                newRequest.getCity(),
-//                newRequest.getState(),
-//                newRequest.getZipcode(),
-//                newRequest.getDescription());
-//        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"New Request Created");
+        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+                newRequest.getTitle(),
+                newRequest.getPublicEvent(),
+                newRequest.getStatus(),
+                newRequest.getDueDate(),
+                newRequest.getAddressLine1(),
+                newRequest.getAddressLine2(),
+                newRequest.getCity(),
+                newRequest.getState(),
+                newRequest.getZipcode(),
+                newRequest.getDescription());
+        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"New Request Created");
         return "redirect:request/requestConfirmation";
     }
 
@@ -158,18 +153,18 @@ public class RequestController {
 
             return "requestTemplates/showGratitude";
         }
-//        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
-//                editRequest.getTitle(),
-//                editRequest.getPublicEvent(),
-//                editRequest.getStatus(),
-//                editRequest.getDueDate(),
-//                editRequest.getAddressLine1(),
-//                editRequest.getAddressLine2(),
-//                editRequest.getCity(),
-//                editRequest.getState(),
-//                editRequest.getZipcode(),
-//                editRequest.getDescription());
-//        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"Request Updated");
+        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+                editRequest.getTitle(),
+                editRequest.getPublicEvent(),
+                editRequest.getStatus(),
+                editRequest.getDueDate(),
+                editRequest.getAddressLine1(),
+                editRequest.getAddressLine2(),
+                editRequest.getCity(),
+                editRequest.getState(),
+                editRequest.getZipcode(),
+                editRequest.getDescription());
+        emailService.sendMail(user.getUserDetails().getEmailAddress(),text,"Request Updated");
         return "redirect:/request/userRequests";
     }
 

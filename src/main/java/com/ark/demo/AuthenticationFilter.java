@@ -42,7 +42,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
             path = path.substring(0,path.indexOf(";"));
         }
         for(String safepath:whitelist){
-            if(path.contains("/images/")){
+            if(path.contains("/images/")||path.contains("/js/")){
                 return true;
             }
             if(path.equals(safepath)){
