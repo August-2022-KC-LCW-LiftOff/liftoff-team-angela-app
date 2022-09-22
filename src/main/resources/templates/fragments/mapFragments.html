@@ -35,6 +35,7 @@
                 <option value="title">Title</option>
                 <option value="due_date">Due Date</option>
                 <option value="zipcode">Zip Code</option>
+                <option value="level">Priority Level</option>
                 <input type="submit" value="Sort" class="btn btn-primary"/>
             </select>
         </form>
@@ -48,6 +49,7 @@
                 <td>Due Date</td>
                 <td>Description</td>
                 <td>Zip Code</td>
+                <td>Priority Level</td>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +58,7 @@
                 <td label="Due Date: " th:text="${#dates.format(request.dueDate, 'MMMM dd, yyyy')}"></td>
                 <td class = "exclude" th:text="${request.description}"></td>
                 <td label="Location: " th:text="${request.zipcode}"></td>
+                <td label="Priority Level: " th:text="${request.level}"></td>
                 <td><a th:href="@{request/viewRequest/}+${request.id}" class="btn btn-primary">View</a></td>
             </tr>
         </tbody>

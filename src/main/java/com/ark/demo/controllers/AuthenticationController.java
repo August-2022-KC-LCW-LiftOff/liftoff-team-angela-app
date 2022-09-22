@@ -2,6 +2,7 @@ package com.ark.demo.controllers;
 
 import com.ark.demo.models.User;
 import com.ark.demo.models.UserDetails;
+import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.LoginFormDTO;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -107,7 +109,7 @@ public class AuthenticationController {
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
-//        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
+        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
         return "redirect:";
     }
     @GetMapping("/login")
@@ -155,4 +157,6 @@ public class AuthenticationController {
         }
         return states;
     }
+
+
 }

@@ -39,6 +39,9 @@ public class MapController {
                 case "zipcode":
                     requests.sort(Comparator.comparing(Request::getZipcode));
                     break;
+                case "level":
+                    requests.sort(Comparator.comparing(Request::getLevel));
+                    break;
                 default:
                     requests.sort(Comparator.comparing(Request::getDueDate));
             }

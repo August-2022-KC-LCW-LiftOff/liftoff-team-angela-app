@@ -1,6 +1,6 @@
 package com.ark.demo.models.dto;
 
-import com.ark.demo.models.Location;
+import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.enums.RequestStatus;
@@ -143,4 +143,6 @@ public class CreateRequestFormDTO {
     public void setLevel(PriorityLevel level) {
         this.level = level;
     }
+
+
 }
