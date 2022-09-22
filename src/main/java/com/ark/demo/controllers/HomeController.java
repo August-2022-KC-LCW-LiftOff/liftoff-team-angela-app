@@ -25,4 +25,18 @@ public class HomeController {
         model.addAttribute(user);
         return "dashboard";
     }
+
+    @GetMapping("policies/safety")
+    public String displaySafetyGuidelines(HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
+        return "policies/safety";
+    }
+
+    @GetMapping("aboutUs")
+    public String displayAboutUs(HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
+        return "aboutUs";
+    }
 }
