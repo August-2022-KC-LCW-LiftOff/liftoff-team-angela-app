@@ -72,6 +72,7 @@ public class ResponseController {
     }
     @GetMapping("responseConfirmation")
     public String displayResponseConformation(HttpServletRequest request, Model model) {
+        User user = authenticationController.getUserFromSession(request.getSession());
         return "response/responseConfirmation";
     }
 }

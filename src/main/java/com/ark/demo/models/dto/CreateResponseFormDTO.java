@@ -1,5 +1,6 @@
 package com.ark.demo.models.dto;
 
+import com.ark.demo.models.Request;
 import com.ark.demo.models.Thread;
 import com.ark.demo.models.User;
 
@@ -17,6 +18,7 @@ public class CreateResponseFormDTO {
     private Boolean contactSharing;
 
     private Thread thread;
+    private Request request;
 
     public User getUser() {
         return user;
@@ -48,5 +50,13 @@ public class CreateResponseFormDTO {
 
     public void setThread(Thread thread) {
         this.thread = thread;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 }
