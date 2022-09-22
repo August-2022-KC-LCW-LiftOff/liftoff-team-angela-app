@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static java.util.Objects.isNull;
-
 @Controller
 public class HomeController {
     @Autowired
