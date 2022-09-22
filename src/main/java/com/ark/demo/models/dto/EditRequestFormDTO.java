@@ -1,5 +1,6 @@
 package com.ark.demo.models.dto;
 
+import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +28,8 @@ public class EditRequestFormDTO {
     private Date dueDate;
 
     private Boolean publicEvent;
+
+    private PriorityLevel level;
 
     public Integer getId() {
         return id;
@@ -131,4 +134,8 @@ public class EditRequestFormDTO {
     public void setStatus(RequestStatus status) {
         this.status = status;
     }
+
+    public PriorityLevel getLevel() { return level; }
+
+    public void setLevel(PriorityLevel level) { this.level = level; }
 }
