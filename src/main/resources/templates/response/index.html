@@ -14,26 +14,11 @@
 </div>
 <div class="container">
 
-    <table th:each="response : ${threadResponses}" class="table table-bordered">
-
-
-
-        <tr>  <td> <a th:text="${response.message}"></a>
-
-            </td>
-
-        </tr>
-        <tr>
-            <td class="table-link">
-                <form method="post" th:action="@{/response/create}">
-                    <input type="hidden" name="targetObject" th:value="${response.id}">
+            <p th:each="response : ${thread.responses}" > <a th:text="${response.message}"></a> </p>
+                <form method="post" th:action="@{/response/threadResponse}">
+                    <input type="hidden" name="id" th:value="${thread.id}">
                     <input type="submit"  class="btn btn-primary" value="Respond">
                 </form>
-
-            </td>
-        </tr>
-
-    </table>
 
 </div>
 </div>

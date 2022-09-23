@@ -2,11 +2,12 @@ package com.ark.demo.controllers;
 
 import com.ark.demo.models.User;
 import com.ark.demo.models.UserDetails;
-import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
+import com.ark.demo.models.enums.PriorityLevel;
+import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.enums.USStates;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
@@ -158,5 +159,19 @@ public class AuthenticationController {
         return states;
     }
 
+    public TreeMap<String, String> createTypesMap(){
+        TreeMap<String, String> types = new TreeMap<>();
+        for (RequestType type : RequestType.values()){
+            types.put(type.toString(), type.getDisplayName());
+        }
+        return types;
+    }
 
+    public TreeMap<String, String> createLevelsMap(){
+        TreeMap<String, String> levels = new TreeMap<>();
+        for (PriorityLevel level : PriorityLevel.values()){
+            levels.put(level.toString(), level.getDisplayName());
+        }
+        return levels;
+    }
 }

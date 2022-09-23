@@ -21,7 +21,6 @@
     <h2>Create Request</h2>
     <div>
         <form method="post" onsubmit="submitForm(event);">
-
             <div class="form-group">
                 <label>Title:
                     <input type="text" th:field="${createRequestFormDTO.title}" />
@@ -64,6 +63,22 @@
                     <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "7" ></textarea>
                 </label>
                 <p class="errors" th:errors="${createRequestFormDTO.description}"></p>
+            </div>
+            <div class="form-group">
+                <label>Request Type:
+                    <select th:field="${createRequestFormDTO.type}">
+                        <option th:each="type : ${types}" th:value="${type.key}" th:text="${type.value}"></option>
+                    </select>
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
+            </div>
+            <div class="form-group">
+                <label>Priority Level:
+                    <select th:field="${createRequestFormDTO.level}">
+                     <option th:each="level : ${levels}" th:value="${level.key}" th:text="${level.value}"></option>
+                    </select>
+                </label>
+                <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
             </div>
             <div class="form-group">
                 <label>Public Event?
@@ -298,12 +313,16 @@
         <tr>
             <th >Title</th>
             <th >Description</th>
+            <th >Priority Level</th>
+            <th >Request Type</th>
             <th >Date</th>
         </tr>
         </thead>
         <tr>
             <td th:text= "${request.title}"></td>
             <td th:text= "${request.description}"></td>
+            <td th:text= "${request.level.getDisplayName()}"></td>
+            <td th:text= "${request.type.getDisplayName()}"></td>
             <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
         </tr>
     </table>
@@ -311,34 +330,61 @@
 
 <!--what is the difference between these two-->
 
-<div th:fragment="viewRequest" class="container body-content">
+    <div  th:fragment="viewRequest" class="container body-content">
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th >Title</th>
-            <th >Description</th>
-            <th >Date</th>
-        </tr>
-        </thead>
-        <tr>
-            <td th:text= "${request.title}"></td>
-            <td th:text= "${request.description}"></td>
-            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
-            <td th:text="${request.level}"></td>
-            <td>
-                <form method="post" th:action="@{/request/edit}">
-                    <input type="hidden" name="requestId" th:value="${request.id}">
-                    <input type="submit" class="btn btn-primary" value="Edit"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-    <form method="post" th:action="@{/response/create}">
-        <input type="hidden" th:name="id" th:value="${request.id}">
-        <input type="submit"  class="btn btn-primary" value="Respond">
-    </form>
-</div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th >Title</th>
+                <th >Description</th>
+                <th >Priority Level</th>
+                <th >Request Type</th>
+                <th >Date</th>
+            </tr>
+            </thead>
+            <tr>
+                <td th:text= "${request.title}"></td>
+                <td th:text= "${request.description}"></td>
+                <td th:text= "${request.level.getDisplayName()}"></td>
+                <td th:text= "${request.type.getDisplayName()}"></td>
+                <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+                <td>
+                    <form method="post" th:action="@{/request/edit}">
+                        <input type="hidden" name="requestId" th:value="${request.id}">
+                        <input type="submit" class="btn btn-primary" value="Edit"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <table th:each="thread : ${threadList}"  class="table table-striped">
+            <tr th:each="response :${thread.responses}">
+                <td th:text="${response.message}"></td>
+                <td th:text= "${#dates.format(response.responseDate, 'MM-dd-yyyy')}"></td>
+            </tr>
+            <tr>
+                <td>
+
+                    <form method="post" th:action="@{/response/create}">
+                        <input type="hidden" th:name="id" th:value="${request.id}">
+                        <input type="hidden" th:name="threadId" th:value="${thread.id}">
+                        <input type="submit"  class="btn btn-primary" value="Respond">
+                    </form>
+                </td>
+            </tr>
+
+<!--            <form method="post" th:action="@{/response/create}">-->
+<!--                <input type="hidden" th:name="id" th:value="${request.id}">-->
+<!--                <input type="hidden" th:name="threadId" th:value="${thread.id}">-->
+<!--                <input type="submit"  class="btn btn-primary" value="Respond">-->
+<!--            </form>-->
+        </table>
+
+        <form th:unless="${threadList.size > 0}" method="post" th:action="@{/response/create}">
+            <input type="hidden" th:name="id" th:value="${request.id}">
+            <input type="submit"  class="btn btn-primary" value="Respond">
+        </form>
+    </div>
 
 
     <div th:fragment="allUserRequests" class="container body-content">
@@ -348,12 +394,16 @@
         <tr>
             <th>Title</th>
             <th>Description</th>
+            <th >Priority Level</th>
+            <th >Request Type</th>
             <th>Date</th>
         </tr>
         </thead>
         <tr th:each="request : ${requests}">
             <td th:text="${request.title}"></td>
             <td th:text="${request.description}"></td>
+            <td th:text= "${request.level.getDisplayName()}"></td>
+            <td th:text= "${request.type.getDisplayName()}"></td>
             <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
         </tr>
     </table>

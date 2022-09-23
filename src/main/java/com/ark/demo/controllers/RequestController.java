@@ -56,7 +56,8 @@ public class RequestController {
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
-        model.addAttribute("types", RequestType.values());
+        model.addAttribute("types", authenticationController.createTypesMap());
+        model.addAttribute("levels", authenticationController.createLevelsMap());
 
         return "requestTemplates/createRequest";
     }
@@ -192,9 +193,26 @@ public class RequestController {
     }
 
     @GetMapping("viewRequest/{requestId}")
-    public String viewRequest(@PathVariable("requestId") Integer requestId,HttpServletRequest request, Model model){
-        Request viewRequest = requestRepository.findById(requestId).get();
+    public String viewRequest(@PathVariable("requestId") Integer id,HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        Request viewRequest = requestRepository.findById(id).get();
+        List<Thread> threadList = new ArrayList<>();
         model.addAttribute("request",viewRequest);
+
+        if(user.getId() == viewRequest.getUser().getId()){
+            threadList = threadRepository.findAllByRequestId(id);
+
+//            this is where were not getting to request
+        }else{
+            for( Thread thread : viewRequest.getThreads()){
+                if(user.getId() == thread.getUser().getId()){
+                    threadList.add(thread);
+                }
+            }
+        }
+        model.addAttribute("threadList", threadList);
+
+
         return "requestTemplates/viewRequest";
     }
     @PostMapping("close")

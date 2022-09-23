@@ -25,7 +25,8 @@
     </table>
 <form method="post" style="margin-top: 15px" th:action="@{/response/submit}">
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
-    <input type="hidden" th:field="${request.id}">
+    <input type="hidden" name="id"  th:value="${request.id}">
+    <input type="hidden" name="threadId"  th:value="${threadId}">
 
 
 
