@@ -93,6 +93,15 @@
                 <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
             </div>
             <div class="form-group">
+                <label>Priority Level
+                    <select class="form-control" th:field="${createRequestFormDTO.level}">
+                        <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                th:value="${level}" th:text="${level}"></option>
+                    </select>
+                </label>
+                <!--                <p class="errors" th:errors="${createRequestFormDTO.priorityLevel}"></p>-->
+            </div>
+            <div class="form-group">
                 <input type="hidden" th:field="${createRequestFormDTO.location}">
                 <input type="hidden" th:field="${createRequestFormDTO.status}">
             </div>
@@ -134,6 +143,7 @@
                 <th>Public?</th>
                 <th>Title</th>
                 <th>Due Date</th>
+                <th>Priority Level</th>
             </tr>
         </thead>
         <tbody>
@@ -142,6 +152,7 @@
                 <td th:text="${request.publicEvent}"></td>
                 <td th:text="${request.title}"></td>
                 <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+                <td th:text="${request.level}"></td>
                 <td>
                     <form method="post" th:action="@{/request/edit}">
                         <input type="hidden" name="requestId" th:value="${request.id}">
@@ -274,6 +285,15 @@
                     <input type="date" th:field="${editRequestFormDTO.dueDate}">
                 </label>
                 <p class="errors" th:errors="${editRequestFormDTO.dueDate}"></p>
+                <div class="form-group">
+                    <label>Priority Level
+                        <select class="form-control" th:field="${editRequestFormDTO.level}">
+                            <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                    th:value="${level}" th:text="${level}"></option>
+                        </select>
+                    </label>
+                    <!--                <p class="errors" th:errors="${createRequestFormDTO.priorityLevel}"></p>-->
+                </div>
             </div>
             <div class="form-group">
                 <input type="hidden" th:field="${editRequestFormDTO.location}"/>
@@ -308,6 +328,7 @@
     </table>
 </div>
 
+<!--what is the difference between these two-->
 
     <div  th:fragment="viewRequest" class="container body-content">
 

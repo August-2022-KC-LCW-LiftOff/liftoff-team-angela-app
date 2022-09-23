@@ -1,7 +1,6 @@
 package com.ark.demo.models.customConstraints;
 
 import com.ark.demo.models.validators.PasswordConstraintValidator;
-import org.springframework.context.annotation.Conditional;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
