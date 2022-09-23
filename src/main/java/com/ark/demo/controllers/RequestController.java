@@ -53,11 +53,13 @@ public class RequestController {
 
     @GetMapping()
     public String requestForm(Model model, HttpServletRequest request) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         model.addAttribute("title", "Create Request");
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
         model.addAttribute("types", authenticationController.createTypesMap());
-        model.addAttribute("levels", authenticationController.createLevelsMap());
+
 
         return "requestTemplates/createRequest";
     }
@@ -111,7 +113,9 @@ public class RequestController {
         return "requestTemplates/userRequests";
     }
     @PostMapping("edit")
-    public String editRequest(@RequestParam("requestId") Integer requestId, Model model) throws InvocationTargetException, IllegalAccessException {
+    public String editRequest(@RequestParam("requestId") Integer requestId, HttpServletRequest request, Model model) throws InvocationTargetException, IllegalAccessException {
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         Request updateRequest = requestRepository.findById(requestId).get();
         model.addAttribute(sendObjectToDTO(updateRequest,  new EditRequestFormDTO()));
         model.addAttribute("states",authenticationController.createStatesMap());
@@ -124,6 +128,7 @@ public class RequestController {
     @PostMapping("edit/process")
     public String processEditRequestForm(@ModelAttribute @Valid EditRequestFormDTO editRequestFormDTO, @ModelAttribute CloseRequestFormDTO closeRequestFormDTO, Errors errors, HttpServletRequest request, Model model) throws MessagingException {
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         if(errors.hasErrors()){
             model.addAttribute("title","Edit Request");
             model.addAttribute(editRequestFormDTO);
@@ -169,8 +174,10 @@ public class RequestController {
     }
 
     @PostMapping("edit/save")
-    public String sendGratitude(@RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection, Model model){
+    public String sendGratitude(HttpServletRequest request, @RequestParam("recipients") String[] recipientIds, @RequestParam("thankyou") String cardSelection, Model model){
 
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         for(String id : recipientIds){
             Integer idInt = Integer.parseInt(id);
             User recipientUser = userRepository.findById(idInt).get();
@@ -187,6 +194,7 @@ public class RequestController {
     @GetMapping("requestConfirmation")
     public String displayRequestConfirmation(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         model.addAttribute("title", "Request Confirmation");
         model.addAttribute("request", requestRepository.findLastRequestByUserId(user.getId()));
         return "requestTemplates/requestConfirmation";
@@ -195,6 +203,7 @@ public class RequestController {
     @GetMapping("viewRequest/{requestId}")
     public String viewRequest(@PathVariable("requestId") Integer id,HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         Request viewRequest = requestRepository.findById(id).get();
         List<Thread> threadList = new ArrayList<>();
         model.addAttribute("request",viewRequest);
@@ -217,14 +226,19 @@ public class RequestController {
     }
     @PostMapping("close")
     public String closeRequest(@RequestParam Integer requestId,HttpServletRequest request,Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         model.addAttribute("title","Close Request");
         CloseRequestFormDTO closeRequestFormDTO = new CloseRequestFormDTO();
         closeRequestFormDTO.setRequestId(requestId);
         model.addAttribute(closeRequestFormDTO);
+
         return "requestTemplates/closeRequest";
     }
     @PostMapping("closeRequest")
-    public String closeRequestFinal(@RequestParam Integer requestId, @RequestParam String closeType,HttpServletRequest request){
+    public String closeRequestFinal(@RequestParam Integer requestId, @RequestParam String closeType,HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         if(closeType.equals("cancel")){
             return "redirect:/request/userRequests";
         }

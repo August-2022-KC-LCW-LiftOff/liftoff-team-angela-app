@@ -167,11 +167,11 @@ public class AuthenticationController {
         return types;
     }
 
-    public TreeMap<String, String> createLevelsMap(){
-        TreeMap<String, String> levels = new TreeMap<>();
-        for (PriorityLevel level : PriorityLevel.values()){
-            levels.put(level.toString(), level.getDisplayName());
-        }
-        return levels;
-    }
+//    public TreeMap<String, String> createLevelsMap(){
+//        TreeMap<String, String> levels = new TreeMap<>();
+//        for (PriorityLevel level : PriorityLevel.values()){
+//            levels.put(level.toString(), level.getDisplayName());
+//        }
+//        return levels;
+//    }
 }

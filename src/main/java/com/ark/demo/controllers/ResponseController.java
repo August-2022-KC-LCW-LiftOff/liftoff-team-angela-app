@@ -35,13 +35,13 @@ public class ResponseController {
     @Autowired
     AuthenticationController authenticationController;
 
-    @GetMapping("index")
-    public String index(HttpServletRequest request, Model model){
-        User user = authenticationController.getUserFromSession(request.getSession());
-        model.addAttribute("title", "Messages");
-        model.addAttribute("threadResponses", responseRepository.findByUserId(user.getId()));
-        return "response/index";
-    }
+//    @GetMapping("index")
+//    public String index(HttpServletRequest request, Model model){
+//        User user = authenticationController.getUserFromSession(request.getSession());
+//        model.addAttribute("title", "Messages");
+//        model.addAttribute("threadResponses", responseRepository.findByUserId(user.getId()));
+//        return "response/index";
+//    }
     @PostMapping("create")
     public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
