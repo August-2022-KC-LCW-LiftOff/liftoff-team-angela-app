@@ -348,6 +348,12 @@
                 <td th:text= "${request.level.getDisplayName()}"></td>
                 <td th:text= "${request.type.getDisplayName()}"></td>
                 <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+                <td>
+                    <form method="post" th:action="@{/request/edit}">
+                        <input type="hidden" name="requestId" th:value="${request.id}">
+                        <input type="submit" class="btn btn-primary" value="Edit"/>
+                    </form>
+                </td>
             </tr>
         </table>
 
