@@ -326,6 +326,12 @@
             <td th:text= "${request.description}"></td>
             <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
             <td th:text="${request.level}"></td>
+            <td>
+                <form method="post" th:action="@{/request/edit}">
+                    <input type="hidden" name="requestId" th:value="${request.id}">
+                    <input type="submit" class="btn btn-primary" value="Edit"/>
+                </form>
+            </td>
         </tr>
     </table>
     <form method="post" th:action="@{/response/create}">

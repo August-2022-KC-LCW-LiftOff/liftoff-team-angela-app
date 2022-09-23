@@ -20,7 +20,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/");
+    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/", "/aboutUs","/policies/safety", "/error");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -38,6 +38,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     }
 
     public static boolean isWhiteListed(String path){
+        System.out.println("path: " + path);
         if(path.contains(";")){
             path = path.substring(0,path.indexOf(";"));
         }
