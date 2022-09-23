@@ -15,8 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping("response")
@@ -40,7 +43,7 @@ public class ResponseController {
         return "response/index";
     }
     @PostMapping("create")
-    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id) {
+    public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute("title", "Respond to Request");
         Request requestDetails = requestRepository.findById(id).get();
@@ -48,10 +51,12 @@ public class ResponseController {
         CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
         createResponseFormDTO.setUser(user);
         model.addAttribute(createResponseFormDTO);
+        model.addAttribute("threadId", (!isNull(threadId))?threadId:-1);
+
         return "response/create";
     }
     @PostMapping("submit")
-    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id){
+    public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id, @Nullable @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
@@ -59,7 +64,15 @@ public class ResponseController {
             return "response/create";
         }
         Response response = new Response(createResponseFormDTO.getUser(), createResponseFormDTO.getMessage(), createResponseFormDTO.getContactSharing());
-        Thread thread = new Thread();
+        Thread thread;
+
+        if(threadId != -1){
+             thread = threadRepository.findById(threadId).get();
+        }
+        else{
+            thread = new Thread();
+        }
+
         Request threadRequest = requestRepository.findById(id).get();
         thread.setRequest(threadRequest);
         thread.addResponse(response);
@@ -68,11 +81,8 @@ public class ResponseController {
         threadRepository.save(thread);
         response.setThread(thread);
         userRepository.save(user);
-    return "redirect:/response/responseConfirmation";
+        model.addAttribute(thread);
+    return "/response/responseConfirmation";
     }
-    @GetMapping("responseConfirmation")
-    public String displayResponseConformation(HttpServletRequest request, Model model) {
-        User user = authenticationController.getUserFromSession(request.getSession());
-        return "response/responseConfirmation";
-    }
+
 }

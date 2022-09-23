@@ -350,8 +350,32 @@
                 <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
             </tr>
         </table>
-        <form method="post" th:action="@{/response/create}">
-            <input type="hidden" th:name="requestId" th:value="${request.id}">
+
+        <table th:each="thread : ${threadList}"  class="table table-striped">
+            <tr th:each="response :${thread.responses}">
+                <td th:text="${response.message}"></td>
+                <td th:text= "${#dates.format(response.responseDate, 'MM-dd-yyyy')}"></td>
+            </tr>
+            <tr>
+                <td>
+
+                    <form method="post" th:action="@{/response/create}">
+                        <input type="hidden" th:name="id" th:value="${request.id}">
+                        <input type="hidden" th:name="threadId" th:value="${thread.id}">
+                        <input type="submit"  class="btn btn-primary" value="Respond">
+                    </form>
+                </td>
+            </tr>
+
+<!--            <form method="post" th:action="@{/response/create}">-->
+<!--                <input type="hidden" th:name="id" th:value="${request.id}">-->
+<!--                <input type="hidden" th:name="threadId" th:value="${thread.id}">-->
+<!--                <input type="submit"  class="btn btn-primary" value="Respond">-->
+<!--            </form>-->
+        </table>
+
+        <form th:unless="${threadList.size > 0}" method="post" th:action="@{/response/create}">
+            <input type="hidden" th:name="id" th:value="${request.id}">
             <input type="submit"  class="btn btn-primary" value="Respond">
         </form>
     </div>

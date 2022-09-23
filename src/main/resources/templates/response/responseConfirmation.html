@@ -7,15 +7,13 @@
 <div>
     <h3>Sent!</h3>
     <p>Thank you for responding to a request</p>
-
 </div>
 
 
-    <form method="post" th:action="@{response/index}">
-        <input type="submit">View all messages>
-        <input type="hidden" th:field="${threadId}">
+    <form method="post" th:action="@{/response/index}">
+        <input type="submit" value="View all messages">
+        <input type="hidden" th:field="${thread.id}">
     </form>
-
 
 </div>
 <footer th:replace="fragments/siteFragments::footer"></footer>
