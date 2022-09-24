@@ -10,6 +10,7 @@ import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.CloseRequestFormDTO;
 import com.ark.demo.models.dto.CreateRequestFormDTO;
 import com.ark.demo.models.dto.EditRequestFormDTO;
+import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestStatus;
 import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.services.EmailService;
@@ -118,6 +119,8 @@ public class RequestController {
         model.addAttribute(user);
         Request updateRequest = requestRepository.findById(requestId).get();
         model.addAttribute(sendObjectToDTO(updateRequest,  new EditRequestFormDTO()));
+        model.addAttribute("levels", PriorityLevel.values());
+        model.addAttribute("types",RequestType.values());
         model.addAttribute("states",authenticationController.createStatesMap());
         model.addAttribute("statuses",createStatuses());
         CloseRequestFormDTO closeRequestFormDTO = new CloseRequestFormDTO();

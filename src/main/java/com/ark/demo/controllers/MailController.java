@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.websocket.server.PathParam;
 
+import static java.util.Objects.isNull;
+
 @Controller
 @RequestMapping("mail")
 public class MailController {
@@ -21,9 +23,11 @@ public class MailController {
     @GetMapping()
     public String verifyEmail(@PathParam("uid") String uid){
         UserDetails userDetails = userDetailsRepository.findByUid(uid);
-        userDetails.setEmailVerified(true);
-        userDetails.setUid(null);
-        userDetailsRepository.save(userDetails);
+        if(!isNull(userDetails)){
+            userDetails.setEmailVerified(true);
+            userDetails.setUid(null);
+            userDetailsRepository.save(userDetails);
+        }
         return "/mailTemplates/emailVerified";
     }
 }

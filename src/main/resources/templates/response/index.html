@@ -14,9 +14,9 @@
 </div>
 <div class="container">
 
-            <p th:each="response : ${thread.responses}" > <a th:text="${response.message}"></a> </p>
+            <p th:each="response : ${threadResponses}" > <a th:text="${response.message}"></a> </p>
                 <form method="post" th:action="@{/response/threadResponse}">
-                    <input type="hidden" name="id" th:value="${thread.id}">
+<!--                    <input type="hidden" name="id" th:value="${thread.id}">-->
                     <input type="submit"  class="btn btn-primary" value="Respond">
                 </form>
 

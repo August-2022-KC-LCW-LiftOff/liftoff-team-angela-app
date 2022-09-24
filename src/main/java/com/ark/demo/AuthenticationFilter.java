@@ -20,7 +20,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/", "/aboutUs","/policies/safety", "/error");
+    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/", "/aboutUs","/policies/safety", "/error","/notverified","/resend","/mail");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -31,6 +31,13 @@ public class AuthenticationFilter implements HandlerInterceptor {
         User user = authenticationController.getUserFromSession(session);
 
         if(user != null){
+            if(user.getUserDetails().getEmailVerified() != true){
+                if(request.getRequestURI().startsWith("/user")){
+                    return true;
+                }
+                response.sendRedirect("/notverified");
+                return false;
+            }
             return true;
         }
         response.sendRedirect("/login");
