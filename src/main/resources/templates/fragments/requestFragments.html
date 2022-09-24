@@ -73,14 +73,6 @@
                 <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
             </div>
             <div class="form-group">
-                <label>Priority Level:
-                    <select th:field="${createRequestFormDTO.level}">
-                     <option th:each="level : ${levels}" th:value="${level.key}" th:text="${level.value}"></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
-            </div>
-            <div class="form-group">
                 <label>Public Event?
                     <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"  value="true"/>
                 </label>
@@ -337,17 +329,17 @@
             <tr>
                 <th >Title</th>
                 <th >Description</th>
-                <th >Priority Level</th>
                 <th >Request Type</th>
                 <th >Date</th>
+                <th >Priority Level</th>
             </tr>
             </thead>
             <tr>
                 <td th:text= "${request.title}"></td>
                 <td th:text= "${request.description}"></td>
-                <td th:text= "${request.level.getDisplayName()}"></td>
                 <td th:text= "${request.type.getDisplayName()}"></td>
                 <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
+                <td th:text="${request.level}"></td>
                 <td>
                     <form method="post" th:action="@{/request/edit}">
                         <input type="hidden" name="requestId" th:value="${request.id}">
