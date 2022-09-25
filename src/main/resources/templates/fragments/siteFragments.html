@@ -30,8 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-secondary">
-
+                        <a href="/" class="nav-link text-secondary">
                             Home
                         </a>
                     </li>
@@ -91,6 +90,13 @@
         </div>
     </div>
 </footer>
+
+<!-- Email Not Verified -->
+<div class="container text-center" th:fragment="notVerified">
+    <h3>You must verify your email address before you can use this feature.</h3>
+    <p>When you registered for an account or updated your email address through your profile, we sent an email to you.  You must click the "Verify" button in that email to verify your address.</p>
+    <a href="/resend">Re-send Verification Link</a>
+</div>
 
 <!--Error Page-->
 <div th:fragment="error" class="container text-center">

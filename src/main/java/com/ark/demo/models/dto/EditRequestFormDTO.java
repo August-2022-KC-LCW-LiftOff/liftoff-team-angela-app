@@ -2,6 +2,7 @@ package com.ark.demo.models.dto;
 
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestStatus;
+import com.ark.demo.models.enums.RequestType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -23,6 +24,8 @@ public class EditRequestFormDTO {
     private String description;
     private String location;
     private Date dateRequested;
+
+    private RequestType type;
     @Future(message = "Date must be in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
@@ -138,4 +141,12 @@ public class EditRequestFormDTO {
     public PriorityLevel getLevel() { return level; }
 
     public void setLevel(PriorityLevel level) { this.level = level; }
+
+    public RequestType getType() {
+        return type;
+    }
+
+    public void setType(RequestType type) {
+        this.type = type;
+    }
 }

@@ -1,6 +1,8 @@
 package com.ark.demo.controllers;
 
 import com.ark.demo.models.User;
+import com.ark.demo.services.EmailService;
+import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,8 @@ import static java.util.Objects.isNull;
 
 @Controller
 public class HomeController {
+    @Autowired
+    EmailService emailService;
     @Autowired
     AuthenticationController authenticationController;
     @GetMapping
@@ -43,5 +47,20 @@ public class HomeController {
             model.addAttribute(user);
         }
         return "aboutUs";
+    }
+    @GetMapping("notverified")
+    public String mustVerify(){
+        return "notVerified";
+    }
+    @GetMapping("resend")
+    public String resendVerificationEmail(HttpServletRequest request,Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        try{
+            emailService.sendMail(user.getUserDetails().getEmailAddress(),String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),user.getUserDetails().getUid()),"Verify Email Address");
+        } catch (Exception e){
+            model.addAttribute("error",e.getMessage());
+            return "verificationSent";
+        }
+        return "verificationSent";
     }
 }

@@ -19,6 +19,9 @@ import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.util.Objects.isNull;
 
 @Controller
@@ -35,13 +38,24 @@ public class ResponseController {
     @Autowired
     AuthenticationController authenticationController;
 
-//    @GetMapping("index")
-//    public String index(HttpServletRequest request, Model model){
-//        User user = authenticationController.getUserFromSession(request.getSession());
-//        model.addAttribute("title", "Messages");
-//        model.addAttribute("threadResponses", responseRepository.findByUserId(user.getId()));
-//        return "response/index";
-//    }
+    @GetMapping("index")
+    public String index(HttpServletRequest request, Model model){
+        User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute("title", "Messages");
+        List<Request> userRequests = requestRepository.findByUserId(user.getId());
+        List<Response> threadResponses = new ArrayList<>();
+        for(Request userRequest : userRequests){
+            List<Thread> requestThreads = userRequest.getThreads();
+            for(Thread requestThread:requestThreads){
+                List<Response> requestResponses = requestThread.getResponses();
+                for(Response requestResponse:requestResponses){
+                    threadResponses.add(requestResponse);
+                }
+            }
+        }
+        model.addAttribute("threadResponses",threadResponses);
+        return "response/index";
+    }
     @PostMapping("create")
     public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
