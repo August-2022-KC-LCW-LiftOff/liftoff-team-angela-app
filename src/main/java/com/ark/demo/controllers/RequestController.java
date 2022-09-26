@@ -60,8 +60,6 @@ public class RequestController {
         model.addAttribute(new CreateRequestFormDTO());
         model.addAttribute("states",authenticationController.createStatesMap());
         model.addAttribute("types", authenticationController.createTypesMap());
-
-
         return "requestTemplates/createRequest";
     }
 

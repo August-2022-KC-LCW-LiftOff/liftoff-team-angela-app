@@ -41,6 +41,7 @@ public class ResponseController {
     @GetMapping("index")
     public String index(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         model.addAttribute("title", "Messages");
         List<Request> userRequests = requestRepository.findByUserId(user.getId());
         List<Response> threadResponses = new ArrayList<>();
@@ -59,6 +60,7 @@ public class ResponseController {
     @PostMapping("create")
     public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         model.addAttribute("title", "Respond to Request");
         Request requestDetails = requestRepository.findById(id).get();
         model.addAttribute("request", requestDetails);
@@ -72,6 +74,7 @@ public class ResponseController {
     @PostMapping("submit")
     public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id, @Nullable @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
+        model.addAttribute(user);
         if (errors.hasErrors()){
             model.addAttribute("title", "Respond to Request");
             model.addAttribute(createResponseFormDTO);
