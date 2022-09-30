@@ -17,11 +17,11 @@
 <!--Site Header-->
 
 <header th:fragment="header">
-    <nav class="navbar navbar-expand-lg px-3 py-2 bg-dark text-white">
+    <nav class="navbar navbar-expand-lg px-3 py-2 text-white">
 
 
         <div class="navContainer">
-            <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+            <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                 <span class="display-3">ARK</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,40 +30,40 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/" class="nav-link text-secondary">
+                        <a href="/" class="nav-link">
                             Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/map}" class="nav-link text-white">
+                        <a th:href="@{/map}" class="nav-link">
                             Map
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/dashboard}" class="nav-link text-white">
+                        <a th:href="@{/dashboard}" class="nav-link">
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/request/userRequests}" class="nav-link text-white">
+                        <a th:href="@{/request/userRequests}" class="nav-link">
                             Requests
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/response/index}" class="nav-link text-white">
+                        <a th:href="@{/response/index}" class="nav-link">
                             Responses
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/user}" class="nav-link text-white">
+                        <a th:href="@{/user}" class="nav-link">
                             My Profile
                         </a>
                     </li>
                     <li th:unless="${user!=null}">
-                        <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
+                        <a th:href="@{/login}"><button type="button" class="btn btn-light me-2">Login</button></a>
                     </li>
                     <li th:unless="${user==null}">
-                        <a th:href="@{/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
+                        <a th:href="@{/logout}"><button type="button" class="btn btn-light me-2">Logout</button></a>
                     </li>
                     <li th:unless="${user!=null}">
                         <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
@@ -73,14 +73,14 @@
         </div>
     </nav>
 </header>
-<footer th:fragment="footer" class="bg-dark text-white pt-3 pb-4">
+<footer th:fragment="footer" class="pt-3 pb-4">
     <div class="text-center text-md-left">
         <div class="row text-center text-md-left">
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                <p><a th:href="@{/aboutUs}" class="text-white" style="text-decoration: none;">About Us</a></p>
+                <p><a th:href="@{/aboutUs}" style="text-decoration: none;">About Us</a></p>
             </div>
             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-                <p><a th:href="@{/policies/safety}" class="text-white" style="text-decoration: none;">Safety</a></p>
+                <p><a th:href="@{/policies/safety}" style="text-decoration: none;">Safety</a></p>
             </div>
             <div class="row align-items-center">
                 <div class="text-center">

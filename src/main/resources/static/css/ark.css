@@ -1,18 +1,62 @@
+:root{
+    --color1: #BF304A;
+    --color2: #D9C7CB;
+    --color3: #8C8356;
+    --color4: #732D27;
+    --color5: #BF5A5A;
+    --color6: #DDAFA5;
+}
+body{
+    background: var(--color2);
+}
+a:link{
+    color: var(--color2);
+}
+a:visited{
+    color: var(--color4);
+}
+.btn{
+    border: 2px solid var(--color4);
+}
+.btn-primary{
+  background: var(--color3);
+  color: var(--color2);
+}
+.btn:hover{
+    background: var(--color4);
+    color: var(--color2);
+    border: 2px solid var(--color2);
+}
+.btn-light{
+  background: var(--color2);
+}
 footer{
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 100px;
+    background: var(--color5);
+    color: var(--color4);
+    font-weight: 500;
+}
+.display-3{
+  color: var(--color4);
+  text-shadow: 0 0 10px var(--color2);
 }
 .container{
- padding-bottom: 100px;
+    padding-bottom: 100px;
+
 }
 .navContainer{
     display: flex;
     justify-content: space-between;
     width: 100%;
+    color: var(--color4);
+    font-weight: 500;
 }
-
+.navbar{
+    background: var(--color5);
+}
 .inlineBlock{
     display: inline-block;
 }
@@ -62,6 +106,7 @@ thead{
     width: 100%;
     height: auto;
     bottom: 100px;
+    background: var(--color3);
 }
 .landing-page-button{
     position: absolute;
