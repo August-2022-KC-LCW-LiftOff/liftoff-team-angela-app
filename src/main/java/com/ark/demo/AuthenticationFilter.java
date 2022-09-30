@@ -20,7 +20,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login","/register","/logout","/css/ark.css","/", "/aboutUs","/policies/safety", "/error","/notverified","/resend","/mail");
+    private static final List<String> whitelist = Arrays.asList("/demo/auth/login","/demo/auth/register","/demo/auth/logout","/demo/css/ark.css","/demo/", "/aboutUs","/policies/safety", "/demo/error","/demo/notverified","/demo/resend","/demo/mail");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -32,24 +32,24 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
         if(user != null){
             if(user.getUserDetails().getEmailVerified() != true){
-                if(request.getRequestURI().startsWith("/user")){
+                if(request.getRequestURI().startsWith("/demo/user")){
                     return true;
                 }
-                response.sendRedirect("/notverified");
+                response.sendRedirect("/demo/notverified");
                 return false;
             }
             return true;
         }
-        response.sendRedirect("/login");
+        response.sendRedirect("/demo/auth/login");
         return false;
     }
 
     public static boolean isWhiteListed(String path){
-        System.out.println("path: " + path);
         if(path.contains(";")){
             path = path.substring(0,path.indexOf(";"));
         }
         for(String safepath:whitelist){
+
             if(path.contains("/images/")||path.contains("/js/")){
                 return true;
             }

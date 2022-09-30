@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Objects.isNull;
 
 @Controller
+@RequestMapping("demo")
 public class HomeController {
     @Autowired
     EmailService emailService;
@@ -23,14 +25,15 @@ public class HomeController {
         model.addAttribute("user",authenticationController.getUserFromSession(request.getSession()));
         return "index";
     }
-    @GetMapping("dashboard")
+    @GetMapping("/dashboard")
     public String displayDashboard(HttpServletRequest request, Model model){
+        System.out.println("Displaying Dashboard...");
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute(user);
         return "dashboard";
     }
 
-    @GetMapping("policies/safety")
+    @GetMapping("/policies/safety")
     public String displaySafetyGuidelines(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(!isNull(user)){
@@ -40,7 +43,7 @@ public class HomeController {
         return "policies/safety";
     }
 
-    @GetMapping("aboutUs")
+    @GetMapping("/aboutUs")
     public String displayAboutUs(HttpServletRequest request, Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         if(!isNull(user)){
@@ -48,11 +51,11 @@ public class HomeController {
         }
         return "aboutUs";
     }
-    @GetMapping("notverified")
+    @GetMapping("/notverified")
     public String mustVerify(){
         return "notVerified";
     }
-    @GetMapping("resend")
+    @GetMapping("/resend")
     public String resendVerificationEmail(HttpServletRequest request,Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         try{

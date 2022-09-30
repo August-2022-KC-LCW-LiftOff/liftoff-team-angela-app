@@ -21,7 +21,7 @@
 
 
         <div class="navContainer">
-            <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+            <a href="/demo" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                 <span class="display-3">ARK</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/" class="nav-link text-secondary">
+                        <a href="/demo" class="nav-link text-secondary">
                             Home
                         </a>
                     </li>
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/dashboard}" class="nav-link text-white">
+                        <a th:href="@{/demo/dashboard}" class="nav-link text-white">
                             Dashboard
                         </a>
                     </li>
@@ -60,13 +60,13 @@
                         </a>
                     </li>
                     <li th:unless="${user!=null}">
-                        <a th:href="@{/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
+                        <a th:href="@{/auth/login}"><button type="button" class="btn btn-light text-dark me-2">Login</button></a>
                     </li>
                     <li th:unless="${user==null}">
-                        <a th:href="@{/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
+                        <a th:href="@{/auth/logout}"><button type="button" class="btn btn-light text-dark me-2">Logout</button></a>
                     </li>
                     <li th:unless="${user!=null}">
-                        <a th:href="@{/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+                        <a th:href="@{/auth/register}"><button type="button" class="btn btn-primary">Sign-up</button></a>
                     </li>
                 </ul>
             </div>
@@ -118,7 +118,7 @@
                 },1000);
                 return;
             }
-            window.location.replace("//localhost:8080");
+            window.location.replace("//www.domesne.com:8080/demo");
             return;
         }
     </script>
