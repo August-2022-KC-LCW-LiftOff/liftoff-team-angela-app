@@ -60,16 +60,19 @@ public class ResponseController {
     @PostMapping("create")
     public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
-        model.addAttribute(user);
-        model.addAttribute("title", "Respond to Request");
+//        model.addAttribute(user);
+//        model.addAttribute("title", "Respond to Request");
         Request requestDetails = requestRepository.findById(id).get();
-        model.addAttribute("request", requestDetails);
-        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
-        createResponseFormDTO.setUser(user);
-        model.addAttribute(createResponseFormDTO);
-        model.addAttribute("threadId", (!isNull(threadId))?threadId:-1);
+        Thread newThread = new Thread(user,requestDetails);
+        threadRepository.save(newThread);
+//        model.addAttribute("request", requestDetails);
+//        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
+//        createResponseFormDTO.setUser(user);
+//        model.addAttribute(createResponseFormDTO);
+//        model.addAttribute("threadId", (!isNull(threadId))?threadId:-1);
 
-        return "response/create";
+//        return "response/create";
+        return "redirect:/request/viewRequest/"+requestDetails.getId();
     }
     @PostMapping("submit")
     public String processResponse(@ModelAttribute @Valid CreateResponseFormDTO createResponseFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam("id") Integer id, @Nullable @RequestParam(value = "threadId", required = false) Integer threadId){
@@ -101,5 +104,15 @@ public class ResponseController {
         model.addAttribute(thread);
     return "/response/responseConfirmation";
     }
-
+    @PostMapping("conversationSubmit")
+    public String respondToConversation(HttpServletRequest request, @RequestParam("threadId") Integer threadId, @RequestParam("message") String message, @RequestParam("userId") String userId){
+        Thread currentThread = threadRepository.findById(threadId).get();
+        User requestUser = userRepository.findById(Integer.parseInt(userId)).get();
+        Response newResponse = new Response(requestUser,message,false);
+        newResponse.setThread(currentThread);
+        currentThread.addResponse(newResponse);
+        responseRepository.save(newResponse);
+        threadRepository.save(currentThread);
+        return "redirect:"+request.getHeader("referer");
+    }
 }

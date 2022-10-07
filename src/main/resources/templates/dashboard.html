@@ -2,46 +2,92 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
+<script src="/js/dashboard.js"></script>
 <header th:replace="fragments/siteFragments :: header"></header>
 <div class="container dashboardOuter">
-
-    <h2 th:text="${user.userDetails.firstName+' '+user.userDetails.lastName}"></h2>
-                <!--            <tr>-->
-                <!--                <td class="dashboardFrame">-->
-                <!--                    <ul>-->
-                <!--                        <li th:each="card:${user.userDetails.gratitudeCards}" th:text="<img src='+${card}+'"></li>-->
-                <!--                    </ul>-->
-                <!--                </td>-->
-                <!--            </tr>-->
-    <div class="dashboardPanels">
-        <div th:if="${!user.userDetails.gratitudeCards.empty}" class="dashboardFrame">
-            <h3>My Thank You Cards</h3>
-            <div th:each="card:${user.userDetails.gratitudeCards}">
-                <img th:src="@{${card}}"/>
+    <div class="dashboardLeft">
+        <details onclick="closeAll(event);showPanel('manageAccount');">
+            <summary>Quick Links</summary>
+        </details>
+        <details onclick="closeAll(event);showPanel('showRequests');">
+            <summary>Requests</summary>
+        </details>
+        <details onclick="closeAll(event);showPanel('showConversations');">
+            <summary>Conversations</summary>
+        </details>
+        <details onclick="closeAll(event);showPanel('showGratitude');">
+            <summary>Gratitude</summary>
+        </details>
+    </div>
+    <div class="dashboardRight">
+        <div class="infoPanel">
+            <h1>ARK Dashboard</h1>
+            <h6>for</h6>
+            <h3 th:text="${user.username}"></h3>
+            <hr/>
+            <p>To get started:</p>
+            <p>Select an option from the menu on the left side!</p>
+        </div>
+        <div id="manageAccount" class="infoPanel hidden">
+            <div class="infoGrid">
+                <button onclick="window.location.assign('/user/editProfile');" class="requestCard btn btn-primary">Edit Profile</button>
+                <button onclick="window.location.assign('/user/updatePassword');" class="requestCard btn btn-primary">Update Password</button>
+                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/request')">Create Request</button>
+                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/map')">View Map</button>
             </div>
         </div>
-        <div class="dashboardFrame">
-            <h3>My Requests</h3>
+        <div id="showRequests" class="infoPanel hidden">
             <p th:if="${user.requests.empty}">You do not have any requests.</p>
-            <div th:each="request:${user.requests}">
-                <a th:href="'/request/viewRequest/'+${request.id}"><span th:text="${request.title}"></span></a>
+            <div class="infoGrid">
+                <div th:each="request:${user.requests}" th:class="${request.publicEvent}?${request.level} + ' public ' + ${request.type}:${request.level} + ' ' + ${request.type}">
+                    <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${request.id}+'&quot;);'">
+                        <h6 th:text="${request.title}"></h6>
+                        <table>
+                            <tr>
+                                <td>Due Date:</td>
+                                <td th:text="${#dates.format(request.dueDate,'MM/dd/yyyy')}"></td>
+                            </tr>
+                            <tr>
+                                <td colspan=2 th:text="${request.description}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="dashboardFrame">
-            <h3>My Conversations</h3>
+        <div id="showConversations" class="infoPanel hidden">
             <p th:if="${user.userThreads.empty}">You do not have any conversations.</p>
-            <div th:each="thread:${user.userThreads}">
-                <a th:href="'/request/viewRequest/'+${thread.request.id}" th:text="${thread.request.title}"></a>
+            <div class="infoGrid">
+                <div th:each="thread:${user.userThreads}">
+                    <div class="requestCard conversation" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${thread.request.id}+'&quot;);'">
+                        <h6 th:text="${thread.request.title}"></h6>
+                        <h8>conversation with</h8>
+                        <h6 th:text="${thread.user.username}"></h6>
+                        <div th:each="response:${thread.responses}">
+                            <span class="responseTime" th:text="${#dates.format(response.responseDate,'MM/dd/yy hh:mm')}"></span>
+                            <p th:class="(${user.id==response.user.id})?'alignRight':''" th:text="${response.message}"></p>
+                        </div>
+                    </div>
+                    <div class="responseForm">
+                        <form method="post" th:action="@{/response/conversationSubmit}">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="threadId"  th:value="${thread.id}"/>
+                            <input type="text" class="form-control conversationResponse" name="message" placeholder="Enter Reply Here"/>
+                            <input type="submit" value="Respond" class="btn btn-success">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="showGratitude" class="infoPanel hidden">
+            <p th:if="${user.userDetails.gratitudeCards.empty}">You have not received any gratitude cards.</p>
+            <div class="infoGrid">
+                <div class="requestCard" th:each="card:${user.userDetails.gratitudeCards}">
+                    <img th:src="@{${card}}"/>
+                </div>
             </div>
         </div>
     </div>
-    <div class="dashboardPanels snuggleWithMe">
-        <div>
-            <a class="btn btn-primary" th:href="@{/request}">Create Request</a></td>
-            <a class="btn btn-primary" th:href="@{/map}">View Map</a></td>
-        </div>
-    </div>
-
 </div>
 
 <footer th:replace="fragments/siteFragments :: footer"></footer>

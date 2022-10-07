@@ -9,20 +9,6 @@
 
 <div class="container" style="margin: 75px">
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th >Title</th>
-            <th >Description</th>
-            <th >Date</th>
-        </tr>
-        </thead>
-        <tr>
-            <td th:text= "${request.title}"></td>
-            <td th:text= "${request.description}"></td>
-            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
-        </tr>
-    </table>
 <form method="post" style="margin-top: 15px" th:action="@{/response/submit}">
     <input type="hidden" th:field="${createResponseFormDTO.user}" value="${createResponseFormDTO.user}">
     <input type="hidden" name="id"  th:value="${request.id}">

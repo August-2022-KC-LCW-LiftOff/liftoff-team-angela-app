@@ -56,7 +56,32 @@
         </form>
 
     </div>
-
+<div th:fragment="showResponses">
+    <div id="showConversations" class="infoPanel">
+        <p th:if="${user.userThreads.empty}">You do not have any conversations.</p>
+        <div class="infoGrid">
+            <div th:each="thread:${user.userThreads}">
+                <div class="requestCard conversation" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${thread.request.id}+'&quot;);'">
+                    <h6 th:text="${thread.request.title}"></h6>
+                    <h8>conversation with</h8>
+                    <h6 th:text="${thread.user.username}"></h6>
+                    <div th:each="response:${thread.responses}">
+                        <span class="responseTime" th:text="${#dates.format(response.responseDate,'MM/dd/yy hh:mm')}"></span>
+                        <p th:class="(${user.id==response.user.id})?'alignRight':''" th:text="${response.message}"></p>
+                    </div>
+                </div>
+                <div class="responseForm">
+                    <form method="post" th:action="@{/response/conversationSubmit}">
+                        <input type="hidden" name="userId" th:value="${user.id}"/>
+                        <input type="hidden" name="threadId"  th:value="${thread.id}"/>
+                        <input type="text" class="form-control conversationResponse" name="message" placeholder="Enter Reply Here"/>
+                        <input type="submit" value="Respond" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

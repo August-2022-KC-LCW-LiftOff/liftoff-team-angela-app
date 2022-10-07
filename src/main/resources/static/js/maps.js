@@ -49,6 +49,7 @@ function initMap() {
 
 //   Add a marker clusterer to manage the markers.
   new markerClusterer.MarkerClusterer({ markers, map });
+
   document.querySelector("#centerButton").addEventListener('click',centerOnUserLocation);
 }
 
@@ -88,6 +89,7 @@ function getContent(){
         contentString = "";
     }
 }
+
 window.initMap = initMap;
 
 

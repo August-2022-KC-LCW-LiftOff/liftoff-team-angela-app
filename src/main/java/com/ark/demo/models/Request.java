@@ -44,7 +44,7 @@ public class Request extends AbstractEntity {
     public Request() {
     }
 
-    public Request(String title, String description, String addressLine1, String addressLine2, String city, String state, String zipcode, Date dueDate, Boolean publicEvent, String location, RequestType type, PriorityLevel level) {
+    public Request(String title, String description, String addressLine1, String addressLine2, String city, String state, String zipcode, Date dueDate, Boolean publicEvent, String location, RequestType type, PriorityLevel level, User user) {
         this.title = title;
         this.description = description;
         this.addressLine1 = addressLine1;
@@ -58,7 +58,7 @@ public class Request extends AbstractEntity {
         this.location = location;
         this.type = type;
         this.level = level;
-
+        this.user = user;
         this.status = RequestStatus.ACTIVE;
     }
 
@@ -184,5 +184,13 @@ public class Request extends AbstractEntity {
 
     public void setLevel(PriorityLevel level) {
         this.level = level;
+    }
+
+    public void setDateRequested(Date dateRequested) {
+        this.dateRequested = dateRequested;
+    }
+
+    public void setThreads(List<Thread> threads) {
+        this.threads = threads;
     }
 }

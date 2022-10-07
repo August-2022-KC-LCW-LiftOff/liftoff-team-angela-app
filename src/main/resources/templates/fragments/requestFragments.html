@@ -10,7 +10,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=getGeocodeFromAddress"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvxeC16i3kWuqNXWP_FakDMxqbINaKPaA&callback=getGeocodeFromAddress"></script>
     <script th:src="@{/js/geocodeAddress.js}"></script>
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
@@ -18,89 +18,103 @@
 <body>
 <!--Display Create Request Form-->
 <div  th:fragment="displayCreateRequestForm" class="container body-content">
-    <h2>Create Request</h2>
-    <div>
+    <div class="viewRequest">
         <form method="post" onsubmit="submitForm(event);">
-            <div class="form-group">
-                <label>Title:
-                    <input type="text" th:field="${createRequestFormDTO.title}" />
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.title}"></p>
+            <h1>
+                <div class="form-group">
+                    <label>Title:
+                        <input type="text" th:field="${createRequestFormDTO.title}" />
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.title}"></p>
+                </div>
+            </h1>
+            <h6>
+                <div class="form-group">
+                    <label>Due Date:
+                        <input type="date" th:field="${createRequestFormDTO.dueDate}"/>
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
+                </div>
+            </h6>
+            <details class="requestSettings">
+                <summary>
+                    <div class="form-group">
+                        <label>Public Event?<br/>
+                            <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"/>
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.publicEvent}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority Level
+                            <select class="form-control" th:field="${createRequestFormDTO.level}">
+                                <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                    th:value="${level}" th:text="${level}"></option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Request Type:
+                            <select class="form-control" th:field="${createRequestFormDTO.type}">
+                                <option th:each="type : ${types}" th:value="${type.key}" th:text="${type.value}"></option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
+                    </div>
+                </summary>
+            </details>
+            <div class="requestDetails">
+                <div>
+                    <div class="form-group">
+                        <label>Address Line 1:
+                            <input type="text" class="form-control" th:field="${createRequestFormDTO.addressLine1}" />
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.addressLine1}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Address Line 2:
+                            <input type="text" class="form-control"  th:field="${createRequestFormDTO.addressLine2}" />
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.addressLine2}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>City:
+                            <input type="text" class="form-control" th:field="${createRequestFormDTO.city}"/>
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.city}"></p>
+                    </div>
+                    <div class="form-group inlineBlock">
+                        <label>State:
+                            <select class="form-control" th:field="${createRequestFormDTO.state}">
+                                <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Zip Code:
+                            <input type="text"  class="form-control" th:field="${createRequestFormDTO.zipcode}" />
+                        </label>
+                        <p class="errors" th:errors="${createRequestFormDTO.zipcode}"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description:
+                        <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "13" ></textarea>
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.description}"></p>
+                </div>
             </div>
             <div class="form-group">
-                <label>Address Line 1:
-                    <input class="form-control" th:field="${createRequestFormDTO.addressLine1}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.addressLine1}"></p>
+                <input type="hidden" th:field="${createRequestFormDTO.user}"/>
+                <input type="hidden" th:field="${createRequestFormDTO.location}"/>
+                <input type="hidden" th:field="${createRequestFormDTO.status}"/>
             </div>
-            <div class="form-group">
-                <label>Address Line 2:
-                    <input class="form-control"  th:field="${createRequestFormDTO.addressLine2}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.addressLine2}"></p>
-            </div>
-            <div class="form-group">
-                <label>City:
-                    <input class="form-control" th:field="${createRequestFormDTO.city}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.city}"></p>
-            </div>
-            <div class="form-group inlineBlock">
-                <label>State:
-                    <select class="form-control" th:field="${createRequestFormDTO.state}">
-                        <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
-                    </select>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>Zip Code:
-                    <input class="form-control" th:field="${createRequestFormDTO.zipcode}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.zipcode}"></p>
-            </div>
-            <div class="form-group">
-                <label>Description:
-                    <textarea class="form-control"  th:field="${createRequestFormDTO.description}" rows = "7" ></textarea>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.description}"></p>
-            </div>
-            <div class="form-group">
-                <label>Request Type:
-                    <select th:field="${createRequestFormDTO.type}">
-                        <option th:each="type : ${types}" th:value="${type.key}" th:text="${type.value}"></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
-            </div>
-            <div class="form-group">
-                <label>Public Event?
-                    <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"  value="true"/>
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.publicEvent}"></p>
-            </div>
-            <div class="form-group">
-                <label>Due Date:
-                    <input type="date" th:field="${createRequestFormDTO.dueDate}">
-                </label>
-                <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
-            </div>
-            <div class="form-group">
-                <label>Priority Level
-                    <select class="form-control" th:field="${createRequestFormDTO.level}">
-                        <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
-                                th:value="${level}" th:text="${level}"></option>
-                    </select>
-                </label>
-                <!--                <p class="errors" th:errors="${createRequestFormDTO.priorityLevel}"></p>-->
-            </div>
-            <div class="form-group">
-                <input type="hidden" th:field="${createRequestFormDTO.location}">
-                <input type="hidden" th:field="${createRequestFormDTO.status}">
-            </div>
-            <input class="btn btn-primary" type="submit" value="Submit" on/> <input class="btn btn-secondary" type="reset" value="Reset" />
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+            <input class="btn btn-secondary" type="reset" value="Reset" />
         </form>
     </div>
 </div>
+
 
 <!--Request Confirmation-->
 <div th:fragment="requestConfirmation" class="container body-content">
@@ -127,39 +141,25 @@
 
 <!--User Requests-->
 <div th:fragment="userRequests" class="container">
-    <h2>User Requests</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Public?</th>
-                <th>Title</th>
-                <th>Due Date</th>
-                <th>Priority Level</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="request : ${requests}">
-                <td th:text="${request.status.displayName=='Close'?'Closed':request.status.displayName}"></td>
-                <td th:text="${request.publicEvent}"></td>
-                <td th:text="${request.title}"></td>
-                <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
-                <td th:text="${request.level}"></td>
-                <td th:if="${user.id == request.user.id}">
-                    <form method="post" th:action="@{/request/edit}">
-                        <input type="hidden" name="requestId" th:value="${request.id}">
-                        <input type="submit" class="btn btn-primary" value="Edit"/>
-                    </form>
-                </td>
-                <td th:if="${request.status.displayName == 'Open'}">
-                    <form method="post" th:action="@{/request/close}">
-                        <input type="hidden" name="requestId" th:value="${request.id}">
-                        <input type="submit" class="btn btn-primary" value="Close"/>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="showRequests" class="infoPanel">
+        <p th:if="${user.requests.empty}">You do not have any requests.</p>
+        <div class="infoGrid">
+            <div th:each="request:${user.requests}" th:class="${request.publicEvent}?${request.level} + ' public ' + ${request.type}:${request.level} + ' ' + ${request.type}">
+                <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${request.id}+'&quot;);'">
+                    <h6 th:text="${request.title}"></h6>
+                    <table>
+                        <tr>
+                            <td>Due Date:</td>
+                            <td th:text="${#dates.format(request.dueDate,'MM/dd/yyyy')}"></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2 th:text="${request.description}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--Close Request-->
@@ -208,96 +208,109 @@
 
 <!--Display Edit Request Form-->
 <div  th:fragment="displayEditRequestForm" class="container body-content">
-    <h2>Edit Request</h2>
-    <div>
+    <div class="viewRequest">
         <form method="post" th:action="@{/request/edit/process}" onsubmit="submitForm(event);">
-            <div class="form-group">
-                <label>Request Status:
-                    <select onchange="statusChanged(this.value);" class="form-control" th:field="${editRequestFormDTO.status}">
-                        <option th:each="status : ${statuses}" th:value="${status.key}" th:text="${status.value}" th:selected="${status == editRequestFormDTO.status}"></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
-                <div th:replace="fragments/requestFragments::confirmCloseForm"></div>
-                <div th:replace="fragments/requestFragments::closeRequest"></div>
-            </div>
-            <div class="form-group">
-                <label>Title:
-                    <input type="text" th:field="${editRequestFormDTO.title}" />
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
-            </div>
-            <div class="form-group">
-                <label>Address Line 1:
-                    <input class="form-control" th:field="${editRequestFormDTO.addressLine1}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.addressLine1}"></p>
-            </div>
-            <div class="form-group">
-                <label>Address Line 2:
-                    <input class="form-control"  th:field="${editRequestFormDTO.addressLine2}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.addressLine2}"></p>
-            </div>
-            <div class="form-group">
-                <label>City:
-                    <input class="form-control" th:field="${editRequestFormDTO.city}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.city}"></p>
-            </div>
-            <div class="form-group inlineBlock">
-                <label>State:
-                    <select class="form-control" th:field="${editRequestFormDTO.state}">
-                        <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}" th:selected="${state == editRequestFormDTO.state}">State</option>
-                    </select>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>Zip Code:
-                    <input class="form-control" th:field="${editRequestFormDTO.zipcode}" rows = "7" />
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.zipcode}"></p>
-            </div>
-            <div class="form-group">
-                <label>Description:
-                    <textarea class="form-control"  th:field="${editRequestFormDTO.description}" rows = "7" ></textarea>
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.description}"></p>
-            </div>
-            <div class="form-group">
-                <label>Request Type:
-                    <select th:field="${editRequestFormDTO.type}">
-                        <option th:each="type : ${types}" th:value="${type}" th:text="${type.displayName}"></option>
-                    </select>
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.type}"></p>
-            </div>
-            <div class="form-group">
-                <label>Public Event?
-                    <input type="checkbox" th:field="${editRequestFormDTO.publicEvent}"  value="true"/>
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.publicEvent}"></p>
-            </div>
-            <div class="form-group">
-                <label>Due Date:
-                    <input type="date" th:field="${editRequestFormDTO.dueDate}">
-                </label>
-                <p class="errors" th:errors="${editRequestFormDTO.dueDate}"></p>
+            <h1>
                 <div class="form-group">
-                    <label>Priority Level
-                        <select class="form-control" th:field="${editRequestFormDTO.level}">
-                            <option th:each="level : ${levels}"
-                                    th:value="${level}" th:text="${level}"></option>
-                        </select>
+                    <label>Title:
+                        <input type="text" th:field="${editRequestFormDTO.title}" />
                     </label>
-                    <p class="errors" th:errors="${editRequestFormDTO.level}"></p>
+                    <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
+                </div>
+            </h1>
+            <h6>
+                <div class="form-group">
+                    <label>Due Date:
+                        <input type="date" th:field="${editRequestFormDTO.dueDate}"/>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.dueDate}"></p>
+                </div>
+            </h6>
+            <details class="requestSettings">
+                <summary>
+                    <div class="form-group">
+                        <label>Public Event?<br/>
+                            <input type="checkbox" th:field="${editRequestFormDTO.publicEvent}"/>
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.publicEvent}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority Level
+                            <select class="form-control" th:field="${editRequestFormDTO.level}">
+                                <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                        th:value="${level}" th:text="${level}"></option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.level}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Request Type:
+                            <select class="form-control" th:field="${editRequestFormDTO.type}">
+                                <option th:each="type : ${types}" th:value="${type}" th:text="${type.displayName}"></option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.type}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Request Status:
+                            <select onchange="statusChanged(this.value);" class="form-control" th:field="${editRequestFormDTO.status}">
+                                <option th:each="status : ${statuses}" th:value="${status.key}" th:text="${status.value}" th:selected="${status == editRequestFormDTO.status}"></option>
+                            </select>
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
+                        <div th:replace="fragments/requestFragments::confirmCloseForm"></div>
+                        <div th:replace="fragments/requestFragments::closeRequest"></div>
+                    </div>
+                </summary>
+            </details>
+            <div class="requestDetails">
+                <div>
+                    <div class="form-group">
+                        <label>Address Line 1:
+                            <input type="text" class="form-control" th:field="${editRequestFormDTO.addressLine1}" />
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.addressLine1}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Address Line 2:
+                            <input type="text" class="form-control"  th:field="${editRequestFormDTO.addressLine2}" />
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.addressLine2}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>City:
+                            <input type="text" class="form-control" th:field="${editRequestFormDTO.city}"/>
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.city}"></p>
+                    </div>
+                    <div class="form-group inlineBlock">
+                        <label>State:
+                            <select class="form-control" th:field="${editRequestFormDTO.state}">
+                                <option th:each="state:${states}" th:value="${state.key}" th:text="${state.value}">State</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Zip Code:
+                            <input type="text"  class="form-control" th:field="${editRequestFormDTO.zipcode}" />
+                        </label>
+                        <p class="errors" th:errors="${editRequestFormDTO.zipcode}"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description:
+                        <textarea class="form-control"  th:field="${editRequestFormDTO.description}" rows = "13" ></textarea>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.description}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <input type="hidden" th:field="${editRequestFormDTO.location}"/>
-                <input type="hidden" th:field="${editRequestFormDTO.id}"/>
+                <input type="hidden" th:field="${editRequestFormDTO.id}">
+                <input type="hidden" th:field="${editRequestFormDTO.location}">
+                <input type="hidden" th:field="${editRequestFormDTO.status}">
             </div>
-            <input class="btn btn-primary" type="submit" value="Submit" on/> <input class="btn btn-secondary" type="reset" value="Reset" />
+            <input class="btn btn-primary" type="submit" value="Submit" on/>
+            <input class="btn btn-secondary" type="reset" value="Reset" />
         </form>
     </div>
 </div>
@@ -327,59 +340,66 @@
 
 <!-- Display Single User Request -->
 <div th:fragment="viewRequest" class="container body-content">
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th >Title</th>
-            <th >Description</th>
-            <th >Request Type</th>
-            <th >Date</th>
-            <th >Priority Level</th>
-        </tr>
-        </thead>
-        <tr>
-            <td th:text= "${request.title}"></td>
-            <td th:text= "${request.description}"></td>
-            <td th:text= "${request.type.displayName}"></td>
-            <td th:text= "${#dates.format(request.dueDate, 'MM-dd-yyyy')}"></td>
-            <td th:text="${request.level}"></td>
-            <td th:if="${user.id == request.user.id}">
+    <div class="viewRequest">
+        <h1 th:text="${request.title}"></h1>
+        <h6 th:text="'Due Date: '+${#dates.format(request.dueDate,'MM/dd/yyyy')}"></h6>
+        <script>
+            function removeHover(event){
+                event.currentTarget.classList.remove("hoverOnce");
+            }
+        </script>
+        <details class="requestSettings hoverOnce" onclick="removeHover(event);">
+            <summary>
+                <div th:text="(${request.publicEvent}==true)?'Audience: Public':'Audience: Only You'"></div>
+                <div th:class="${request.level}"><span th:text="'Priority: '+${request.level}"></span></div>
+                <div th:text="'Type: '+${request.type.displayName}"></div>
+                <div th:class="${request.status.displayName}"><span th:text="'Status: '+${request.status.displayName}"></span></div>
+            </summary>
+            <div class="buttonRow">
                 <form method="post" th:action="@{/request/edit}">
-                    <input type="hidden" name="requestId" th:value="${request.id}">
+                    <input type="hidden" th:name="requestId" th:value="${request.id}">
                     <input type="submit" class="btn btn-primary" value="Edit"/>
                 </form>
-            </td>
-        </tr>
-    </table>
-
-    <table th:each="thread : ${threadList}"  class="table table-striped">
-        <tr th:each="response :${thread.responses}">
-            <td th:text="${response.message}"></td>
-            <td th:text= "${#dates.format(response.responseDate, 'MM-dd-yyyy')}"></td>
-        </tr>
-        <tr>
-            <td>
-
                 <form method="post" th:action="@{/response/create}">
                     <input type="hidden" th:name="id" th:value="${request.id}">
-                    <input type="hidden" th:name="threadId" th:value="${thread.id}">
-                    <input type="submit"  class="btn btn-primary" value="Respond">
+                    <input type="submit" class="btn btn-primary" value="Respond"/>
                 </form>
-            </td>
-        </tr>
-
-<!--            <form method="post" th:action="@{/response/create}">-->
-<!--                <input type="hidden" th:name="id" th:value="${request.id}">-->
-<!--                <input type="hidden" th:name="threadId" th:value="${thread.id}">-->
-<!--                <input type="submit"  class="btn btn-primary" value="Respond">-->
-<!--            </form>-->
-    </table>
-
-    <form th:unless="${threadList.size > 0}" method="post" th:action="@{/response/create}">
-        <input type="hidden" th:name="id" th:value="${request.id}">
-        <input type="submit"  class="btn btn-primary" value="Respond">
-    </form>
+            </div>
+        </details>
+        <div class="requestDetails">
+            <div>
+                <div th:text="${request.addressLine1}"></div>
+                <div th:text="${request.addressLine2}"></div>
+                <div>
+                    <span th:text="${request.city}"></span>
+                    <span th:text="${request.state}"></span>
+                    <span th:text="${request.zipcode}"></span>
+                </div>
+            </div>
+            <div>
+               <p th:text="${request.description}"></p>
+            </div>
+        </div>
+        <div class="requestThreads">
+            <div th:each="thread:${threadList}">
+                <div class="threadUser" th:text="'Conversation with: '+${thread.user.username}"></div>
+                <div class="thread">
+                    <div class="responseGroup" th:each="response:${thread.responses}">
+                        <div class="responseTime" th:text="${#dates.format(response.responseDate,'MM/dd/yyyy hh:mm')}"></div>
+                        <div th:class="(${user.id==response.user.id})?'threadResponse alignRight':'threadResponse'" th:text="${response.message}"></div>
+                    </div>
+                </div>
+                <div class="responseForm">
+                    <form method="post" th:action="@{/response/conversationSubmit}">
+                        <input type="hidden" name="userId" th:value="${user.id}"/>
+                        <input type="hidden" name="threadId"  th:value="${thread.id}"/>
+                        <input type="text" class="form-control conversationResponse" name="message" placeholder="Enter Reply Here"/>
+                        <input type="submit" value="Respond" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Display All User Requests -->

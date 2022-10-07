@@ -1,5 +1,6 @@
 package com.ark.demo.models.dto;
 
+import com.ark.demo.models.User;
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestStatus;
 import com.ark.demo.models.enums.RequestType;
@@ -9,9 +10,12 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 public class EditRequestFormDTO {
     private Integer id;
+
+    private User user;
     private RequestStatus status;
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 50, message = "Title must be between 3 and 50 characters")
@@ -26,13 +30,14 @@ public class EditRequestFormDTO {
     private Date dateRequested;
 
     private RequestType type;
-    @Future(message = "Date must be in the future")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     private Boolean publicEvent;
 
     private PriorityLevel level;
+
+    private List<Thread> threads;
 
     public Integer getId() {
         return id;
@@ -148,5 +153,21 @@ public class EditRequestFormDTO {
 
     public void setType(RequestType type) {
         this.type = type;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Thread> getThreads() {
+        return threads;
+    }
+
+    public void setThreads(List<Thread> threads) {
+        this.threads = threads;
     }
 }

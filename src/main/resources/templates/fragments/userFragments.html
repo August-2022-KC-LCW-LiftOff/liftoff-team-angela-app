@@ -10,7 +10,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=getGeocodeFromAddress"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvxeC16i3kWuqNXWP_FakDMxqbINaKPaA&callback=getGeocodeFromAddress"></script>
     <script th:src="@{/js/geocodeAddress.js}"></script>
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
@@ -184,21 +184,23 @@
 
 <!--Login Form-->
 <div th:fragment="loginForm" class="container">
-    <form method="post">
-        <div class="form-group">
-            <label>Username:
-                <input type="text" class="form-control" th:field="${loginFormDTO.username}"/>
-            </label>
-        </div>
-        <div class="form-group">
-            <label>Password:
-                <input type="password" class="form-control" th:field="${loginFormDTO.password}"/>
-            </label>
-        </div>
-        <p th:class="errors" th:errors="${loginFormDTO.username}"></p>
-        <p th:class="errors" th:errors="${loginFormDTO.password}"></p>
-        <input type="submit" class="btn btn-primary" value="Login">
-    </form>
+    <div class="loginForm">
+        <form method="post">
+            <div class="form-group">
+                <label>Username:
+                    <input type="text" class="form-control" th:field="${loginFormDTO.username}"/>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Password:
+                    <input type="password" class="form-control" th:field="${loginFormDTO.password}"/>
+                </label>
+            </div>
+            <p th:class="errors" th:errors="${loginFormDTO.username}"></p>
+            <p th:class="errors" th:errors="${loginFormDTO.password}"></p>
+            <input type="submit" class="btn btn-primary" value="Login">
+        </form>
+    </div>
 </div>
 
 <!--View Profile-->

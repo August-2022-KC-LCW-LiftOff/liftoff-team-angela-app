@@ -57,7 +57,9 @@ public class RequestController {
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute(user);
         model.addAttribute("title", "Create Request");
-        model.addAttribute(new CreateRequestFormDTO());
+        CreateRequestFormDTO createRequestFormDTO = new CreateRequestFormDTO();
+        createRequestFormDTO.setUser(user);
+        model.addAttribute(createRequestFormDTO);
         model.addAttribute("states",authenticationController.createStatesMap());
         model.addAttribute("types", authenticationController.createTypesMap());
         return "requestTemplates/createRequest";
@@ -72,7 +74,7 @@ public class RequestController {
             return "requestTemplates/createRequest";
         }
 
-        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation(), createRequestFormDTO.getType(),createRequestFormDTO.getLevel());
+        Request newRequest = new Request(createRequestFormDTO.getTitle(),createRequestFormDTO.getDescription(), createRequestFormDTO.getAddressLine1(),createRequestFormDTO.getAddressLine2(),createRequestFormDTO.getCity(),createRequestFormDTO.getState(),createRequestFormDTO.getZipcode(),createRequestFormDTO.getDueDate(),createRequestFormDTO.getPublicEvent(),createRequestFormDTO.getLocation(), createRequestFormDTO.getType(),createRequestFormDTO.getLevel(),createRequestFormDTO.getUser());
         newRequest.setPublicEvent(createRequestFormDTO.getPublicEvent());
         newRequest.setUser(user);
         requestRepository.save(newRequest);
@@ -116,7 +118,8 @@ public class RequestController {
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute(user);
         Request updateRequest = requestRepository.findById(requestId).get();
-        model.addAttribute(sendObjectToDTO(updateRequest,  new EditRequestFormDTO()));
+        EditRequestFormDTO editRequestFormDTO = new EditRequestFormDTO();
+        model.addAttribute("editRequestFormDTO",sendObjectToDTO(updateRequest,  editRequestFormDTO));
         model.addAttribute("levels", PriorityLevel.values());
         model.addAttribute("types",RequestType.values());
         model.addAttribute("states",authenticationController.createStatesMap());
@@ -267,7 +270,8 @@ public class RequestController {
             try{
                 setterMethod = dtoClass.getDeclaredMethod("set"+declaredField.getName().substring(0,1).toUpperCase()+declaredField.getName().substring(1),declaredField.getType());
             } catch (Exception e){
-                System.out.println("Setter Not Found: "+e.getMessage());
+                System.out.println("Object to DTO: Declared Setter Field: " + declaredField.getName());
+                System.out.println("Object to DTO: Setter Not Found: "+e.getMessage());
             }
             try{
                 if(declaredField.getName() == "id"){
@@ -276,7 +280,8 @@ public class RequestController {
                     getterMethod = objectClass.getDeclaredMethod("get"+declaredField.getName().substring(0,1).toUpperCase()+declaredField.getName().substring(1));
                 }
             } catch (Exception e){
-                System.out.println("Getter Not Found: "+e.getMessage());
+                System.out.println("Object to DTO: Declared Getter Field: " + declaredField.getName());
+                System.out.println("Object to DTO: Getter Not Found: "+e.getMessage());
             }
             setterMethod.invoke(dtoObject,getterMethod.invoke(o));
         }
@@ -291,17 +296,20 @@ public class RequestController {
             try{
                 setter = objectClass.getDeclaredMethod("set"+field.getName().substring(0,1).toUpperCase()+field.getName().substring(1),field.getType());
             } catch(Exception e){
-                System.out.println("Setter Not Found: "+e.getMessage());
+                System.out.println("Object from DTO: Declared Setter Field: " + field.getName());
+                System.out.println("Object from DTO: Setter Not Found: "+e.getMessage());
             }
             try{
                 getter = dtoObject.getClass().getDeclaredMethod("get"+field.getName().substring(0,1).toUpperCase()+field.getName().substring(1));
             } catch (Exception e){
-                System.out.println("Getter Not Found: "+e.getMessage());
+                System.out.println("Object from DTO: Declared Getter Field: " + field.getName());
+                System.out.println("Object from DTO: Getter Not Found: "+e.getMessage());
             }
             try {
                 setter.invoke(o, getter.invoke(dtoObject));
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                System.out.println("Object from DTO: Declared Invocation Field: " + field.getName());
+                System.out.println("Object from DTO: Invocation Error: "+e.getMessage());
             }
         }
         return o;

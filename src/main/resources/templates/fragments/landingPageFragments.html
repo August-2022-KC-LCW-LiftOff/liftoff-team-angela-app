@@ -3,15 +3,12 @@
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
 <div th:fragment="landingPage">
-
-
-        <div class="landingPage">
-            <img class="landing-page-image" th:src="@{/images/blueLandingPage_contrastResize.png}"  alt="Acts of Empathy, Solidarity, and Kindness">
-            <div class="landing-page-button">
-                <a th:href="@{register}"><button type="button" class="btn btn-lg btn-primary" alt="Join Ark">Join Ark</button></a>
-            </div>
+    <div class="landingPage">
+        <img class="landing-page-image" th:src="@{/images/blueLandingPage_contrastResize.png}"  alt="Acts of Empathy, Solidarity, and Kindness">
+        <div class="landing-page-button">
+            <button th:onclick="window.location.assign('/register');" type="button" class="btn btn-lg btn-primary" alt="Join Ark">Join Ark</button>
         </div>
-
+    </div>
 </div>
 </body>
 </html>

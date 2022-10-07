@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <script type="module" th:src="@{/js/maps.js}"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWgxS1yJxgoLBySQNTAeZzlzuEy6b7Ac&callback=initMap"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvxeC16i3kWuqNXWP_FakDMxqbINaKPaA&callback=initMap"></script>
 
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
@@ -19,17 +19,21 @@
 
 
 
-<div class="container d-flex flex-column align-items-center" th:fragment="showMap">
+<div class="container" th:fragment="showMap">
     <script>
         let requestLocations = [[${locations}]];
+        console.log(requestLocations);
         let userLocation = [[${userLocation}]];
+        function viewRequest(requestId){
+            window.location.assign("/request/viewRequest/"+requestId);
+        }
     </script>
     <div id="mapFrame">
         <div id="map"></div>
     </div>
     <p><b>***NOTE:</b> <em>This map does not display <b>actual locations</b>.  The markers on this map have been adjusted for safety.</em></p>
-    <div class="d-flex flex-column justify-content-start giveMeSpace">
-        <a class="btn btn-primary" type="button" id="centerButton" >Re-Center Map</a>
+    <div class="giveMeSpace">
+        <button class="btn btn-primary" type="button" id="centerButton" >Re-Center Map</button>
         <form method="get" class="d-flex flex-row">
             <select name="sortBy">
                 <option value="title">Title</option>
@@ -40,33 +44,29 @@
             </select>
         </form>
     </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Due Date</td>
+                    <td>Description</td>
+                    <td>Zip Code</td>
+                    <td>Priority Level</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="content" th:each="request:${requests}">
+                    <td class="title" th:text="${request.title}"></td>
+                    <td label="Due Date: " th:text="${#dates.format(request.dueDate, 'MMMM dd, yyyy')}"></td>
+                    <td class = "exclude" th:text="${request.description}"></td>
+                    <td label="Location: " th:text="${request.zipcode}"></td>
+                    <td label="Priority Level: " th:text="${request.level}"></td>
+                    <td><button th:onclick="'viewRequest('+${request.id}+')'" class="btn btn-primary">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<div class="container d-flex justify-content-center" th:fragment="showRequestsTable">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Title</td>
-                <td>Due Date</td>
-                <td>Description</td>
-                <td>Zip Code</td>
-                <td>Priority Level</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="content" th:each="request:${requests}">
-                <td class="title" th:text="${request.title}"></td>
-                <td label="Due Date: " th:text="${#dates.format(request.dueDate, 'MMMM dd, yyyy')}"></td>
-                <td class = "exclude" th:text="${request.description}"></td>
-                <td label="Location: " th:text="${request.zipcode}"></td>
-                <td label="Priority Level: " th:text="${request.level}"></td>
-                <td><a th:href="@{request/viewRequest/}+${request.id}" class="btn btn-primary">View</a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-
-
-
 </body>
 </html>
