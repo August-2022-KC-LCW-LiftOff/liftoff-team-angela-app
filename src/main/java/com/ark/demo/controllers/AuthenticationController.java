@@ -18,6 +18,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import javax.mail.MessagingException;
@@ -32,6 +33,7 @@ import java.util.TreeMap;
 import static java.util.Objects.isNull;
 
 @Controller
+@RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
@@ -115,6 +117,7 @@ public class AuthenticationController {
     }
     @GetMapping("/login")
     public String displayLoginForm(Model model){
+        System.out.println("Displaying Login Screen...");
         model.addAttribute("title","Login");
         model.addAttribute(new LoginFormDTO());
         return "userTemplates/login";
@@ -122,7 +125,9 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO, Errors errors, HttpServletRequest request, Model model){
+        System.out.println("Processing Login...");
         if(errors.hasErrors()){
+            System.out.println("Login Has Errors...");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
             return "userTemplates/login";
@@ -130,6 +135,7 @@ public class AuthenticationController {
 
         User validUser = userRepository.findByUsername(loginFormDTO.getUsername());
         if(isNull(validUser)){
+            System.out.println("Invalid Username...");
             errors.rejectValue("username","username.doesnotexist","Incorrect Username or Password");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
@@ -138,18 +144,19 @@ public class AuthenticationController {
 
         String password = loginFormDTO.getPassword();
         if(!validUser.isMatchingPassword(password)){
+            System.out.println("Password Mismatch...");
             errors.rejectValue("username","password.mismatch","Incorrect Username or Password");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
             return "userTemplates/login";
         }
         setUserInSession(request.getSession(),validUser);
-        return "redirect:";
+        return "redirect:/";
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
-        return "redirect:";
+        return "redirect:/demo";
     }
     public TreeMap<String, String> createStatesMap(){
         TreeMap<String, String> states = new TreeMap<>();

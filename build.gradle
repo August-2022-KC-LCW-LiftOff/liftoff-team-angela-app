@@ -2,11 +2,14 @@ plugins {
 	id 'org.springframework.boot' version '2.7.2'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
+	id 'application'
+	id 'war'
 }
 
 group = 'com.ark'
-version = '0.0.1-SNAPSHOT'
+version = ''
 sourceCompatibility = '17'
+mainClassName='com.ark.demo.DemoApplication'
 
 repositories {
 	mavenCentral()
@@ -22,6 +25,7 @@ dependencies {
 	implementation 'com.google.guava:guava:31.1-jre'
 	implementation 'org.passay:passay:1.6.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
