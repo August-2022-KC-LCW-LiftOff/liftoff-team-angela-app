@@ -18,13 +18,13 @@
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg px-3 py-2 text-white">
         <div class="navContainer">
-            <div th:onclick="window.location.replace('/');" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
+            <div th:onclick="window.location.assign('/ark/');" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
                 <span class="display-3">ARK</span>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/" class="nav-link">
+                        <a th:href="@{/}" class="nav-link">
                             Home
                         </a>
                     </li>
@@ -54,13 +54,13 @@
                         </a>
                     </li>
                     <li th:unless="${user!=null}">
-                        <button th:onclick="window.location.assign('/login');" type="button" class="btn btn-light me-2">Login</button>
+                        <button th:onclick="window.location.assign('/ark/login');" type="button" class="btn btn-light me-2">Login</button>
                     </li>
                     <li th:unless="${user==null}">
-                        <button th:onclick="window.location.assign('/logout');" type="button" class="btn btn-light me-2">Logout</button>
+                        <button th:onclick="window.location.assign('/ark/logout');" type="button" class="btn btn-light me-2">Logout</button>
                     </li>
                     <li th:unless="${user!=null}">
-                        <button th:onclick="window.location.assign('/register');" type="button" class="btn btn-primary">Sign-up</button>
+                        <button th:onclick="window.location.assign('/ark/register');" type="button" class="btn btn-primary">Sign-up</button>
                     </li>
                 </ul>
             </div>
@@ -87,7 +87,7 @@
 <div class="container text-center" th:fragment="notVerified">
     <h3>You must verify your email address before you can use this feature.</h3>
     <p>When you registered for an account or updated your email address through your profile, we sent an email to you.  You must click the "Verify" button in that email to verify your address.</p>
-    <a href="/resend">Re-send Verification Link</a>
+    <a th:href="@{/resend}">Re-send Verification Link</a>
 </div>
 
 <!--Error Page-->
@@ -110,7 +110,7 @@
                 },1000);
                 return;
             }
-            window.location.replace("//localhost:8080");
+            window.location.assign("/ark/");
             return;
         }
     </script>

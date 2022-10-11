@@ -8,6 +8,7 @@ import com.ark.demo.models.dto.DeleteFormDTO;
 import com.ark.demo.models.dto.EditProfileFormDTO;
 import com.ark.demo.models.dto.UpdatePasswordFormDTO;
 import com.ark.demo.models.dto.ViewProfileDTO;
+import com.ark.demo.models.mail.EmailTemplateStrings;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class UserController {
         if(!userDetails.getEmailAddress().equals(editProfileFormDTO.getUserDetails().getEmailAddress())){
             userDetails.setUid(editProfileFormDTO.getUserDetails().getEmailAddress());
             userDetails.setEmailVerified(false);
-            emailService.sendMail(editProfileFormDTO.getUserDetails().getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/updatedEmailAddressEmail.html"),userDetails.getUid()),"E-mail Address Updated");
+            emailService.sendMail(editProfileFormDTO.getUserDetails().getEmailAddress(), String.format(new EmailTemplateStrings().getUpdateEmailAddressEmail(),userDetails.getUid()),"E-mail Address Updated");
         }
         userDetails.setEmailAddress(editProfileFormDTO.getUserDetails().getEmailAddress());
         user.setLocation(editProfileFormDTO.getLocation());

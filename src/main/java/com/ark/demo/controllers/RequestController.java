@@ -13,6 +13,7 @@ import com.ark.demo.models.dto.EditRequestFormDTO;
 import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestStatus;
 import com.ark.demo.models.enums.RequestType;
+import com.ark.demo.models.mail.EmailTemplateStrings;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class RequestController {
         requestRepository.save(newRequest);
         user.addRequest(newRequest);
         userRepository.save(user);
-        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+        String text = String.format(new EmailTemplateStrings().getRequestConfirmationEmail(),
                 newRequest.getTitle(),
                 newRequest.getPublicEvent(),
                 newRequest.getStatus(),
@@ -162,7 +163,7 @@ public class RequestController {
 
             return "requestTemplates/showGratitude";
         }
-        String text = String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/requestConfirmationEmail.html"),
+        String text = String.format(new EmailTemplateStrings().getRequestConfirmationEmail(),
                 editRequest.getTitle(),
                 editRequest.getPublicEvent(),
                 editRequest.getStatus(),
@@ -214,8 +215,6 @@ public class RequestController {
 
         if(user.getId() == viewRequest.getUser().getId()){
             threadList = threadRepository.findAllByRequestId(id);
-
-//            this is where were not getting to request
         }else{
             for( Thread thread : viewRequest.getThreads()){
                 if(user.getId() == thread.getUser().getId()){
@@ -224,8 +223,6 @@ public class RequestController {
             }
         }
         model.addAttribute("threadList", threadList);
-
-
         return "requestTemplates/viewRequest";
     }
     @PostMapping("close")

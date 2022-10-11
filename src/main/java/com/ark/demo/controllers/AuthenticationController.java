@@ -6,9 +6,9 @@ import com.ark.demo.models.data.UserDetailsRepository;
 import com.ark.demo.models.data.UserRepository;
 import com.ark.demo.models.dto.LoginFormDTO;
 import com.ark.demo.models.dto.RegistrationFormDTO;
-import com.ark.demo.models.enums.PriorityLevel;
 import com.ark.demo.models.enums.RequestType;
 import com.ark.demo.models.enums.USStates;
+import com.ark.demo.models.mail.EmailTemplateStrings;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +20,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
 import static java.util.Objects.isNull;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping()
 public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
@@ -112,12 +110,11 @@ public class AuthenticationController {
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);
-        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),newUserDetails.getUid()),"Verify E-mail Address");
-        return "redirect:";
+        emailService.sendMail(newUserDetails.getEmailAddress(), String.format(new EmailTemplateStrings().getRegistrationEmail(),newUserDetails.getUid()),"Verify E-mail Address");
+        return "redirect:/";
     }
     @GetMapping("/login")
     public String displayLoginForm(Model model){
-        System.out.println("Displaying Login Screen...");
         model.addAttribute("title","Login");
         model.addAttribute(new LoginFormDTO());
         return "userTemplates/login";
@@ -125,9 +122,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO, Errors errors, HttpServletRequest request, Model model){
-        System.out.println("Processing Login...");
         if(errors.hasErrors()){
-            System.out.println("Login Has Errors...");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
             return "userTemplates/login";
@@ -135,7 +130,6 @@ public class AuthenticationController {
 
         User validUser = userRepository.findByUsername(loginFormDTO.getUsername());
         if(isNull(validUser)){
-            System.out.println("Invalid Username...");
             errors.rejectValue("username","username.doesnotexist","Incorrect Username or Password");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
@@ -144,7 +138,6 @@ public class AuthenticationController {
 
         String password = loginFormDTO.getPassword();
         if(!validUser.isMatchingPassword(password)){
-            System.out.println("Password Mismatch...");
             errors.rejectValue("username","password.mismatch","Incorrect Username or Password");
             model.addAttribute("title","Login");
             model.addAttribute(loginFormDTO);
@@ -156,7 +149,7 @@ public class AuthenticationController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
-        return "redirect:/demo";
+        return "redirect:/";
     }
     public TreeMap<String, String> createStatesMap(){
         TreeMap<String, String> states = new TreeMap<>();
@@ -173,12 +166,4 @@ public class AuthenticationController {
         }
         return types;
     }
-
-//    public TreeMap<String, String> createLevelsMap(){
-//        TreeMap<String, String> levels = new TreeMap<>();
-//        for (PriorityLevel level : PriorityLevel.values()){
-//            levels.put(level.toString(), level.getDisplayName());
-//        }
-//        return levels;
-//    }
 }

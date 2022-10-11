@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/siteFragments::head"></head>
 <body>
-<script src="/js/dashboard.js"></script>
+<script src="/ark/js/dashboard.js"></script>
 <header th:replace="fragments/siteFragments :: header"></header>
 <div class="container dashboardOuter">
     <div class="dashboardLeft">
@@ -30,17 +30,17 @@
         </div>
         <div id="manageAccount" class="infoPanel hidden">
             <div class="infoGrid">
-                <button onclick="window.location.assign('/user/editProfile');" class="requestCard btn btn-primary">Edit Profile</button>
-                <button onclick="window.location.assign('/user/updatePassword');" class="requestCard btn btn-primary">Update Password</button>
-                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/request')">Create Request</button>
-                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/map')">View Map</button>
+                <button onclick="window.location.assign('/ark/user/editProfile');" class="requestCard btn btn-primary">Edit Profile</button>
+                <button onclick="window.location.assign('/ark/user/updatePassword');" class="requestCard btn btn-primary">Update Password</button>
+                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/ark/request')">Create Request</button>
+                <button class="requestCard btn btn-primary" th:onclick="window.location.assign('/ark/map')">View Map</button>
             </div>
         </div>
         <div id="showRequests" class="infoPanel hidden">
             <p th:if="${user.requests.empty}">You do not have any requests.</p>
             <div class="infoGrid">
                 <div th:each="request:${user.requests}" th:class="${request.publicEvent}?${request.level} + ' public ' + ${request.type}:${request.level} + ' ' + ${request.type}">
-                    <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${request.id}+'&quot;);'">
+                    <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/ark/request/viewRequest/'+${request.id}+'&quot;);'">
                         <h6 th:text="${request.title}"></h6>
                         <table>
                             <tr>
@@ -59,7 +59,7 @@
             <p th:if="${user.userThreads.empty}">You do not have any conversations.</p>
             <div class="infoGrid">
                 <div th:each="thread:${user.userThreads}">
-                    <div class="requestCard conversation" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${thread.request.id}+'&quot;);'">
+                    <div class="requestCard conversation" th:onclick="'window.location.assign(&quot;/ark/request/viewRequest/'+${thread.request.id}+'&quot;);'">
                         <h6 th:text="${thread.request.title}"></h6>
                         <h8>conversation with</h8>
                         <h6 th:text="${thread.user.username}"></h6>

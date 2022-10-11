@@ -26,10 +26,7 @@ a:hover{
     padding: 5px;
     border: 1px solid var(--color2);
 }
-a:link{
-    color: var(--color4);
-}
-a:visited{
+a {
     color: var(--color4);
 }
 body{
@@ -221,9 +218,9 @@ thead{
     grid-template-columns: repeat(3,1fr);
     padding: 10px;
     overflow: auto;
-    height: 345px;
 }
 .infoPanel{
+    width: 100%;
     text-align: center;
 }
 .inlineBlock{
@@ -317,19 +314,17 @@ thead{
 .requestDetails{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     text-align: left;
 }
-.requestDetails div{
-    width: 48%;
-}
+
 input[type="checkbox"]{
     width: 30px;
     height: 30px;
 }
 .requestDetails input[type="text"],
 .requestDetails textarea {
-    width: 35vw;
+    width: 24vw;
 }
 .hoverOnce:hover::before{
     opacity: 0;
@@ -349,6 +344,7 @@ input[type="checkbox"]{
     justify-content: space-evenly;
     border-top: 2px solid var(--color5);
     border-bottom: 2px solid var(--color5);
+    width: 100%;
 }
 .requestThreads{
     display: grid;
@@ -427,7 +423,7 @@ input[type="checkbox"]{
     list-style: none;
 }
 .viewRequest{
-    width: 80vw;
+    width: 100%;
     box-shadow: 0 0 15px var(--color5);
     border-radius: 5px;
     text-align: center;

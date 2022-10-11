@@ -1,6 +1,7 @@
 package com.ark.demo.controllers;
 
 import com.ark.demo.models.User;
+import com.ark.demo.models.mail.EmailTemplateStrings;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import static java.util.Objects.isNull;
 
 @Controller
-@RequestMapping("demo")
+@RequestMapping()
 public class HomeController {
     @Autowired
     EmailService emailService;
@@ -27,7 +28,6 @@ public class HomeController {
     }
     @GetMapping("/dashboard")
     public String displayDashboard(HttpServletRequest request, Model model){
-        System.out.println("Displaying Dashboard...");
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute(user);
         return "dashboard";
@@ -59,7 +59,7 @@ public class HomeController {
     public String resendVerificationEmail(HttpServletRequest request,Model model){
         User user = authenticationController.getUserFromSession(request.getSession());
         try{
-            emailService.sendMail(user.getUserDetails().getEmailAddress(),String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/registrationEmail.html"),user.getUserDetails().getUid()),"Verify Email Address");
+            emailService.sendMail(user.getUserDetails().getEmailAddress(),String.format(new EmailTemplateStrings().getRegistrationEmail(),user.getUserDetails().getUid()),"Verify Email Address");
         } catch (Exception e){
             model.addAttribute("error",e.getMessage());
             return "verificationSent";

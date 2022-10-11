@@ -145,7 +145,7 @@
         <p th:if="${user.requests.empty}">You do not have any requests.</p>
         <div class="infoGrid">
             <div th:each="request:${user.requests}" th:class="${request.publicEvent}?${request.level} + ' public ' + ${request.type}:${request.level} + ' ' + ${request.type}">
-                <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/request/viewRequest/'+${request.id}+'&quot;);'">
+                <div th:class="requestCard" th:onclick="'window.location.assign(&quot;/ark/request/viewRequest/'+${request.id}+'&quot;);'">
                     <h6 th:text="${request.title}"></h6>
                     <table>
                         <tr>
@@ -356,7 +356,7 @@
                 <div th:class="${request.status.displayName}"><span th:text="'Status: '+${request.status.displayName}"></span></div>
             </summary>
             <div class="buttonRow">
-                <form method="post" th:action="@{/request/edit}">
+                <form th:if="${user.id == request.user.id}" method="post" th:action="@{/request/edit}">
                     <input type="hidden" th:name="requestId" th:value="${request.id}">
                     <input type="submit" class="btn btn-primary" value="Edit"/>
                 </form>
@@ -368,8 +368,8 @@
         </details>
         <div class="requestDetails">
             <div>
-                <div th:text="${request.addressLine1}"></div>
-                <div th:text="${request.addressLine2}"></div>
+                <div th:if="${user.id == request.user.id}" th:text="${request.addressLine1}"></div>
+                <div th:if="${user.id == request.user.id}" th:text="${request.addressLine2}"></div>
                 <div>
                     <span th:text="${request.city}"></span>
                     <span th:text="${request.state}"></span>

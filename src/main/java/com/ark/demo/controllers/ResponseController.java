@@ -60,18 +60,9 @@ public class ResponseController {
     @PostMapping("create")
     public String displayCreateResponseForm(HttpServletRequest request, Model model,@RequestParam("id") Integer id, @RequestParam(value = "threadId", required = false) Integer threadId){
         User user = authenticationController.getUserFromSession(request.getSession());
-//        model.addAttribute(user);
-//        model.addAttribute("title", "Respond to Request");
         Request requestDetails = requestRepository.findById(id).get();
         Thread newThread = new Thread(user,requestDetails);
         threadRepository.save(newThread);
-//        model.addAttribute("request", requestDetails);
-//        CreateResponseFormDTO createResponseFormDTO = new CreateResponseFormDTO();
-//        createResponseFormDTO.setUser(user);
-//        model.addAttribute(createResponseFormDTO);
-//        model.addAttribute("threadId", (!isNull(threadId))?threadId:-1);
-
-//        return "response/create";
         return "redirect:/request/viewRequest/"+requestDetails.getId();
     }
     @PostMapping("submit")
