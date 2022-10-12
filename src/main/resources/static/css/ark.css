@@ -239,6 +239,11 @@ thead{
     height: calc(100vh - 120px);
     background: linear-gradient(var(--color3),var(--color1),var(--color4));
 }
+@media screen and (orientation:portrait){
+    .landing-page-image{
+        content: url(../images/portrait.png);
+    }
+}
 .landingPage{
     position: relative;
     width: 100vw;
