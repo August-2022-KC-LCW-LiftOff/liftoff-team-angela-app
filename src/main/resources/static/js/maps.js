@@ -18,7 +18,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     centerOnUserLocation();
     const icon = {
-        url: '../demo/images/arkheartsmall.png',
+        url: '../ark/images/arkheartsmall.png',
         size: new google.maps.Size(32,30),
         anchor: new google.maps.Point(16,16),
     };

@@ -126,7 +126,7 @@ public class EmailTemplateStrings {
                     <tr>
                     <tr>
                         <td colspan=3>
-                            <h1>Thank you for registering with <img src='http://216.137.189.96:8080/ark/images/arkheartsmall.png'>ARK!</h1>
+                            <h1>Thank you for registering with <img src='https://www.domesne.com/ark/images/arkheartsmall.png'>ARK!</h1>
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +137,7 @@ public class EmailTemplateStrings {
                     <tr>
                         <td></td>
                         <td class="button">
-                            <a href="http://216.137.189.96:8080/ark/mail?uid=%s">Verify</a>
+                            <a href="https://www.domesne.com/ark/mail?uid=%s">Verify</a>
                         </td>
                         <td></td>
                     </tr>
@@ -195,7 +195,7 @@ public class EmailTemplateStrings {
                     <tr>
                         <td></td>
                         <td class="button">
-                            <a href="http://216.137.189.96:8080/ark/login">Login</a>
+                            <a href="https://www.domesne.com/ark/login">Login</a>
                         </td>
                         <td></td>
                     </tr>
@@ -252,7 +252,7 @@ public class EmailTemplateStrings {
                     <tr>
                         <td></td>
                         <td class="button">
-                            <a href="http://216.137.189.96:8080/ark/login">Login</a>
+                            <a href="https://www.domesne.com/ark/login">Login</a>
                         </td>
                         <td></td>
                     </tr>
@@ -298,7 +298,7 @@ public class EmailTemplateStrings {
                     <tr>
                     <tr>
                         <td colspan=3>
-                            <h1>Thank you for updating your e-mail address with <img src='http://216.137.189.96:8080/ark/images/arkheartsmall.png'>ARK!</h1>
+                            <h1>Thank you for updating your e-mail address with <img src='https://www.domesne.com/ark/images/arkheartsmall.png'>ARK!</h1>
                         </td>
                     </tr>
                     <tr>
@@ -309,7 +309,7 @@ public class EmailTemplateStrings {
                     <tr>
                         <td></td>
                         <td class="button">
-                            <a href="http://216.137.189.96:8080/ark/mail?uid=%s">Verify</a>
+                            <a href="https://www.domesne.com/ark/mail?uid=%s">Verify</a>
                         </td>
                         <td></td>
                     </tr>

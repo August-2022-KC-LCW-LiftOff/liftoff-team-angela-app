@@ -120,6 +120,7 @@ public class RequestController {
         model.addAttribute(user);
         Request updateRequest = requestRepository.findById(requestId).get();
         EditRequestFormDTO editRequestFormDTO = new EditRequestFormDTO();
+        editRequestFormDTO.setUser(user);
         model.addAttribute("editRequestFormDTO",sendObjectToDTO(updateRequest,  editRequestFormDTO));
         model.addAttribute("levels", PriorityLevel.values());
         model.addAttribute("types",RequestType.values());
@@ -142,10 +143,10 @@ public class RequestController {
             return "requestTemplates/editRequest";
         }
         Integer editRequestId = editRequestFormDTO.getId();
-        Request editRequest = requestRepository.findById(editRequestId).get();
+        Request editRequest = (Request) updateObjectFromDTO(requestRepository.findById(editRequestId).get(),editRequestFormDTO);
+        editRequest.setUser(user);
 
-
-        requestRepository.save((Request) updateObjectFromDTO(editRequest,editRequestFormDTO));
+        requestRepository.save(editRequest);
 
         if(closeRequestFormDTO.getCloseType().equals("resolved")){
             model.addAttribute("request",editRequest);
