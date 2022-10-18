@@ -36,33 +36,31 @@
                     <p class="errors" th:errors="${createRequestFormDTO.dueDate}"></p>
                 </div>
             </h6>
-            <details class="requestSettings">
-                <summary>
-                    <div class="form-group">
-                        <label>Public Event?<br/>
-                            <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"/>
-                        </label>
-                        <p class="errors" th:errors="${createRequestFormDTO.publicEvent}"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Priority Level
-                            <select class="form-control" th:field="${createRequestFormDTO.level}">
-                                <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
-                                    th:value="${level}" th:text="${level}"></option>
-                            </select>
-                        </label>
-                        <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Request Type:
-                            <select class="form-control" th:field="${createRequestFormDTO.type}">
-                                <option th:each="type : ${types}" th:value="${type.key}" th:text="${type.value}"></option>
-                            </select>
-                        </label>
-                        <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
-                    </div>
-                </summary>
-            </details>
+            <div class="requestSettings">
+                <div class="form-group">
+                    <label>Public Event?<br/>
+                        <input type="checkbox" th:field="${createRequestFormDTO.publicEvent}"/>
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.publicEvent}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Priority Level
+                        <select class="form-control" th:field="${createRequestFormDTO.level}">
+                            <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                th:value="${level}" th:text="${level}"></option>
+                        </select>
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.level}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Request Type:
+                        <select class="form-control" th:field="${createRequestFormDTO.type}">
+                            <option th:each="type : ${types}" th:value="${type.key}" th:text="${type.value}"></option>
+                        </select>
+                    </label>
+                    <p class="errors" th:errors="${createRequestFormDTO.type}"></p>
+                </div>
+            </div>
             <div class="requestDetails">
                 <div>
                     <div class="form-group">
@@ -226,43 +224,41 @@
                     <p class="errors" th:errors="${editRequestFormDTO.dueDate}"></p>
                 </div>
             </h6>
-            <details class="requestSettings">
-                <summary>
-                    <div class="form-group">
-                        <label>Public Event?<br/>
-                            <input type="checkbox" th:field="${editRequestFormDTO.publicEvent}"/>
-                        </label>
-                        <p class="errors" th:errors="${editRequestFormDTO.publicEvent}"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Priority Level
-                            <select class="form-control" th:field="${editRequestFormDTO.level}">
-                                <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
-                                        th:value="${level}" th:text="${level}"></option>
-                            </select>
-                        </label>
-                        <p class="errors" th:errors="${editRequestFormDTO.level}"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Request Type:
-                            <select class="form-control" th:field="${editRequestFormDTO.type}">
-                                <option th:each="type : ${types}" th:value="${type}" th:text="${type.displayName}"></option>
-                            </select>
-                        </label>
-                        <p class="errors" th:errors="${editRequestFormDTO.type}"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Request Status:
-                            <select onchange="statusChanged(this.value);" class="form-control" th:field="${editRequestFormDTO.status}">
-                                <option th:each="status : ${statuses}" th:value="${status.key}" th:text="${status.value}" th:selected="${status == editRequestFormDTO.status}"></option>
-                            </select>
-                        </label>
-                        <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
-                        <div th:replace="fragments/requestFragments::confirmCloseForm"></div>
-                        <div th:replace="fragments/requestFragments::closeRequest"></div>
-                    </div>
-                </summary>
-            </details>
+            <div class="requestSettings">
+                <div class="form-group">
+                    <label>Public Event?<br/>
+                        <input type="checkbox" th:field="${editRequestFormDTO.publicEvent}"/>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.publicEvent}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Priority Level
+                        <select class="form-control" th:field="${editRequestFormDTO.level}">
+                            <option th:each="level : ${T(com.ark.demo.models.enums.PriorityLevel).values()}"
+                                    th:value="${level}" th:text="${level}"></option>
+                        </select>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.level}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Request Type:
+                        <select class="form-control" th:field="${editRequestFormDTO.type}">
+                            <option th:each="type : ${types}" th:value="${type}" th:text="${type.displayName}"></option>
+                        </select>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.type}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Request Status:
+                        <select onchange="statusChanged(this.value);" class="form-control" th:field="${editRequestFormDTO.status}">
+                            <option th:each="status : ${statuses}" th:value="${status.key}" th:text="${status.value}" th:selected="${status == editRequestFormDTO.status}"></option>
+                        </select>
+                    </label>
+                    <p class="errors" th:errors="${editRequestFormDTO.title}"></p>
+                    <div th:replace="fragments/requestFragments::confirmCloseForm"></div>
+                    <div th:replace="fragments/requestFragments::closeRequest"></div>
+                </div>
+            </div>
             <div class="requestDetails">
                 <div>
                     <div class="form-group">
@@ -343,29 +339,22 @@
     <div class="viewRequest">
         <h1 th:text="${request.title}"></h1>
         <h6 th:text="'Due Date: '+${#dates.format(request.dueDate,'MM/dd/yyyy')}"></h6>
-        <script>
-            function removeHover(event){
-                event.currentTarget.classList.remove("hoverOnce");
-            }
-        </script>
-        <details class="requestSettings hoverOnce" onclick="removeHover(event);">
-            <summary>
-                <div th:text="(${request.publicEvent}==true)?'Audience: Public':'Audience: Only You'"></div>
-                <div th:class="${request.level}"><span th:text="'Priority: '+${request.level}"></span></div>
-                <div th:text="'Type: '+${request.type.displayName}"></div>
-                <div th:class="${request.status.displayName}"><span th:text="'Status: '+${request.status.displayName}"></span></div>
-            </summary>
-            <div class="buttonRow">
-                <form th:if="${user.id == request.user.id}" method="post" th:action="@{/request/edit}">
-                    <input type="hidden" th:name="requestId" th:value="${request.id}">
-                    <input type="submit" class="btn btn-primary" value="Edit"/>
-                </form>
-                <form method="post" th:action="@{/response/create}">
-                    <input type="hidden" th:name="id" th:value="${request.id}">
-                    <input type="submit" class="btn btn-primary" value="Respond"/>
-                </form>
-            </div>
-        </details>
+        <div class="buttonRow">
+            <form th:if="${user.id == request.user.id}" method="post" th:action="@{/request/edit}">
+                <input type="hidden" th:name="requestId" th:value="${request.id}">
+                <input type="submit" class="btn btn-primary" value="Edit"/>
+            </form>
+            <form method="post" th:action="@{/response/create}">
+                <input type="hidden" th:name="id" th:value="${request.id}">
+                <input type="submit" class="btn btn-primary" value="Respond"/>
+            </form>
+        </div>
+        <div class="requestSettings">
+            <div th:text="(${request.publicEvent}==true)?'Audience: Public':'Audience: Only You'"></div>
+            <div th:class="${request.level}"><span th:text="'Priority: '+${request.level}"></span></div>
+            <div th:text="'Type: '+${request.type.displayName}"></div>
+            <div th:class="${request.status.displayName}"><span th:text="'Status: '+${request.status.displayName}"></span></div>
+        </div>
         <div class="requestDetails">
             <div>
                 <div th:if="${user.id == request.user.id}" th:text="${request.addressLine1}"></div>

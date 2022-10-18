@@ -108,7 +108,7 @@ thead{
 }
 .dashboardLeft{
     margin-top: 25px;
-    min-width: 200px;
+    width: 30vw;
 }
 .dashboardLeft > details {
     color: var(--color4);
@@ -236,11 +236,7 @@ thead{
     height: calc(100vh - 120px);
     background: linear-gradient(var(--color3),var(--color1),var(--color4));
 }
-@media screen and (orientation:portrait){
-    .landing-page-image{
-        content: url(../images/portrait.png);
-    }
-}
+
 .landingPage{
     position: relative;
     width: 100vw;
@@ -331,19 +327,7 @@ input[type="checkbox"]{
 .requestDetails textarea {
     width: 24vw;
 }
-.hoverOnce:hover::before{
-    opacity: 0;
-    position: absolute;
-    background: var(--color3);
-    border: 2px solid var(--color4);
-    box-shadow: 0 0 5px var(--color5);
-    color: var(--color2);
-    border-radius: 10px;
-    padding: 5px;
-    content: "Click for Options";
-    animation: 3s showHide;
-}
-.requestSettings summary{
+.requestSettings{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -476,5 +460,45 @@ input[type="checkbox"]{
     }
     to{
         opacity: 0;
+    }
+}
+@media screen and (orientation:portrait){
+    .landing-page-image{
+        content: url(../images/portrait.png);
+    }
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+        display: flex;
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 70px;
+        background: var(--color5);
+        padding: 10px;
+        border: 2px solid var(--color1);
+        border-radius: 10px;
+        box-shadow: 0 0 5px var(--color4);
+    }
+    .infoGrid, .requestThreads{
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+@media screen and (orientation:landscape) and (max-width:991px){
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+        display: flex;
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 70px;
+        background: var(--color5);
+        padding: 10px;
+        border: 2px solid var(--color1);
+        border-radius: 10px;
+        box-shadow: 0 0 5px var(--color4);
     }
 }
