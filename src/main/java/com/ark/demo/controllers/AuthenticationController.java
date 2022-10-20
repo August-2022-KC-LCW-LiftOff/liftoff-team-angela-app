@@ -11,6 +11,7 @@ import com.ark.demo.models.enums.USStates;
 import com.ark.demo.models.mail.EmailTemplateStrings;
 import com.ark.demo.services.EmailService;
 import com.ark.demo.services.ReadFile;
+import com.sun.mail.imap.DefaultFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +21,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.imageio.ImageIO;
+import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -68,6 +77,35 @@ public class AuthenticationController {
         if(!isNull(signedIn)){
             return "redirect:";
         }
+        List<String> images = new ArrayList<>();
+        images.add("images/userIcons/alien.png");
+        images.add("images/userIcons/angel.png");
+//        File iconDirectory = new File("/images/userIcons/");
+//        String[] EXTENSIONS = new String[]{"png"};
+//        FilenameFilter imageFilter = new FilenameFilter() {
+//            @Override
+//            public boolean accept(File dir, String name) {
+//                for(String ext:EXTENSIONS){
+//                    if(name.endsWith("."+ext)){
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//        };
+//        if(iconDirectory.isDirectory()){
+//            for(File file : iconDirectory.listFiles(imageFilter)){
+//                BufferedImage image = null;
+//                try{
+//                    image = ImageIO.read(file);
+//                    images.add(file.getPath()+"/"+file.getName());
+//                } catch (IOException e){
+//                    System.out.println(e.getMessage());
+//                }
+//            }
+//        }
+
+        model.addAttribute(images);
         model.addAttribute(new RegistrationFormDTO());
         model.addAttribute("title","Register");
 
