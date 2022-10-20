@@ -45,7 +45,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     }
 
     public static boolean isWhiteListed(String path){
-        System.out.println("path: " + path);
+//        System.out.println("path: " + path);
         if(path.contains(";")){
             path = path.substring(0,path.indexOf(";"));
         }

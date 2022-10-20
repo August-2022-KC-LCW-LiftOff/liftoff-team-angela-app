@@ -24,6 +24,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Optional;
@@ -68,6 +69,9 @@ public class AuthenticationController {
         if(!isNull(signedIn)){
             return "redirect:";
         }
+
+        File imageDirectory = new File("images/userIcons/");
+        System.out.println(imageDirectory.isDirectory());
         model.addAttribute(new RegistrationFormDTO());
         model.addAttribute("title","Register");
 
