@@ -17,12 +17,21 @@
 <!--Site Header-->
 
 <header th:fragment="header">
+    <script>
+        function speakThis(event, text){
+    event.preventDefault();
+    let utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+}
+    </script>
     <nav class="navbar navbar-expand-lg px-3 py-2 bg-dark text-white">
 
 
         <div class="navContainer">
             <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                <span class="display-3">ARK</span>
+                <span class="display-3">ARK
+                    <img class='speak clickable' src='images/speak.png' alt='speaker icon' onclick='speakThis(event,"Acts of Real-World Kindness");'/>
+                </span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
