@@ -14,6 +14,7 @@ import static java.util.Objects.isNull;
 
 @Entity
 public class UserDetails  extends AbstractEntity{
+    private String icon;
     @NotNull
     private String firstName;
     @NotNull

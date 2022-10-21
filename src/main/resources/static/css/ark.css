@@ -159,3 +159,25 @@ thead{
 .snuggleWithMe{
   justify-content: space-around;
 }
+
+#carousel{
+    display: flex;
+    justify-content: space-around;
+}
+.carousel-inner{
+    width: 128px;
+}
+.carousel-control-prev-icon{
+    content: url("../images/prev.png");
+    background: unset;
+}
+.carousel-control-next-icon{
+    content: url("../images/next.png");
+    background: unset;
+}
+.carousel-control{
+    color: black;
+}
+.sr-only{
+    display: none;
+}

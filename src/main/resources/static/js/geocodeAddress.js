@@ -14,14 +14,18 @@ function getGeocodeFromAddress(){
        if(address == ""){
             reject(new Error('Address field is empty.'));
        } else {
-            geocoder.geocode({'address':address},function(results, status){
-                if(status == 'OK'){
-                    resolve(results[0].geometry.location.toString().replace("(","").replace(")",""))
-                } else {
-                    reject(new Error('Location invalid.'));
-                    console.log('Geocode not successful: ' + status);
-                }
-            });
+            try{
+                geocoder.geocode({'address':address},function(results, status){
+                    if(status == 'OK'){
+                        resolve(results[0].geometry.location.toString().replace("(","").replace(")",""))
+                    } else {
+                        reject(new Error('Location invalid.'));
+                        console.log('Geocode not successful: ' + status);
+                    }
+                });
+            } catch (error){
+                console.log(error.getMessage());
+            }
        }
     });
 }
