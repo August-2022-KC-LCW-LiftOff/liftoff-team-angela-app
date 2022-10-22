@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.imageio.ImageIO;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -31,9 +32,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -72,7 +80,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/register")
-    public String displayRegistrationForm(HttpServletRequest request, Model model){
+    public String displayRegistrationForm(HttpServletRequest request, Model model) throws IOException {
         User signedIn = getUserFromSession(request.getSession());
         if(!isNull(signedIn)){
             return "redirect:";
@@ -106,6 +114,8 @@ public class AuthenticationController {
 //        }
 
         model.addAttribute(images);
+        String[] names = new String[]{"alien","angel","basic_guy","billy","borg","bricky","camouflage","candy","chef","Citizen-Stone-Age","cowboy","dandy","devil","geek","geisha","girl","ninja","pirate","princess","punker","squared","stripey","sunglasses","warrior-man-at-arm"};
+        model.addAttribute("names",names);
         model.addAttribute(new RegistrationFormDTO());
         model.addAttribute("title","Register");
 
@@ -145,6 +155,7 @@ public class AuthenticationController {
         newUser.setUserDetails(newUserDetails);
         newUserDetails.setUid(registrationFormDTO.getEmailAddress());
         newUserDetails.setEmailVerified(false);
+        newUserDetails.setIcon(registrationFormDTO.getIcon());
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);

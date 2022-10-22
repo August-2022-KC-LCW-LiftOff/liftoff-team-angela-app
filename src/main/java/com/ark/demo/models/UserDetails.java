@@ -14,6 +14,7 @@ import static java.util.Objects.isNull;
 
 @Entity
 public class UserDetails  extends AbstractEntity{
+    private String icon;
     @NotNull
     private String firstName;
     @NotNull
@@ -162,5 +163,13 @@ public class UserDetails  extends AbstractEntity{
         } else {
             this.uid = encoder.encode("ARK"+emailAddress);
         }
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

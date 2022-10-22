@@ -27,6 +27,7 @@ public class RegistrationFormDTO {
 
     private String verifyPassword;
 
+    private String icon = "basic_guy";
     @NotNull
     @NotBlank
     @Size(min=1,max=20,message="Invalid First Name.  First Name must be between 1 and 20 characters.")
@@ -170,5 +171,13 @@ public class RegistrationFormDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

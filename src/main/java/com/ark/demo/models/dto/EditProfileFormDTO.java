@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class EditProfileFormDTO {
+    private String icon;
     @NotNull
     private UserDetails userDetails;
     public UserDetails getUserDetails() {
@@ -24,5 +25,13 @@ public class EditProfileFormDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

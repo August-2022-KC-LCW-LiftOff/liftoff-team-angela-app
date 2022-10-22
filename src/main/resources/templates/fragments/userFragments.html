@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvxeC16i3kWuqNXWP_FakDMxqbINaKPaA&callback=getGeocodeFromAddress"></script>
     <script th:src="@{/js/geocodeAddress.js}"></script>
+
     <link rel="stylesheet" th:href="@{/css/ark.css}"/>
 </head>
 <body>
@@ -65,6 +66,55 @@
                     <hr>
                     <h3>Create User Details</h3>
                 </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select Icon:
+                        <div id="carousel" class="carousel slide" data-interval="false" onmouseover="showControls();" onmouseout="hideControls();">
+                            <script>
+                                function showControls(){
+                                    let els = document.querySelectorAll(".carousel-control");
+                                    for (let a=0;a<els.length;a++){
+                                        els[a].style.visibility="visible";
+                                    }
+                                }
+                                function hideControls(){
+                                    let els = document.querySelectorAll(".carousel-control");
+                                    for (let a=0;a<els.length;a++){
+                                        els[a].style.visibility="hidden";
+                                    }
+                                }
+                            </script>
+
+                            <div class="carousel-inner">
+                                <div th:each="name,index:${names}" th:class="${name=='basic_guy'?'carousel-item active':'carousel-item'}">
+                                    <img class="d-block" th:src="@{'/images/userIcons/'+${name}+'.png'}"/>
+                                </div>
+                            </div>
+                            <a class="carousel-control carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control carousel-control-next" href="#carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <script>
+                            $(function(){
+                                $('.carousel-control').click(function(e){
+                                    e.preventDefault();
+                                    $('#carousel').carousel( $(this).data().slide );
+                                });
+
+                            });
+                            $('#carousel').on('slid.bs.carousel', function () {
+                                  document.querySelector("#icon").value=document.querySelector(".carousel-item.active img").src.substring(document.querySelector(".carousel-item.active img").src.lastIndexOf("/")+1).replace(".png","");
+                                });
+                        </script>
+                    </label>
+                </td>
+                <input type="hidden" th:field="${registrationFormDTO.icon}"/>
             </tr>
             <tr>
                 <td colspan="2">
@@ -211,13 +261,20 @@
 <!--View Profile-->
 <div th:fragment="viewProfile" class="container">
     <h1>View Profile</h1>
-    <div th:text="${viewProfileDTO.userDetails.firstName+' '+viewProfileDTO.userDetails.lastName}"></div>
-    <div th:text="${viewProfileDTO.userDetails.addressLine1}"></div>
-    <div th:text="${viewProfileDTO.userDetails.addressLine2}"></div>
-    <div th:text="${viewProfileDTO.userDetails.city+', '+viewProfileDTO.userDetails.state+'  '+viewProfileDTO.userDetails.zipcode}"></div>
-    <div th:text="${viewProfileDTO.userDetails.phoneNumber}"></div>
-    <div th:text="${viewProfileDTO.userDetails.emailAddress}"></div>
-    <div th:text="'Member Since: '+${viewProfileDTO.dateCreated}"></div>
+    <div class="profileContainer">
+        <div class="profileFrameLeft">
+            <img class="profileIcon" th:src="@{'/images/userIcons/'+${viewProfileDTO.userDetails.icon}+'.png'}"/>
+        </div>
+        <div class="profileFrameRight">
+            <div th:text="${viewProfileDTO.userDetails.firstName+' '+viewProfileDTO.userDetails.lastName}"></div>
+            <div th:text="${viewProfileDTO.userDetails.addressLine1}"></div>
+            <div th:text="${viewProfileDTO.userDetails.addressLine2}"></div>
+            <div th:text="${viewProfileDTO.userDetails.city+', '+viewProfileDTO.userDetails.state+'  '+viewProfileDTO.userDetails.zipcode}"></div>
+            <div th:text="${viewProfileDTO.userDetails.phoneNumber}"></div>
+            <div th:text="${viewProfileDTO.userDetails.emailAddress}"></div>
+            <div th:text="'Member Since: '+${viewProfileDTO.dateCreated}"></div>
+        </div>
+    </div>
     <a th:href="@{user/editProfile}" class="btn btn-primary">Edit Profile</a>
     <a th:href="@{user/updatePassword}" class="btn btn-primary">Update Password</a>
     <br/><br/>
@@ -233,6 +290,55 @@
                     <hr>
                     <h3>Update Profile</h3>
                 </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Select Icon:
+                        <div id="carousel" class="carousel slide" data-interval="false" onmouseover="showControls();" onmouseout="hideControls();">
+                            <script>
+                                function showControls(){
+                                    let els = document.querySelectorAll(".carousel-control");
+                                    for (let a=0;a<els.length;a++){
+                                        els[a].style.visibility="visible";
+                                    }
+                                }
+                                function hideControls(){
+                                    let els = document.querySelectorAll(".carousel-control");
+                                    for (let a=0;a<els.length;a++){
+                                        els[a].style.visibility="hidden";
+                                    }
+                                }
+                            </script>
+
+                            <div class="carousel-inner">
+                                <div th:each="name,index:${names}" th:class="${name==editProfileFormDTO.userDetails.icon?'carousel-item active':'carousel-item'}">
+                                    <img class="d-block" th:src="@{'/images/userIcons/'+${name}+'.png'}"/>
+                                </div>
+                            </div>
+                            <a class="carousel-control carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control carousel-control-next" href="#carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <script>
+                            $(function(){
+                                $('.carousel-control').click(function(e){
+                                    e.preventDefault();
+                                    $('#carousel').carousel( $(this).data().slide );
+                                });
+
+                            });
+                            $('#carousel').on('slid.bs.carousel', function () {
+                              document.querySelector("#icon").value=document.querySelector(".carousel-item.active img").src.substring(document.querySelector(".carousel-item.active img").src.lastIndexOf("/")+1).replace(".png","");
+                            });
+                        </script>
+                    </label>
+                </td>
+                <input type="hidden" th:field="${editProfileFormDTO.icon}"/>
             </tr>
             <tr>
                 <td>
