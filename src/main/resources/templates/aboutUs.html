@@ -5,73 +5,75 @@
 <header th:replace="fragments/siteFragments::header"></header>
 <body>
 <div class="container">
-    <div id="carousel" class="carousel slide" data-interval="5000" data-pause="hover" onmouseover="showControls();" onmouseout="hideControls();">
-        <script>
-            function showControls(){
-                let els = document.querySelectorAll(".carousel-control");
-                for (let a=0;a<els.length;a++){
-                    els[a].style.visibility="visible";
-                }
-            }
-            function hideControls(){
-                let els = document.querySelectorAll(".carousel-control");
-                for (let a=0;a<els.length;a++){
-                    els[a].style.visibility="hidden";
-                }
-            }
-        </script>
-
-        <div class="carousel-inner">
-            <div class="carousel-item">
-                <h1>Jamie Miller</h1>
+    <div id="carousel" class="carousel slide">
+        <div class="carousel-inner about">
+            <div class="carousel-item active">
+                <div class="aboutFrame">
+                    <div class="aboutInner">
+                        <div class="aboutInnerLeft">
+                            <img class="aboutImage" th:src="@{/images/creatorImages/jamie.jpg}"/>
+                        </div>
+                        <div class="aboutInnerRight">
+                            <h1>Jamie Miller</h1>
+                            <h5>Co-Founder</h5>
+                            <hr/>
+                            <h4>About Me</h4>
+                            <p>I am a creator, a maker of things.  The possibilities are infinite and only limited by the human imagination.  I choose not to believe that it can't be done, only that it hasn't been done yet!</p>
+                            <p>As a veteran, I am very passionate about freedom for all people.  I served for and defended these words:<blockquote>“Give me your tired, your poor,
+                            Your huddled masses yearning to breathe free,
+                            The wretched refuse of your teeming shore.
+                            Send these, the homeless, tempest-tost to me,
+                            I lift my lamp beside the golden door!”<br/><author>Emma Lazarus - "The New Colossus"</author></blockquote></p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="carousel-item">
-                <h1>Beth Johnson</h1>
+                <div class="aboutFrame">
+                    <h1>Beth Johnson</h1>
+                    <h5>Co-Founder</h5>
+                </div>
             </div>
             <div class="carousel-item">
-                <h1>Lindsay Waters</h1>
+                <div class="aboutFrame">
+                    <h1>Lindsay Waters</h1>
+                    <h5>Co-Founder</h5>
+                </div>
             </div>
             <div class="carousel-item">
-                <h1>Ammaarah Khan</h1>
+                <div class="aboutFrame">
+                    <h1>Ammaarah Khan</h1>
+                    <h5>Co-Founder</h5>
+                </div>
             </div>
         </div>
-        <a class="carousel-control carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+        <a class="carousel-control about carousel-control-prev" href="#carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control carousel-control-next" href="#carousel" role="button" data-slide="next">
+        <a class="carousel-control about carousel-control-next" href="#carousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>
     <script>
         $(function(){
+            $('.carousel').carousel({
+                interval: 10000,
+                pause: 'hover',
+                ride: 'carousel',
+                wrap: true
+            });
+            $('.carousel').carousel('cycle');
             $('.carousel-control').click(function(e){
                 e.preventDefault();
                 $('#carousel').carousel( $(this).data().slide );
             });
 
         });
-        $('#carousel').on('slid.bs.carousel', function () {
-              document.querySelector("#icon").value=document.querySelector(".carousel-item.active img").src.substring(document.querySelector(".carousel-item.active img").src.lastIndexOf("/")+1).replace(".png","");
-            });
     </script>
-
-
-
-
-
-
-
-
-
-    <h1>About Us</h1>
-    <p>
-        T-Minus is a collective of Ammaarah Khan, Jamie Miller, Lindsay Waters, and Beth Johnson.
-    </p>
     <a href="mailto: ark-feedback@domesne.com">Send Feedback</a>
 </div>
-
 </body>
 <footer th:replace="fragments/siteFragments :: footer"></footer>
 </html>
