@@ -5,6 +5,66 @@
 <header th:replace="fragments/siteFragments::header"></header>
 <body>
 <div class="container">
+    <div id="carousel" class="carousel slide" data-interval="5000" data-pause="hover" onmouseover="showControls();" onmouseout="hideControls();">
+        <script>
+            function showControls(){
+                let els = document.querySelectorAll(".carousel-control");
+                for (let a=0;a<els.length;a++){
+                    els[a].style.visibility="visible";
+                }
+            }
+            function hideControls(){
+                let els = document.querySelectorAll(".carousel-control");
+                for (let a=0;a<els.length;a++){
+                    els[a].style.visibility="hidden";
+                }
+            }
+        </script>
+
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <h1>Jamie Miller</h1>
+            </div>
+            <div class="carousel-item">
+                <h1>Beth Johnson</h1>
+            </div>
+            <div class="carousel-item">
+                <h1>Lindsay Waters</h1>
+            </div>
+            <div class="carousel-item">
+                <h1>Ammaarah Khan</h1>
+            </div>
+        </div>
+        <a class="carousel-control carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <script>
+        $(function(){
+            $('.carousel-control').click(function(e){
+                e.preventDefault();
+                $('#carousel').carousel( $(this).data().slide );
+            });
+
+        });
+        $('#carousel').on('slid.bs.carousel', function () {
+              document.querySelector("#icon").value=document.querySelector(".carousel-item.active img").src.substring(document.querySelector(".carousel-item.active img").src.lastIndexOf("/")+1).replace(".png","");
+            });
+    </script>
+
+
+
+
+
+
+
+
+
     <h1>About Us</h1>
     <p>
         T-Minus is a collective of Ammaarah Khan, Jamie Miller, Lindsay Waters, and Beth Johnson.
