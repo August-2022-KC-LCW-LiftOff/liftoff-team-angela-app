@@ -30,7 +30,7 @@
         <div class="navContainer">
             <a href="/" class="nav-bar brand d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                 <span class="display-3">ARK
-                    <img class='speak clickable' src='images/speak.png' alt='speaker icon' onclick='speakThis(event,"Acts of Real-World Kindness");'/>
+                    <img class='speak clickable' src='/images/speak.png' alt='speaker icon' onclick='speakThis(event,"Acts of Real-World Kindness");'/>
                 </span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,8 @@
                     </li>
                     <li class="nav-item">
                         <a th:href="@{/user}" class="nav-link text-white">
-                            My Profile
+                            <img th:if="${user}" class="nav-image" th:src="@{'images/userIcons/'+${user.userDetails.icon}+'.png'}"/>
+                            <span th:unless="${user}">My Profile</span>
                         </a>
                     </li>
                     <li th:unless="${user!=null}">

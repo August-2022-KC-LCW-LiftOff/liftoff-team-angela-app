@@ -166,6 +166,10 @@ thead{
 }
 .carousel-inner{
     width: 128px;
+    margin: 0 40px;
+}
+.carousel-control{
+    visibility: hidden;
 }
 .carousel-control-prev-icon{
     content: url("../images/prev.png");
@@ -175,9 +179,21 @@ thead{
     content: url("../images/next.png");
     background: unset;
 }
-.carousel-control{
-    color: black;
-}
 .sr-only{
     display: none;
+}
+.nav-image{
+    width: 36px;
+    height: 36px;
+}
+.profileContainer{
+    display: flex;
+    justify-content: space-evenly;
+}
+.profileFrameLeft{
+    align-items: center;
+    justify-content: center;
+}
+.profileImage{
+    width: 100%;
 }

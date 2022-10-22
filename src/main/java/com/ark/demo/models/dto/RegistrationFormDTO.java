@@ -27,7 +27,7 @@ public class RegistrationFormDTO {
 
     private String verifyPassword;
 
-    private String icon;
+    private String icon = "basic_guy";
     @NotNull
     @NotBlank
     @Size(min=1,max=20,message="Invalid First Name.  First Name must be between 1 and 20 characters.")

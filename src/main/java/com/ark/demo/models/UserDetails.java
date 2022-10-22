@@ -164,4 +164,12 @@ public class UserDetails  extends AbstractEntity{
             this.uid = encoder.encode("ARK"+emailAddress);
         }
     }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }

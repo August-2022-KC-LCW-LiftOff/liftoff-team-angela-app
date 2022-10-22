@@ -116,6 +116,7 @@ public class AuthenticationController {
         newUser.setUserDetails(newUserDetails);
         newUserDetails.setUid(registrationFormDTO.getEmailAddress());
         newUserDetails.setEmailVerified(false);
+        newUserDetails.setIcon(registrationFormDTO.getIcon());
         userDetailsRepository.save(newUserDetails);
         userRepository.save(newUser);
         setUserInSession(request.getSession(),newUser);

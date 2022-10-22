@@ -57,7 +57,11 @@ public class UserController {
         User user = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute("title","Edit Profile");
         EditProfileFormDTO editProfileFormDTO = new EditProfileFormDTO();
-        editProfileFormDTO.setUserDetails(user.getUserDetails());
+        UserDetails userDetails = user.getUserDetails();
+        editProfileFormDTO.setUserDetails(userDetails);
+        editProfileFormDTO.setIcon(userDetails.getIcon());
+        String[] names = new String[]{"alien","angel","basic_guy","billy","borg","bricky","camouflage","candy","chef","Citizen-Stone-Age","cowboy","dandy","devil","geek","geisha","girl","ninja","pirate","princess","punker","squared","stripey","sunglasses","warrior-man-at-arm"};
+        model.addAttribute("names",names);
         model.addAttribute(editProfileFormDTO);
         model.addAttribute("states",authenticationController.createStatesMap());
         return "userTemplates/editProfile";
@@ -87,6 +91,7 @@ public class UserController {
             emailService.sendMail(editProfileFormDTO.getUserDetails().getEmailAddress(), String.format(ReadFile.readFile("src/main/resources/templates/mailTemplates/updatedEmailAddressEmail.html"),userDetails.getUid()),"E-mail Address Updated");
         }
         userDetails.setEmailAddress(editProfileFormDTO.getUserDetails().getEmailAddress());
+        userDetails.setIcon(editProfileFormDTO.getIcon());
         user.setLocation(editProfileFormDTO.getLocation());
         userRepository.save(user);
         userDetailsRepository.save(userDetails);
