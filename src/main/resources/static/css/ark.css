@@ -264,6 +264,8 @@ thead{
 }
 .navbar{
     background: var(--color5);
+    padding: 0;
+    width: 100%;
 }
 .navContainer{
     display: flex;
@@ -271,6 +273,10 @@ thead{
     width: 100%;
     color: var(--color4);
     font-weight: 500;
+}
+.navbar-expand-lg{
+    width: 100%;
+    justify-content: space-between;
 }
 .NEEDS div{
     border: 2px solid var(--color6);
@@ -527,7 +533,6 @@ input[type="checkbox"]{
 }
 .nav-image{
     width: 36px;
-    height: 36px;
 }
 .profileContainer{
     display: flex;
@@ -539,4 +544,16 @@ input[type="checkbox"]{
 }
 .profileImage{
     width: 100%;
+}
+.requestUser{
+    align-self: flex-end;
+    font-size: 12px;
+    color: var(--color6);
+    text-align: right;
+}
+.requestUserImage{
+    width: 24px;
+}
+.navbar-nav{
+    align-items: center;
 }

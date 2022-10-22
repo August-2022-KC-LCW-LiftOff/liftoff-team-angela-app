@@ -21,9 +21,9 @@
     </div>
     <div class="dashboardRight">
         <div class="infoPanel">
-            <h1>ARK Dashboard</h1>
-            <h6>for</h6>
-            <h3 th:text="${user.username}"></h3>
+            <h1>Welcome</h1>
+            <h3 th:text="${user.userDetails.firstName}"></h3>
+            <img th:src="@{'/images/userIcons/'+${user.userDetails.icon}+'.png'}"/>
             <hr/>
             <p>To get started:</p>
             <p>Select an option from the menu on the left side!</p>

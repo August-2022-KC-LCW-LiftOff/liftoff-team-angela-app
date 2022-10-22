@@ -388,6 +388,11 @@
                 </div>
             </div>
         </div>
+        <div class="requestUser">
+            <span>Requested by: </span>
+            <img class="requestUserImage" th:src="@{'/images/userIcons/'+${request.user.userDetails.icon}+'.png'}"/>
+            <span th:text="${request.user.userDetails.firstName}"></span>
+        </div>
     </div>
 </div>
 
