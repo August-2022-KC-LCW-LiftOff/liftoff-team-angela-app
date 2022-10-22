@@ -5,10 +5,73 @@
 <header th:replace="fragments/siteFragments::header"></header>
 <body>
 <div class="container">
-    <h1>About Us</h1>
-    <p>
-        T-Minus is a collective of Ammaarah Khan, Jamie Miller, Lindsay Waters, and Beth Johnson.
-    </p>
+    <div id="carousel" class="carousel slide">
+        <div class="carousel-inner about">
+            <div class="carousel-item active">
+                <div class="aboutFrame">
+                    <div class="aboutInner">
+                        <div class="aboutInnerLeft">
+                            <img class="aboutImage" th:src="@{/images/creatorImages/jamie.jpg}"/>
+                        </div>
+                        <div class="aboutInnerRight">
+                            <h1>Jamie Miller</h1>
+                            <h5>Co-Founder</h5>
+                            <hr/>
+                            <h4>About Me</h4>
+                            <p>I am a creator, a maker of things.  The possibilities are infinite and only limited by the human imagination.  I choose not to believe that it can't be done, only that it hasn't been done yet!</p>
+                            <p>As a veteran, I am very passionate about freedom for all people.  I served for and defended these words:<blockquote>“Give me your tired, your poor,
+                            Your huddled masses yearning to breathe free,
+                            The wretched refuse of your teeming shore.
+                            Send these, the homeless, tempest-tost to me,
+                            I lift my lamp beside the golden door!”<br/><author>Emma Lazarus - "The New Colossus"</author></blockquote></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="aboutFrame">
+                    <h1>Beth Johnson</h1>
+                    <h5>Co-Founder</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="aboutFrame">
+                    <h1>Lindsay Waters</h1>
+                    <h5>Co-Founder</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="aboutFrame">
+                    <h1>Ammaarah Khan</h1>
+                    <h5>Co-Founder</h5>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control about carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control about carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <script>
+        $(function(){
+            $('.carousel').carousel({
+                interval: 10000,
+                pause: 'hover',
+                ride: 'carousel',
+                wrap: true
+            });
+            $('.carousel').carousel('cycle');
+            $('.carousel-control').click(function(e){
+                e.preventDefault();
+                $('#carousel').carousel( $(this).data().slide );
+            });
+
+        });
+    </script>
 </div>
 
 </body>
